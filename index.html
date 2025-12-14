@@ -1291,6 +1291,9 @@
                     chinese: term.chinese || '',
                     category: term.category || '常用词语',
                     example: term.example || '',
+                    practiceCount: term.practiceCount || 0,
+                    favorite: term.favorite || false,
+                    isSystem: true,
                     id: term.id || `sys_ext_${index}`,
                     userId: null,
                     createdAt: term.createdAt || null
@@ -1323,6 +1326,9 @@
                         chinese: word.chinese || '',
                         category: word.category || '常用词语',
                         example: word.example || '',
+                        practiceCount: word.practiceCount || 0,
+                        favorite: word.favorite || false,
+                        isSystem: word.isSystem || false,
                         id: word.id || null,
                         userId: word.userId || (word.isSystem ? null : generateUserId(word)),
                         createdAt: word.createdAt || (word.isSystem ? null : new Date().toISOString())
