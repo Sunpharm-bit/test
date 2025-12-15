@@ -507,6 +507,56 @@
             color: white;
         }
         
+        /* 搜索框样式 */
+        .search-container {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 8px 32px 8px 10px;
+            border: 1px solid #e1e5eb;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            background-color: #f9fafc;
+        }
+        
+        .search-input:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 1px rgba(52, 152, 219, 0.15);
+            background-color: white;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-color);
+            pointer-events: none;
+        }
+        
+        .clear-search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray-color);
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 2px;
+            display: none;
+        }
+        
+        .clear-search-btn:hover {
+            color: var(--danger-color);
+        }
+        
         /* 紧凑提示信息 */
         .hint {
             background-color: #e8f4fc;
@@ -875,6 +925,18 @@
                         <span id="filtered-count">0个术语</span>
                     </div>
                     
+                    <!-- 搜索框 -->
+                    <div class="search-container">
+                        <input type="text" id="search-input" class="search-input" 
+                               placeholder="搜索英文或中文...">
+                        <div class="search-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <button id="clear-search-btn" class="clear-search-btn" title="清空搜索">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
                     <!-- 分类筛选 -->
                     <div class="category-filter">
                         <button class="category-btn active" data-category="all">全部</button>
@@ -1154,6 +1216,7 @@
             totalAttempts: 0,
             correctAttempts: 0
         };
+        let currentSearchTerm = ''; // 添加搜索词变量
         
         // 默认术语数据（当外部JSON加载失败时使用）
         const defaultTerms = [
@@ -1245,6 +1308,10 @@
         const exportUserBtn = document.getElementById('export-user-btn');
         const importUserBtn = document.getElementById('import-user-btn');
         const resetSystemBtn = document.getElementById('reset-system-btn');
+        
+        // 搜索相关元素
+        const searchInput = document.getElementById('search-input');
+        const clearSearchBtn = document.getElementById('clear-search-btn');
         
         // 检查浏览器是否支持语音合成
         function checkSpeechSupport() {
@@ -1418,12 +1485,27 @@
         
         // 获取当前筛选的单词列表
         function getFilteredWords() {
+            let filteredWords = words;
+            
+            // 1. 首先根据分类筛选
             if (currentCategoryFilter === 'favorites') {
-                return words.filter(word => word.favorite);
+                filteredWords = filteredWords.filter(word => word.favorite);
             } else if (currentCategoryFilter !== 'all') {
-                return words.filter(word => word.category === currentCategoryFilter);
+                filteredWords = filteredWords.filter(word => word.category === currentCategoryFilter);
             }
-            return words;
+            
+            // 2. 然后根据搜索词筛选（如果存在搜索词）
+            if (currentSearchTerm.trim() !== '') {
+                const searchLower = currentSearchTerm.toLowerCase().trim();
+                filteredWords = filteredWords.filter(word => 
+                    word.english.toLowerCase().includes(searchLower) || 
+                    word.chinese.toLowerCase().includes(searchLower) ||
+                    (word.example && word.example.toLowerCase().includes(searchLower)) ||
+                    word.category.toLowerCase().includes(searchLower)
+                );
+            }
+            
+            return filteredWords;
         }
         
         // 根据练习模式获取单词列表
@@ -2639,6 +2721,29 @@
             alert(`已清空系统术语，保留了 ${userWords.length} 个您自定义的术语。`);
         }
         
+        // 执行搜索
+        function performSearch() {
+            currentSearchTerm = searchInput.value;
+            
+            // 显示/隐藏清空按钮
+            if (currentSearchTerm.trim() !== '') {
+                clearSearchBtn.style.display = 'block';
+            } else {
+                clearSearchBtn.style.display = 'none';
+            }
+            
+            // 重新渲染单词列表
+            renderWordList();
+        }
+        
+        // 清空搜索
+        function clearSearch() {
+            searchInput.value = '';
+            currentSearchTerm = '';
+            clearSearchBtn.style.display = 'none';
+            renderWordList();
+        }
+        
         // 加载语音列表
         function loadVoices() {
             if (!isSpeechSupported) return;
@@ -2738,6 +2843,15 @@
         skipChToEngBtn.addEventListener('click', skipPracticeWord);
         checkFillBlankBtn.addEventListener('click', checkFillBlankAnswer);
         skipFillBlankBtn.addEventListener('click', skipPracticeWord);
+        
+        // 搜索相关事件监听器
+        searchInput.addEventListener('input', performSearch);
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+        clearSearchBtn.addEventListener('click', clearSearch);
         
         // 允许按Enter键添加单词
         englishInput.addEventListener('keypress', function(e) {
@@ -2841,6 +2955,9 @@
             
             // 初始设置练习模式描述
             updatePracticeModeDescription();
+            
+            // 初始化搜索框状态
+            clearSearchBtn.style.display = 'none';
             
             console.log('隆莱英语助手已初始化，已加载', words.length, '个术语');
         }
