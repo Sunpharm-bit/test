@@ -2728,7 +2728,7 @@
   },
   {
     "english": "Microbiological",
-    "chinese": "微生物的",
+    "chinese": "微生物",
     "category": "常用词语",
     "example": "",
     "practiceCount": 0,
@@ -3440,7 +3440,7 @@
   {
     "english": "Employee attendance",
     "chinese": "员工考勤",
-    "category": "综合管理",
+    "category": "人事行政",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -3458,7 +3458,7 @@
   {
     "english": "Visiting",
     "chinese": "参观",
-    "category": "综合管理",
+    "category": "人事行政",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -3467,7 +3467,7 @@
   {
     "english": "Responsibility",
     "chinese": "职责",
-    "category": "综合管理",
+    "category": "人事行政",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
