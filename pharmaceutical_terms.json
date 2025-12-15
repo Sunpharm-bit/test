@@ -2,7 +2,7 @@
   {
     "english": "quality management",
     "chinese": "质量管理",
-    "category": "常用词语",
+    "category": "质量体系与GMP",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -11,7 +11,7 @@
   {
     "english": "quality inspection",
     "chinese": "质量检验",
-    "category": "常用词语",
+    "category": "分析检测与质量控制",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -19,7 +19,7 @@
   },
   {
     "english": "process",
-    "chinese": "工序",
+    "chinese": "工序，工艺",
     "category": "常用词语",
     "example": "",
     "practiceCount": 0,
@@ -47,7 +47,7 @@
   {
     "english": "buildings and facilities",
     "chinese": "厂房与设施",
-    "category": "常用词语",
+    "category": "设施与区域",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -83,7 +83,7 @@
   {
     "english": "clean room(area)",
     "chinese": "洁净室（区）",
-    "category": "常用词语",
+    "category": "设施与区域",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -128,7 +128,7 @@
   {
     "english": "store area",
     "chinese": "储存区",
-    "category": "常用词语",
+    "category": "设施与区域",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -137,7 +137,7 @@
   {
     "english": "equipment",
     "chinese": "设备",
-    "category": "常用词语",
+    "category": "生产与设备",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -191,7 +191,7 @@
   {
     "english": "pipeline",
     "chinese": "管道",
-    "category": "常用词语",
+    "category": "生产与设备",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -199,8 +199,8 @@
   },
   {
     "english": "utilities of public service",
-    "chinese": "公用设施, 公用工程",
-    "category": "常用词语",
+    "chinese": "公用设施，公用工程",
+    "category": "生产与设备",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -254,7 +254,7 @@
   {
     "english": "seal",
     "chinese": "密封",
-    "category": "常用词语",
+    "category": "生产与设备",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -263,7 +263,7 @@
   {
     "english": "ceiling",
     "chinese": "天花板",
-    "category": "常用词语",
+    "category": "设施与区域",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -290,7 +290,7 @@
   {
     "english": "floor drain",
     "chinese": "地漏",
-    "category": "常用词语",
+    "category": "设施与区域",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -299,7 +299,7 @@
   {
     "english": "distribution room",
     "chinese": "分装室",
-    "category": "常用词语",
+    "category": "设施与区域",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -353,7 +353,7 @@
   {
     "english": "weighing room",
     "chinese": "称量室",
-    "category": "常用词语",
+    "category": "设施与区域",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -361,8 +361,8 @@
   },
   {
     "english": "verification",
-    "chinese": "检定 验证",
-    "category": "常用词语",
+    "chinese": "检定，验证",
+    "category": "质量体系与GMP",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -371,7 +371,7 @@
   {
     "english": "PW: Purified Water",
     "chinese": "纯化水",
-    "category": "常用词语",
+    "category": "生产与设备",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -380,7 +380,7 @@
   {
     "english": "tank",
     "chinese": "储罐",
-    "category": "常用词语",
+    "category": "生产与设备",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -389,7 +389,7 @@
   {
     "english": "measuring tool",
     "chinese": "量具",
-    "category": "常用词语",
+    "category": "生产与设备",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -398,7 +398,7 @@
   {
     "english": "weighing instrument",
     "chinese": "衡器",
-    "category": "常用词语",
+    "category": "生产与设备",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -406,8 +406,8 @@
   },
   {
     "english": "maintenance",
-    "chinese": "维修、保养",
-    "category": "常用词语",
+    "chinese": "维修，保养",
+    "category": "生产与设备",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -514,7 +514,7 @@
   },
   {
     "english": "sanitation",
-    "chinese": "卫生, 清洁/消毒",
+    "chinese": "卫生，清洁/消毒",
     "category": "常用词语",
     "example": "",
     "practiceCount": 0,
@@ -524,7 +524,7 @@
   {
     "english": "workshop",
     "chinese": "车间",
-    "category": "常用词语",
+    "category": "设施与区域",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -569,7 +569,7 @@
   {
     "english": "changing room",
     "chinese": "更衣室",
-    "category": "常用词语",
+    "category": "设施与区域",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -587,7 +587,7 @@
   {
     "english": "verification, validation",
     "chinese": "验证",
-    "category": "常用词语",
+    "category": "质量体系与GMP",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -596,7 +596,7 @@
   {
     "english": "qualification",
     "chinese": "确认",
-    "category": "常用词语",
+    "category": "质量体系与GMP",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -605,7 +605,7 @@
   {
     "english": "installation",
     "chinese": "安装",
-    "category": "常用词语",
+    "category": "生产与设备",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -668,7 +668,7 @@
   {
     "english": "stability",
     "chinese": "稳定性",
-    "category": "常用词语",
+    "category": "分析检测与质量控制",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -749,7 +749,7 @@
   {
     "english": "self-inspection",
     "chinese": "自检",
-    "category": "常用词语",
+    "category": "质量体系与GMP",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -757,8 +757,8 @@
   },
   {
     "english": "balance",
-    "chinese": "平衡、天平",
-    "category": "常用词语",
+    "chinese": "平衡，天平",
+    "category": "分析检测与质量控制",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -794,7 +794,7 @@
   {
     "english": "in-process control",
     "chinese": "中控",
-    "category": "常用词语",
+    "category": "生产与设备",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -803,7 +803,7 @@
   {
     "english": "Theoretical yield",
     "chinese": "理论产量",
-    "category": "常用词语",
+    "category": "研发与工艺",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -812,7 +812,7 @@
   {
     "english": "Actual yield",
     "chinese": "实际产量",
-    "category": "常用词语",
+    "category": "研发与工艺",
     "example": "",
     "practiceCount": 0,
     "favorite": false,
@@ -829,7 +829,7 @@
   },
   {
     "english": "Acceptance criteria",
-    "chinese": "验收标准可接受标准",
+    "chinese": "验收标准，可接受标准",
     "category": "常用词语",
     "example": "",
     "practiceCount": 0,
@@ -948,7 +948,7 @@
     "english": "Reaction",
     "chinese": "反应",
     "category": "研发与工艺",
-    "example": "如：Hydrogenation 氢化, Condensation 缩合",
+    "example": "如：Hydrogenation 氢化，Condensation 缩合",
     "practiceCount": 0,
     "favorite": false,
     "id": "sys_106"
@@ -966,7 +966,7 @@
     "english": "Purification",
     "chinese": "纯化",
     "category": "研发与工艺",
-    "example": "如：Recrystallization 重结晶, Distillation 蒸馏",
+    "example": "如：Recrystallization 重结晶，Distillation 蒸馏",
     "practiceCount": 0,
     "favorite": false,
     "id": "sys_108"
@@ -993,7 +993,7 @@
     "english": "Impurity",
     "chinese": "杂质",
     "category": "研发与工艺",
-    "example": "Process Impurity 工艺杂质， Degradant 降解物",
+    "example": "Process Impurity 工艺杂质，Degradant 降解物",
     "practiceCount": 0,
     "favorite": false,
     "id": "sys_111"
@@ -1146,7 +1146,7 @@
     "english": "Microbiology",
     "chinese": "微生物学",
     "category": "分析检测与质量控制",
-    "example": "Endotoxin 内毒素, Bioburden 微生物负载",
+    "example": "Endotoxin 内毒素，Bioburden 微生物负载",
     "practiceCount": 0,
     "favorite": false,
     "id": "sys_128"
@@ -1812,7 +1812,7 @@
     "english": "Filter / Dryer",
     "chinese": "过滤器/干燥器",
     "category": "生产与设备",
-    "example": "如：Tray Dryer 盘式干燥， FBD 流化床干燥",
+    "example": "如：Tray Dryer 盘式干燥，FBD 流化床干燥",
     "practiceCount": 0,
     "favorite": false,
     "id": "sys_202"
@@ -1848,7 +1848,7 @@
     "english": "Clean Utilities",
     "chinese": "洁净公用系统",
     "category": "生产与设备",
-    "example": "Clean Steam 纯蒸汽, Compressed Air 压缩空气",
+    "example": "Clean Steam 纯蒸汽，Compressed Air 压缩空气",
     "practiceCount": 0,
     "favorite": false,
     "id": "sys_206"
@@ -1947,7 +1947,7 @@
     "english": "Audit / Inspection",
     "chinese": "审计/检查",
     "category": "质量体系与GMP",
-    "example": "Internal 内部, External 外部, Regulatory 官方",
+    "example": "Internal 内部，External 外部，Regulatory 官方",
     "practiceCount": 0,
     "favorite": false,
     "id": "sys_217"
@@ -1983,7 +1983,7 @@
     "english": "ICH Guidelines",
     "chinese": "ICH指导原则",
     "category": "法规与注册",
-    "example": "如 Q7 API GMP, Q3 杂质, Q1 稳定性",
+    "example": "如 Q7 API GMP，Q3 杂质，Q1 稳定性",
     "practiceCount": 0,
     "favorite": false,
     "id": "sys_221"
@@ -1992,7 +1992,7 @@
     "english": "Pharmacopoeia",
     "chinese": "药典",
     "category": "法规与注册",
-    "example": "USP, EP, ChP 美/欧/中国药典",
+    "example": "USP，EP，ChP 美/欧/中国药典",
     "practiceCount": 0,
     "favorite": false,
     "id": "sys_222"
@@ -2221,5 +2221,1256 @@
     "practiceCount": 0,
     "favorite": false,
     "id": "sys_247"
+  },
+  {
+    "english": "File",
+    "chinese": "文件，档案",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_248"
+  },
+  {
+    "english": "Post",
+    "chinese": "岗位",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_249"
+  },
+  {
+    "english": "batch record",
+    "chinese": "批记录",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_250"
+  },
+  {
+    "english": "operation",
+    "chinese": "操作",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_251"
+  },
+  {
+    "english": "Quality standard",
+    "chinese": "质量标准",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_252"
+  },
+  {
+    "english": "Testing, Inspection",
+    "chinese": "检测，检验",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_253"
+  },
+  {
+    "english": "Original record",
+    "chinese": "原始记录",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_254"
+  },
+  {
+    "english": "Change control",
+    "chinese": "变更控制，变更管理",
+    "category": "质量体系与GMP",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_255"
+  },
+  {
+    "english": "Rejected product",
+    "chinese": "不合格品",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_256"
+  },
+  {
+    "english": "Customer",
+    "chinese": "客户",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_257"
+  },
+  {
+    "english": "Correction action, Preventive action",
+    "chinese": "纠正措施，预防措施",
+    "category": "质量体系与GMP",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_258"
+  },
+  {
+    "english": "On-site",
+    "chinese": "现场",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_259"
+  },
+  {
+    "english": "Packing material",
+    "chinese": "包装材料",
+    "category": "EHS与供应链",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_260"
+  },
+  {
+    "english": "Review",
+    "chinese": "复核",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_261"
+  },
+  {
+    "english": "Supplier, Vendor",
+    "chinese": "供应商",
+    "category": "EHS与供应链",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_262"
+  },
+  {
+    "english": "Quality incident",
+    "chinese": "质量事故",
+    "category": "质量体系与GMP",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_263"
+  },
+  {
+    "english": "APQR, Annual Product Quality Review",
+    "chinese": "产品质量年度回顾",
+    "category": "质量体系与GMP",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_264"
+  },
+  {
+    "english": "Return",
+    "chinese": "退货",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_265"
+  },
+  {
+    "english": "Recall",
+    "chinese": "召回",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_266"
+  },
+  {
+    "english": "Reprocess, Rework",
+    "chinese": "返工，重新加工",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_267"
+  },
+  {
+    "english": "Quality authorized person",
+    "chinese": "质量受权人",
+    "category": "质量体系与GMP",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_268"
+  },
+  {
+    "english": "Quality risk",
+    "chinese": "质量风险",
+    "category": "质量体系与GMP",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_269"
+  },
+  {
+    "english": "Destruction",
+    "chinese": "销毁",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_270"
+  },
+  {
+    "english": "Status",
+    "chinese": "状态",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_271"
+  },
+  {
+    "english": "Storage condition",
+    "chinese": "贮存条件",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_272"
+  },
+  {
+    "english": "Mixed batch",
+    "chinese": "产品混批",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_273"
+  },
+  {
+    "english": "Computer",
+    "chinese": "计算机",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_274"
+  },
+  {
+    "english": "System",
+    "chinese": "系统",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_275"
+  },
+  {
+    "english": "Printed matter",
+    "chinese": "印刷品",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_276"
+  },
+  {
+    "english": "SMF, Site Master File",
+    "chinese": "工厂主文件",
+    "category": "法规与注册",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_277"
+  },
+  {
+    "english": "Evaluation, Assessment",
+    "chinese": "评估",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_278"
+  },
+  {
+    "english": "Pharmacovigilance",
+    "chinese": "药物警戒",
+    "category": "法规与注册",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_279"
+  },
+  {
+    "english": "Additional test",
+    "chinese": "附加性试验",
+    "category": "分析检测与质量控制",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_280"
+  },
+  {
+    "english": "Report",
+    "chinese": "报告",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_281"
+  },
+  {
+    "english": "Analysis",
+    "chinese": "分析",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_282"
+  },
+  {
+    "english": "Regulation",
+    "chinese": "规程",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_283"
+  },
+  {
+    "english": "Laboratory",
+    "chinese": "实验室",
+    "category": "设施与区域",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_284"
+  },
+  {
+    "english": "Permission",
+    "chinese": "权限",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_285"
+  },
+  {
+    "english": "Password",
+    "chinese": "密码",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_286"
+  },
+  {
+    "english": "Chromatographic system",
+    "chinese": "色谱系统",
+    "category": "分析检测与质量控制",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_287"
+  },
+  {
+    "english": "Chemical waste",
+    "chinese": "化验室废弃物",
+    "category": "EHS与供应链",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_288"
+  },
+  {
+    "english": "Disposal",
+    "chinese": "处理",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_289"
+  },
+  {
+    "english": "Reagent",
+    "chinese": "试剂",
+    "category": "分析检测与质量控制",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_290"
+  },
+  {
+    "english": "Test solution",
+    "chinese": "试液",
+    "category": "分析检测与质量控制",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_291"
+  },
+  {
+    "english": "Mobile phase",
+    "chinese": "流动相",
+    "category": "分析检测与质量控制",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_292"
+  },
+  {
+    "english": "Volumetric solution",
+    "chinese": "滴定液",
+    "category": "分析检测与质量控制",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_293"
+  },
+  {
+    "english": "Standard solution",
+    "chinese": "标准溶液",
+    "category": "分析检测与质量控制",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_294"
+  },
+  {
+    "english": "Retention sample",
+    "chinese": "留样",
+    "category": "分析检测与质量控制",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_295"
+  },
+  {
+    "english": "Glassware instrument",
+    "chinese": "玻璃仪器",
+    "category": "分析检测与质量控制",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_296"
+  },
+  {
+    "english": "Chromatographic column",
+    "chinese": "色谱柱",
+    "category": "分析检测与质量控制",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_297"
+  },
+  {
+    "english": "Sampling tools",
+    "chinese": "取样器具",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_298"
+  },
+  {
+    "english": "Rounding off",
+    "chinese": "修约",
+    "category": "分析检测与质量控制",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_299"
+  },
+  {
+    "english": "Tolerance",
+    "chinese": "误差，允差",
+    "category": "分析检测与质量控制",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_300"
+  },
+  {
+    "english": "Integration",
+    "chinese": "积分",
+    "category": "分析检测与质量控制",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_301"
+  },
+  {
+    "english": "Entrusted inspection",
+    "chinese": "委托检验",
+    "category": "分析检测与质量控制",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_302"
+  },
+  {
+    "english": "Logbook",
+    "chinese": "日志",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_303"
+  },
+  {
+    "english": "Microbiological",
+    "chinese": "微生物的",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_304"
+  },
+  {
+    "english": "Strains",
+    "chinese": "菌种",
+    "category": "分析检测与质量控制",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_305"
+  },
+  {
+    "english": "Culture medium",
+    "chinese": "培养基",
+    "category": "分析检测与质量控制",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_306"
+  },
+  {
+    "english": "Limit",
+    "chinese": "限度",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_307"
+  },
+  {
+    "english": "Clean area",
+    "chinese": "洁净区",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_308"
+  },
+  {
+    "english": "Environmental monitoring",
+    "chinese": "环境监测",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_309"
+  },
+  {
+    "english": "Analytical methods",
+    "chinese": "分析方法",
+    "category": "分析检测与质量控制",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_310"
+  },
+  {
+    "english": "Transfer",
+    "chinese": "转移",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_311"
+  },
+  {
+    "english": "Gas",
+    "chinese": "气体",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_312"
+  },
+  {
+    "english": "Biological indicators",
+    "chinese": "生物指示剂",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_313"
+  },
+  {
+    "english": "Identification",
+    "chinese": "鉴定，鉴别",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_314"
+  },
+  {
+    "english": "Trend",
+    "chinese": "趋势",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_315"
+  },
+  {
+    "english": "Electronic",
+    "chinese": "电子的",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_316"
+  },
+  {
+    "english": "Calculation",
+    "chinese": "计算",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_317"
+  },
+  {
+    "english": "Network server",
+    "chinese": "网络服务器",
+    "category": "设施与区域",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_318"
+  },
+  {
+    "english": "Analyst qualification",
+    "chinese": "分析员资质",
+    "category": "质量体系与GMP",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_319"
+  },
+  {
+    "english": "Unusual event",
+    "chinese": "异常事件",
+    "category": "质量体系与GMP",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_320"
+  },
+  {
+    "english": "Software",
+    "chinese": "软件",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_321"
+  },
+  {
+    "english": "Manufacture plan",
+    "chinese": "生产计划",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_322"
+  },
+  {
+    "english": "Batch instruction",
+    "chinese": "批指令",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_323"
+  },
+  {
+    "english": "Pilot production",
+    "chinese": "中试生产",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_324"
+  },
+  {
+    "english": "Large scale production",
+    "chinese": "大生产",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_325"
+  },
+  {
+    "english": "Work-shift",
+    "chinese": "交接班",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_326"
+  },
+  {
+    "english": "General production area",
+    "chinese": "一般生产区",
+    "category": "设施与区域",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_327"
+  },
+  {
+    "english": "Intermediate station",
+    "chinese": "中间站",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_328"
+  },
+  {
+    "english": "Production waste",
+    "chinese": "生产废弃物",
+    "category": "EHS与供应链",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_329"
+  },
+  {
+    "english": "Recovery solvent",
+    "chinese": "溶剂回收",
+    "category": "EHS与供应链",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_330"
+  },
+  {
+    "english": "Site-clearance",
+    "chinese": "清场",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_331"
+  },
+  {
+    "english": "Walkie-talkie",
+    "chinese": "对讲机",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_332"
+  },
+  {
+    "english": "Drying",
+    "chinese": "干燥",
+    "category": "生产与设备",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_333"
+  },
+  {
+    "english": "Collinear Production",
+    "chinese": "共线生产",
+    "category": "生产与设备",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_334"
+  },
+  {
+    "english": "Class D clean area",
+    "chinese": "D级洁净区",
+    "category": "设施与区域",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_335"
+  },
+  {
+    "english": "Screen",
+    "chinese": "筛网",
+    "category": "生产与设备",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_336"
+  },
+  {
+    "english": "Mould",
+    "chinese": "模具",
+    "category": "生产与设备",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_337"
+  },
+  {
+    "english": "Solvent turnover containers",
+    "chinese": "溶剂周转容器",
+    "category": "生产与设备",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_338"
+  },
+  {
+    "english": "Discontinuous production",
+    "chinese": "非连续生产",
+    "category": "生产与设备",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_339"
+  },
+  {
+    "english": "Material balance",
+    "chinese": "物料平衡",
+    "category": "生产与设备",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_340"
+  },
+  {
+    "english": "Odd-lot drum",
+    "chinese": "零头桶",
+    "category": "生产与设备",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_341"
+  },
+  {
+    "english": "Safety",
+    "chinese": "安全",
+    "category": "EHS与供应链",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_342"
+  },
+  {
+    "english": "Hygiene",
+    "chinese": "卫生",
+    "category": "EHS与供应链",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_343"
+  },
+  {
+    "english": "Weighing Room",
+    "chinese": "称量间",
+    "category": "设施与区域",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_344"
+  },
+  {
+    "english": "Purchasing",
+    "chinese": "采购",
+    "category": "EHS与供应链",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_345"
+  },
+  {
+    "english": "Contract",
+    "chinese": "合同",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_346"
+  },
+  {
+    "english": "Warehouse",
+    "chinese": "仓库",
+    "category": "设施与区域",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_347"
+  },
+  {
+    "english": "Dangerous chemical",
+    "chinese": "危险化学品",
+    "category": "EHS与供应链",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_348"
+  },
+  {
+    "english": "Material splitting",
+    "chinese": "分料",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_349"
+  },
+  {
+    "english": "Receiving",
+    "chinese": "领用",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_350"
+  },
+  {
+    "english": "Material withdrawing",
+    "chinese": "物料退库",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_351"
+  },
+  {
+    "english": "Supplies inventory",
+    "chinese": "物品盘存",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_352"
+  },
+  {
+    "english": "Storage tank",
+    "chinese": "贮罐区",
+    "category": "设施与区域",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_353"
+  },
+  {
+    "english": "Emergency measure",
+    "chinese": "应急措施",
+    "category": "EHS与供应链",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_354"
+  },
+  {
+    "english": "Bulk liquid materials",
+    "chinese": "大宗液体物料",
+    "category": "EHS与供应链",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_355"
+  },
+  {
+    "english": "Seed",
+    "chinese": "晶种",
+    "category": "生产与设备",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_356"
+  },
+  {
+    "english": "Information",
+    "chinese": "信息",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_357"
+  },
+  {
+    "english": "Satisfaction",
+    "chinese": "满意",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_358"
+  },
+  {
+    "english": "Technical transfer",
+    "chinese": "技术转移",
+    "category": "研发与工艺",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_359"
+  },
+  {
+    "english": "Glove box",
+    "chinese": "手套箱",
+    "category": "设施与区域",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_360"
+  },
+  {
+    "english": "Debugging",
+    "chinese": "调试",
+    "category": "生产与设备",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_361"
+  },
+  {
+    "english": "Maintenance",
+    "chinese": "维护",
+    "category": "生产与设备",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_362"
+  },
+  {
+    "english": "Preventative maintenance",
+    "chinese": "预防性维修",
+    "category": "生产与设备",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_363"
+  },
+  {
+    "english": "Use",
+    "chinese": "使用",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_364"
+  },
+  {
+    "english": "Disuse",
+    "chinese": "停用",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_365"
+  },
+  {
+    "english": "Demotion",
+    "chinese": "降级",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_366"
+  },
+  {
+    "english": "Scrapping",
+    "chinese": "报废",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_367"
+  },
+  {
+    "english": "Labor Insurance Supplies",
+    "chinese": "劳保用品",
+    "category": "EHS与供应链",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_368"
+  },
+  {
+    "english": "Drawing paper",
+    "chinese": "图纸",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_369"
+  },
+  {
+    "english": "Construction",
+    "chinese": "施工",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_370"
+  },
+  {
+    "english": "Plant facilities",
+    "chinese": "厂房设施",
+    "category": "设施与区域",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_371"
+  },
+  {
+    "english": "Impact",
+    "chinese": "影响",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_372"
+  },
+  {
+    "english": "Utility Systems",
+    "chinese": "公用系统",
+    "category": "生产与设备",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_373"
+  },
+  {
+    "english": "High purity nitrogen",
+    "chinese": "高纯氮气",
+    "category": "生产与设备",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_374"
+  },
+  {
+    "english": "High purity hydrogen",
+    "chinese": "高纯氢气",
+    "category": "生产与设备",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_375"
+  },
+  {
+    "english": "Process water",
+    "chinese": "工艺用水",
+    "category": "生产与设备",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_376"
+  },
+  {
+    "english": "Air conditioning system",
+    "chinese": "空调系统",
+    "category": "生产与设备",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_377"
+  },
+  {
+    "english": "Power failure",
+    "chinese": "停电",
+    "category": "常用词语",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_378"
+  },
+  {
+    "english": "Metrological instrument",
+    "chinese": "计量器具",
+    "category": "生产与设备",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_379"
+  },
+  {
+    "english": "Training",
+    "chinese": "培训",
+    "category": "质量体系与GMP",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_380"
+  },
+  {
+    "english": "Personnel",
+    "chinese": "人员",
+    "category": "质量体系与GMP",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_381"
+  },
+  {
+    "english": "Plant sanitation",
+    "chinese": "厂区卫生",
+    "category": "EHS与供应链",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_382"
+  },
+  {
+    "english": "Employee attendance",
+    "chinese": "员工考勤",
+    "category": "综合管理",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_383"
+  },
+  {
+    "english": "Meeting",
+    "chinese": "会议",
+    "category": "综合管理",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_384"
+  },
+  {
+    "english": "Visiting",
+    "chinese": "参观",
+    "category": "综合管理",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_385"
+  },
+  {
+    "english": "Responsibility",
+    "chinese": "职责",
+    "category": "综合管理",
+    "example": "",
+    "practiceCount": 0,
+    "favorite": false,
+    "id": "sys_386"
   }
 ]
