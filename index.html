@@ -284,6 +284,12 @@
             border-left: 2px solid var(--secondary-color);
         }
         
+        .word-item.highlight {
+            background-color: #fffacd;
+            border-left: 2px solid var(--warning-color);
+            animation: highlight-pulse 2s infinite;
+        }
+        
         .word-item.speaking {
             background-color: #e8f4fc;
         }
@@ -391,7 +397,7 @@
         /* 练习模式选择 */
         .practice-mode-selector {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 5px;
             margin-bottom: 10px;
         }
@@ -589,6 +595,12 @@
             0% { background-color: #e8f4fc; }
             50% { background-color: #d4e7fa; }
             100% { background-color: #e8f4fc; }
+        }
+        
+        @keyframes highlight-pulse {
+            0% { background-color: #fffacd; }
+            50% { background-color: #fff176; }
+            100% { background-color: #fffacd; }
         }
         
         /* 保存提示 */
@@ -893,6 +905,155 @@
             padding: 6px;
             font-size: 0.7rem;
         }
+        
+        /* 每月目标相关样式 */
+        .monthly-goal-section {
+            margin-top: 15px;
+            padding: 12px 10px;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-radius: var(--border-radius);
+            border: 1px solid #81c784;
+        }
+        
+        .monthly-goal-title {
+            font-weight: 700;
+            color: #388e3c;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .monthly-goal-title i {
+            margin-right: 6px;
+        }
+        
+        .monthly-goal-controls {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .month-selector {
+            flex: 1;
+            padding: 7px 8px;
+            border: 1px solid #e1e5eb;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            background-color: #f9fafc;
+            color: var(--dark-color);
+        }
+        
+        .monthly-goal-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding: 8px;
+            background-color: rgba(56, 142, 60, 0.1);
+            border-radius: 3px;
+        }
+        
+        .monthly-goal-stat-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .monthly-goal-stat-value {
+            font-weight: 700;
+            color: #388e3c;
+            font-size: 1rem;
+        }
+        
+        .monthly-goal-stat-label {
+            font-size: 0.7rem;
+            color: #388e3c;
+        }
+        
+        /* 高亮显示重复术语 */
+        .duplicate-warning {
+            margin-top: 10px;
+            padding: 8px;
+            background-color: #fff3cd;
+            border-left: 3px solid #ffc107;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+        
+        .duplicate-warning-title {
+            font-weight: 700;
+            color: #856404;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .duplicate-warning-title i {
+            margin-right: 5px;
+            color: #ffc107;
+        }
+        
+        /* 重复术语列表 */
+        .duplicate-list {
+            max-height: 150px;
+            overflow-y: auto;
+            margin-top: 5px;
+            border: 1px solid #ffeaa7;
+            border-radius: 3px;
+            padding: 5px;
+            background-color: #fffde7;
+        }
+        
+        .duplicate-item {
+            padding: 6px 8px;
+            border-bottom: 1px solid #ffeaa7;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .duplicate-item:last-child {
+            border-bottom: none;
+        }
+        
+        .duplicate-info {
+            flex: 1;
+        }
+        
+        .duplicate-english {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .duplicate-chinese {
+            color: var(--gray-color);
+            font-size: 0.75rem;
+        }
+        
+        .duplicate-category {
+            font-size: 0.6rem;
+            background-color: #388e3c;
+            color: white;
+            padding: 1px 4px;
+            border-radius: 3px;
+            margin-top: 2px;
+        }
+        
+        .view-duplicate-btn {
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            background-color: #ffc107;
+            color: #856404;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .view-duplicate-btn:hover {
+            background-color: #e0a800;
+        }
     </style>
 </head>
 <body>
@@ -968,6 +1129,15 @@
                         </label>
                         <input type="text" id="example-input" class="form-input" 
                                placeholder="可添加例句或说明" maxlength="150">
+                    </div>
+                    
+                    <!-- 重复术语警告区域 -->
+                    <div id="duplicate-warning" class="duplicate-warning" style="display: none;">
+                        <div class="duplicate-warning-title">
+                            <i class="fas fa-exclamation-triangle"></i> 发现重复术语
+                        </div>
+                        <div id="duplicate-message"></div>
+                        <div id="duplicate-list" class="duplicate-list"></div>
                     </div>
                     
                     <button id="add-word-btn" class="btn btn-primary">
@@ -1136,6 +1306,55 @@
                         </div>
                     </div>
                     
+                    <!-- 每月目标区域 -->
+                    <div id="monthly-goal-section" class="monthly-goal-section" style="display: none;">
+                        <div class="monthly-goal-title">
+                            <span><i class="fas fa-bullseye"></i> 每月目标</span>
+                            <span id="current-month-display">2023-11</span>
+                        </div>
+                        
+                        <div class="monthly-goal-controls">
+                            <select id="month-selector" class="month-selector">
+                                <!-- 月份选项将在这里动态生成 -->
+                            </select>
+                            <button id="load-monthly-goal-btn" class="btn btn-success btn-sm">
+                                <i class="fas fa-download"></i> 加载
+                            </button>
+                            <button id="add-monthly-path-btn" class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i> 新增月份
+                            </button>
+                        </div>
+                        
+                        <div id="monthly-goal-info" style="display: none;">
+                            <div class="monthly-goal-stats">
+                                <div class="monthly-goal-stat-item">
+                                    <div class="monthly-goal-stat-value" id="monthly-goal-total">0</div>
+                                    <div class="monthly-goal-stat-label">目标单词</div>
+                                </div>
+                                <div class="monthly-goal-stat-item">
+                                    <div class="monthly-goal-stat-value" id="monthly-goal-practiced">0</div>
+                                    <div class="monthly-goal-stat-label">已练习</div>
+                                </div>
+                                <div class="monthly-goal-stat-item">
+                                    <div class="monthly-goal-stat-value" id="monthly-goal-mastered">0</div>
+                                    <div class="monthly-goal-stat-label">已掌握</div>
+                                </div>
+                            </div>
+                            
+                            <div class="hint" style="margin-top: 10px;">
+                                <div class="hint-title">
+                                    <i class="fas fa-info-circle"></i> 本月目标说明
+                                </div>
+                                <p id="monthly-goal-description">加载每月目标文件后显示说明</p>
+                            </div>
+                        </div>
+                        
+                        <div id="monthly-goal-empty" class="empty-state">
+                            <i class="fas fa-calendar-alt"></i>
+                            <p>请选择月份并加载每月目标</p>
+                        </div>
+                    </div>
+                    
                     <!-- 练习模式选择 -->
                     <div class="practice-mode-selector">
                         <button class="mode-btn active" data-mode="category">
@@ -1143,6 +1362,9 @@
                         </button>
                         <button class="mode-btn" data-mode="favorites">
                             <i class="fas fa-star"></i> 收藏复习
+                        </button>
+                        <button class="mode-btn" data-mode="monthly-goal">
+                            <i class="fas fa-bullseye"></i> 每月目标
                         </button>
                         <button class="mode-btn" data-mode="eng-to-ch">
                             <i class="fas fa-arrow-right"></i> 英译中
@@ -1285,6 +1507,24 @@
                             </button>
                         </div>
                         
+                        <!-- 每月目标控制按钮 -->
+                        <div id="monthly-goal-controls" style="display: none;">
+                            <div class="practice-controls">
+                                <button id="prev-monthly-word-btn" class="btn btn-secondary practice-btn" disabled>
+                                    <i class="fas fa-backward"></i> 上一个
+                                </button>
+                                <button id="speak-monthly-english-btn" class="btn btn-primary practice-btn" disabled>
+                                    <i class="fas fa-volume-up"></i> 朗读英文
+                                </button>
+                                <button id="next-monthly-word-btn" class="btn btn-secondary practice-btn" disabled>
+                                    下一个 <i class="fas fa-forward"></i>
+                                </button>
+                                <button id="mark-monthly-mastered-btn" class="btn btn-success practice-btn" disabled>
+                                    <i class="fas fa-check-circle"></i> 标记掌握
+                                </button>
+                            </div>
+                        </div>
+                        
                         <button id="start-practice-btn" class="btn btn-success">
                             <i class="fas fa-play-circle"></i> 开始练习
                         </button>
@@ -1298,6 +1538,14 @@
                                 <i class="fas fa-star"></i> 收藏复习模式
                             </div>
                             <p>当前正在复习您收藏的单词。您可以在列表中点击"已收藏"分类查看所有收藏的单词。</p>
+                        </div>
+                        
+                        <!-- 每月目标提示 -->
+                        <div id="monthly-goal-hint" class="hint" style="margin-top: 10px; display: none;">
+                            <div class="hint-title">
+                                <i class="fas fa-bullseye"></i> 每月目标模式
+                            </div>
+                            <p>当前正在练习本月目标单词。请先选择月份并加载目标单词，然后开始练习。</p>
                         </div>
                     </div>
                     
@@ -1327,11 +1575,13 @@
                         </div>
                         <p>• <strong>分类练习</strong>: 练习当前分类的所有单词</p>
                         <p>• <strong>收藏复习</strong>: 专门练习自己收藏的重要单词</p>
+                        <p>• <strong>每月目标</strong>: 练习每月设定的目标单词</p>
                         <p>• <strong>英译中</strong>: 显示英文，输入中文翻译</p>
                         <p>• <strong>中译英</strong>: 显示中文，输入英文术语</p>
                         <p>• <strong>单词填空</strong>: 显示部分字母的单词，补全完整单词</p>
                         <p>• 点击"朗读英文"按钮听英文发音</p>
                         <p>• 点击"收藏"按钮标记重要单词</p>
+                        <p>• 每月目标模式下可以标记单词为"已掌握"</p>
                     </div>
                 </div>
             </div>
@@ -1360,7 +1610,7 @@
         let speakingWordIndex = -1;
         let practiceWords = [];
         let practiceIndex = 0;
-        let currentPracticeMode = 'category'; // 'category', 'favorites', 'eng-to-ch', 'ch-to-eng', 'fill-blank'
+        let currentPracticeMode = 'category'; // 'category', 'favorites', 'monthly-goal', 'eng-to-ch', 'ch-to-eng', 'fill-blank'
         let practiceStats = {
             totalAttempts: 0,
             correctAttempts: 0
@@ -1372,6 +1622,15 @@
             lastCheckinDate: null,
             checkinHistory: []
         };
+        
+        // 每月目标相关变量
+        let monthlyGoals = {};
+        let currentMonthlyGoal = null;
+        let currentMonthlyGoalData = [];
+        let monthlyGoalIndex = 0;
+        let monthlyGoalPracticeWords = [];
+        let monthlyGoalPracticeIndex = 0;
+        let monthlyGoalProgress = {}; // 记录每月目标的练习进度
         
         // 默认术语数据（当外部JSON加载失败时使用）
         const defaultTerms = [
@@ -1479,10 +1738,344 @@
         const testEnglishSpeechBtn = document.getElementById('test-english-speech');
         const testChineseSpeechBtn = document.getElementById('test-chinese-speech');
         
+        // 重复术语检查元素
+        const duplicateWarning = document.getElementById('duplicate-warning');
+        const duplicateMessage = document.getElementById('duplicate-message');
+        const duplicateList = document.getElementById('duplicate-list');
+        
+        // 每月目标相关元素
+        const monthlyGoalSection = document.getElementById('monthly-goal-section');
+        const monthlyGoalInfo = document.getElementById('monthly-goal-info');
+        const monthlyGoalEmpty = document.getElementById('monthly-goal-empty');
+        const monthSelector = document.getElementById('month-selector');
+        const loadMonthlyGoalBtn = document.getElementById('load-monthly-goal-btn');
+        const addMonthlyPathBtn = document.getElementById('add-monthly-path-btn');
+        const currentMonthDisplay = document.getElementById('current-month-display');
+        const monthlyGoalTotalElement = document.getElementById('monthly-goal-total');
+        const monthlyGoalPracticedElement = document.getElementById('monthly-goal-practiced');
+        const monthlyGoalMasteredElement = document.getElementById('monthly-goal-mastered');
+        const monthlyGoalDescription = document.getElementById('monthly-goal-description');
+        const monthlyGoalHint = document.getElementById('monthly-goal-hint');
+        const monthlyGoalControls = document.getElementById('monthly-goal-controls');
+        
+        // 每月目标控制按钮
+        const prevMonthlyWordBtn = document.getElementById('prev-monthly-word-btn');
+        const speakMonthlyEnglishBtn = document.getElementById('speak-monthly-english-btn');
+        const nextMonthlyWordBtn = document.getElementById('next-monthly-word-btn');
+        const markMonthlyMasteredBtn = document.getElementById('mark-monthly-mastered-btn');
+        
         // 检查浏览器是否支持语音合成
         function checkSpeechSupport() {
             isSpeechSupported = 'speechSynthesis' in window;
             return isSpeechSupported;
+        }
+        
+        // 加载每月目标数据
+        async function loadMonthlyGoals() {
+            try {
+                const savedMonthlyGoals = localStorage.getItem('longlai-monthly-goals');
+                if (savedMonthlyGoals) {
+                    monthlyGoals = JSON.parse(savedMonthlyGoals);
+                }
+                
+                // 加载每月目标进度
+                const savedMonthlyProgress = localStorage.getItem('longlai-monthly-goal-progress');
+                if (savedMonthlyProgress) {
+                    monthlyGoalProgress = JSON.parse(savedMonthlyProgress);
+                }
+                
+                // 更新月份选择器
+                updateMonthSelector();
+                
+                // 设置默认当前月份（当前年月）
+                const now = new Date();
+                const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+                currentMonthDisplay.textContent = currentMonth;
+                
+                // 尝试加载当前月份的默认路径
+                const defaultPath = `./monthly-goals/${now.getMonth() + 1}.json`;
+                if (!monthlyGoals[currentMonth]) {
+                    monthlyGoals[currentMonth] = {
+                        name: `${now.getMonth() + 1}月目标`,
+                        path: defaultPath,
+                        description: `${now.getMonth() + 1}月份英语学习目标`
+                    };
+                    saveMonthlyGoals();
+                    updateMonthSelector();
+                }
+                
+                // 尝试自动加载当前月份目标
+                monthSelector.value = currentMonth;
+                await loadMonthlyGoalData(currentMonth);
+                
+            } catch (error) {
+                console.error('加载每月目标数据失败:', error);
+            }
+        }
+        
+        // 保存每月目标数据
+        function saveMonthlyGoals() {
+            localStorage.setItem('longlai-monthly-goals', JSON.stringify(monthlyGoals));
+        }
+        
+        // 保存每月目标进度
+        function saveMonthlyGoalProgress() {
+            localStorage.setItem('longlai-monthly-goal-progress', JSON.stringify(monthlyGoalProgress));
+        }
+        
+        // 更新月份选择器
+        function updateMonthSelector() {
+            monthSelector.innerHTML = '';
+            
+            // 按年月排序（最新的在前面）
+            const sortedMonths = Object.keys(monthlyGoals).sort((a, b) => {
+                const [yearA, monthA] = a.split('-').map(Number);
+                const [yearB, monthB] = b.split('-').map(Number);
+                if (yearA !== yearB) return yearB - yearA;
+                return monthB - monthA;
+            });
+            
+            if (sortedMonths.length === 0) {
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = '暂无月份数据';
+                monthSelector.appendChild(option);
+                return;
+            }
+            
+            sortedMonths.forEach(monthKey => {
+                const goal = monthlyGoals[monthKey];
+                const option = document.createElement('option');
+                option.value = monthKey;
+                option.textContent = `${goal.name} (${monthKey})`;
+                monthSelector.appendChild(option);
+            });
+        }
+        
+        // 加载每月目标数据
+        async function loadMonthlyGoalData(monthKey) {
+            try {
+                if (!monthlyGoals[monthKey]) {
+                    showCustomNotification('未找到该月份的目标配置', 'error');
+                    return false;
+                }
+                
+                loadingIndicator.classList.add('active');
+                
+                const goal = monthlyGoals[monthKey];
+                const response = await fetch(goal.path);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP错误: ${response.status}`);
+                }
+                
+                const monthlyData = await response.json();
+                
+                // 验证数据结构
+                if (!Array.isArray(monthlyData.words) || !monthlyData.description) {
+                    throw new Error('每月目标数据格式不正确');
+                }
+                
+                // 处理每月目标单词数据
+                currentMonthlyGoal = monthKey;
+                currentMonthlyGoalData = monthlyData.words.map(word => ({
+                    ...word,
+                    practiced: false,
+                    mastered: false,
+                    practiceCount: 0
+                }));
+                
+                // 加载该月份的练习进度
+                if (monthlyGoalProgress[monthKey]) {
+                    currentMonthlyGoalData.forEach((word, index) => {
+                        const progress = monthlyGoalProgress[monthKey].find(p => 
+                            p.english === word.english && p.chinese === word.chinese
+                        );
+                        if (progress) {
+                            word.practiced = progress.practiced || false;
+                            word.mastered = progress.mastered || false;
+                            word.practiceCount = progress.practiceCount || 0;
+                        }
+                    });
+                }
+                
+                // 更新显示
+                monthlyGoalTotalElement.textContent = currentMonthlyGoalData.length;
+                const practicedCount = currentMonthlyGoalData.filter(w => w.practiced).length;
+                const masteredCount = currentMonthlyGoalData.filter(w => w.mastered).length;
+                monthlyGoalPracticedElement.textContent = practicedCount;
+                monthlyGoalMasteredElement.textContent = masteredCount;
+                monthlyGoalDescription.textContent = monthlyData.description;
+                
+                monthlyGoalInfo.style.display = 'block';
+                monthlyGoalEmpty.style.display = 'none';
+                
+                // 更新当前月份显示
+                currentMonthDisplay.textContent = monthKey;
+                
+                // 显示每月目标区域
+                monthlyGoalSection.style.display = 'block';
+                
+                loadingIndicator.classList.remove('active');
+                showCustomNotification(`已加载 ${goal.name} 目标单词`, 'success');
+                
+                return true;
+                
+            } catch (error) {
+                console.error('加载每月目标文件失败:', error);
+                loadingIndicator.classList.remove('active');
+                
+                monthlyGoalInfo.style.display = 'none';
+                monthlyGoalEmpty.style.display = 'block';
+                
+                showCustomNotification(`加载每月目标失败: ${error.message}`, 'error');
+                return false;
+            }
+        }
+        
+        // 新增月份路径
+        function addMonthlyPath() {
+            const monthKey = prompt('请输入月份标识 (格式: YYYY-MM, 例如: 2023-11):');
+            if (!monthKey || !/^\d{4}-\d{2}$/.test(monthKey)) {
+                alert('月份格式不正确，请输入 YYYY-MM 格式');
+                return;
+            }
+            
+            const name = prompt('请输入月份名称 (例如: 11月目标):', `${monthKey.split('-')[1]}月目标`);
+            if (!name) {
+                alert('月份名称不能为空');
+                return;
+            }
+            
+            const path = prompt('请输入JSON文件路径 (例如: ./monthly-goals/11.json):', `./monthly-goals/${monthKey.split('-')[1]}.json`);
+            if (!path) {
+                alert('文件路径不能为空');
+                return;
+            }
+            
+            const description = prompt('请输入月份描述 (可选):', `${name}英语学习目标`);
+            
+            monthlyGoals[monthKey] = {
+                name,
+                path,
+                description: description || `${name}英语学习目标`
+            };
+            
+            saveMonthlyGoals();
+            updateMonthSelector();
+            
+            // 设置为当前选中月份
+            monthSelector.value = monthKey;
+            
+            showCustomNotification(`已添加 ${name}`, 'success');
+        }
+        
+        // 检查重复术语
+        function checkDuplicateTerm(english, chinese) {
+            const englishLower = english.toLowerCase().trim();
+            const chineseLower = chinese.toLowerCase().trim();
+            
+            const duplicates = [];
+            
+            // 检查系统术语库中的重复项
+            words.forEach((word, index) => {
+                if (word.isSystem) {
+                    const wordEnglishLower = word.english.toLowerCase().trim();
+                    const wordChineseLower = word.chinese.toLowerCase().trim();
+                    
+                    // 检查英文或中文是否相同
+                    if (wordEnglishLower === englishLower || wordChineseLower === chineseLower) {
+                        duplicates.push({
+                            ...word,
+                            index: index,
+                            matchType: wordEnglishLower === englishLower ? '英文相同' : '中文相同'
+                        });
+                    }
+                }
+            });
+            
+            return duplicates;
+        }
+        
+        // 显示重复术语警告
+        function showDuplicateWarning(duplicates, english, chinese) {
+            if (duplicates.length === 0) {
+                duplicateWarning.style.display = 'none';
+                return;
+            }
+            
+            duplicateMessage.innerHTML = `
+                发现 <strong>${duplicates.length}</strong> 个重复术语。
+                系统术语库中已存在相同或相似的术语，是否仍要添加？
+            `;
+            
+            duplicateList.innerHTML = '';
+            
+            duplicates.forEach(dup => {
+                const duplicateItem = document.createElement('div');
+                duplicateItem.className = 'duplicate-item';
+                duplicateItem.innerHTML = `
+                    <div class="duplicate-info">
+                        <div class="duplicate-english">${dup.english}</div>
+                        <div class="duplicate-chinese">${dup.chinese}</div>
+                        <div class="duplicate-category">${dup.category} • ${dup.matchType}</div>
+                    </div>
+                    <button class="view-duplicate-btn" data-index="${dup.index}">
+                        <i class="fas fa-eye"></i> 查看
+                    </button>
+                `;
+                
+                duplicateList.appendChild(duplicateItem);
+            });
+            
+            // 添加查看按钮事件
+            duplicateList.querySelectorAll('.view-duplicate-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    viewDuplicateTerm(index);
+                });
+            });
+            
+            duplicateWarning.style.display = 'block';
+        }
+        
+        // 查看重复术语
+        function viewDuplicateTerm(index) {
+            // 切换到列表选项卡
+            switchTab('list-tab');
+            
+            // 设置当前单词索引
+            currentWordIndex = index;
+            
+            // 高亮显示重复术语
+            highlightDuplicateTerm(index);
+            
+            // 滚动到该术语位置
+            setTimeout(() => {
+                const wordItems = document.querySelectorAll('.word-item');
+                if (wordItems[index]) {
+                    wordItems[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 100);
+        }
+        
+        // 高亮显示重复术语
+        function highlightDuplicateTerm(index) {
+            // 先清除所有高亮
+            document.querySelectorAll('.word-item.highlight').forEach(item => {
+                item.classList.remove('highlight');
+            });
+            
+            // 高亮指定的术语
+            const wordItems = document.querySelectorAll('.word-item');
+            if (wordItems[index]) {
+                wordItems[index].classList.add('highlight');
+                
+                // 5秒后自动清除高亮
+                setTimeout(() => {
+                    wordItems[index].classList.remove('highlight');
+                }, 5000);
+            }
         }
         
         // 加载签到数据
@@ -1880,6 +2473,9 @@
             if (currentPracticeMode === 'favorites') {
                 // 收藏复习模式：只返回已收藏的单词
                 return words.filter(word => word.favorite);
+            } else if (currentPracticeMode === 'monthly-goal') {
+                // 每月目标模式：返回当前月份的目标单词
+                return monthlyGoalPracticeWords;
             } else {
                 // 其他模式：返回当前分类的单词
                 return getFilteredWords();
@@ -2102,6 +2698,17 @@
                 return;
             }
             
+            // 检查是否与系统术语重复
+            const duplicates = checkDuplicateTerm(english, chinese);
+            if (duplicates.length > 0) {
+                // 显示重复警告，询问用户是否继续添加
+                showDuplicateWarning(duplicates, english, chinese);
+                
+                if (!confirm(`发现 ${duplicates.length} 个重复术语。是否仍要添加？`)) {
+                    return;
+                }
+            }
+            
             // 检查是否已存在相同的单词（不区分系统还是用户）
             const existingIndex = words.findIndex(w => 
                 w.english.toLowerCase() === english.toLowerCase() && 
@@ -2121,6 +2728,9 @@
                     };
                     saveWords();
                     renderWordList();
+                    
+                    // 清空重复警告
+                    duplicateWarning.style.display = 'none';
                 }
             } else {
                 // 添加新单词（用户自定义）
@@ -2140,13 +2750,16 @@
                 words.push(newWord);
                 saveWords();
                 renderWordList();
+                
+                // 清空重复警告
+                duplicateWarning.style.display = 'none';
+                
+                // 清空输入框
+                englishInput.value = '';
+                chineseInput.value = '';
+                exampleInput.value = '';
+                englishInput.focus();
             }
-            
-            // 清空输入框
-            englishInput.value = '';
-            chineseInput.value = '';
-            exampleInput.value = '';
-            englishInput.focus();
         }
         
         // 为练习选择单词
@@ -2165,6 +2778,8 @@
             // 更新当前分类显示
             if (currentPracticeMode === 'favorites') {
                 currentCategoryDisplay.textContent = '收藏复习';
+            } else if (currentPracticeMode === 'monthly-goal') {
+                currentCategoryDisplay.textContent = '每月目标';
             } else {
                 currentCategoryDisplay.textContent = word.category;
             }
@@ -2182,6 +2797,120 @@
             updatePracticeProgress();
         }
         
+        // 为每月目标选择单词
+        function selectMonthlyGoalWord(index) {
+            if (index < 0 || index >= monthlyGoalPracticeWords.length) return;
+            
+            monthlyGoalPracticeIndex = index;
+            const word = monthlyGoalPracticeWords[index];
+            
+            // 更新练习区域显示
+            practiceEnglish.textContent = word.english;
+            practiceChinese.textContent = word.chinese;
+            practiceChinese.classList.remove('show'); // 隐藏中文
+            practiceCategory.textContent = '每月目标';
+            
+            // 更新当前分类显示
+            currentCategoryDisplay.textContent = '每月目标';
+            
+            // 更新标记掌握按钮状态
+            updateMonthlyGoalMasteredButton(word);
+            
+            // 启用每月目标控制按钮
+            enableMonthlyGoalButtons();
+            
+            // 更新练习进度
+            updateMonthlyGoalProgress();
+        }
+        
+        // 更新每月目标掌握按钮状态
+        function updateMonthlyGoalMasteredButton(word) {
+            if (word.mastered) {
+                markMonthlyMasteredBtn.innerHTML = '<i class="fas fa-check-circle"></i> 已掌握';
+                markMonthlyMasteredBtn.classList.add('active');
+            } else {
+                markMonthlyMasteredBtn.innerHTML = '<i class="far fa-check-circle"></i> 标记掌握';
+                markMonthlyMasteredBtn.classList.remove('active');
+            }
+        }
+        
+        // 启用每月目标控制按钮
+        function enableMonthlyGoalButtons() {
+            prevMonthlyWordBtn.disabled = false;
+            speakMonthlyEnglishBtn.disabled = false;
+            nextMonthlyWordBtn.disabled = false;
+            markMonthlyMasteredBtn.disabled = false;
+        }
+        
+        // 禁用每月目标控制按钮
+        function disableMonthlyGoalButtons() {
+            prevMonthlyWordBtn.disabled = true;
+            speakMonthlyEnglishBtn.disabled = true;
+            nextMonthlyWordBtn.disabled = true;
+            markMonthlyMasteredBtn.disabled = true;
+        }
+        
+        // 更新每月目标进度
+        function updateMonthlyGoalProgress() {
+            if (isPracticing && monthlyGoalPracticeWords.length > 0) {
+                currentProgressElement.textContent = monthlyGoalPracticeIndex + 1;
+                totalProgressElement.textContent = monthlyGoalPracticeWords.length;
+            }
+        }
+        
+        // 标记每月目标单词为已掌握
+        function markMonthlyGoalAsMastered() {
+            if (monthlyGoalPracticeIndex < 0 || monthlyGoalPracticeIndex >= monthlyGoalPracticeWords.length) return;
+            
+            const word = monthlyGoalPracticeWords[monthlyGoalPracticeIndex];
+            word.mastered = !word.mastered;
+            word.practiced = true;
+            word.practiceCount = (word.practiceCount || 0) + 1;
+            
+            // 更新本地进度记录
+            if (!monthlyGoalProgress[currentMonthlyGoal]) {
+                monthlyGoalProgress[currentMonthlyGoal] = [];
+            }
+            
+            const progressIndex = monthlyGoalProgress[currentMonthlyGoal].findIndex(p => 
+                p.english === word.english && p.chinese === word.chinese
+            );
+            
+            if (progressIndex >= 0) {
+                monthlyGoalProgress[currentMonthlyGoal][progressIndex] = {
+                    english: word.english,
+                    chinese: word.chinese,
+                    practiced: word.practiced,
+                    mastered: word.mastered,
+                    practiceCount: word.practiceCount
+                };
+            } else {
+                monthlyGoalProgress[currentMonthlyGoal].push({
+                    english: word.english,
+                    chinese: word.chinese,
+                    practiced: word.practiced,
+                    mastered: word.mastered,
+                    practiceCount: word.practiceCount
+                });
+            }
+            
+            saveMonthlyGoalProgress();
+            
+            // 更新按钮状态
+            updateMonthlyGoalMasteredButton(word);
+            
+            // 更新统计显示
+            const masteredCount = currentMonthlyGoalData.filter(w => w.mastered).length;
+            monthlyGoalMasteredElement.textContent = masteredCount;
+            
+            // 显示提示
+            if (word.mastered) {
+                showCustomNotification('已标记为掌握！', 'success');
+            } else {
+                showCustomNotification('已取消掌握标记', 'info');
+            }
+        }
+        
         // 清空练习显示
         function clearPracticeDisplay() {
             // 基础练习
@@ -2191,8 +2920,10 @@
             practiceCategory.textContent = '常用词语';
             currentCategoryDisplay.textContent = '全部';
             disablePracticeButtons();
+            disableMonthlyGoalButtons();
             practiceProgress.style.display = 'none';
             favoritesReviewHint.style.display = 'none';
+            monthlyGoalHint.style.display = 'none';
             
             // 英译中练习
             engToChCategory.textContent = '常用词语';
@@ -2260,6 +2991,10 @@
                     modeName = '收藏复习';
                     description = '显示英文术语，尝试回忆中文释义，点击"查看中文"验证答案。';
                     break;
+                case 'monthly-goal':
+                    modeName = '每月目标';
+                    description = '显示本月目标单词，尝试回忆中文释义，可以标记单词为已掌握。';
+                    break;
                 case 'eng-to-ch':
                     modeName = '英译中练习';
                     description = '显示英文术语，在输入框中输入中文翻译，点击"检查答案"验证。';
@@ -2309,23 +3044,63 @@
                 // 基础练习模式
                 basicPracticeSection.style.display = 'block';
                 basicControls.style.display = 'grid';
+                monthlyGoalControls.style.display = 'none';
                 // 更新开始练习按钮文本
                 startPracticeBtn.innerHTML = '<i class="fas fa-play-circle"></i> 开始练习';
+                
+                // 显示/隐藏提示
+                favoritesReviewHint.style.display = mode === 'favorites' ? 'block' : 'none';
+                monthlyGoalHint.style.display = 'none';
+            } else if (mode === 'monthly-goal') {
+                // 每月目标模式
+                basicPracticeSection.style.display = 'block';
+                basicControls.style.display = 'none';
+                monthlyGoalControls.style.display = 'grid';
+                startPracticeBtn.innerHTML = '<i class="fas fa-play-circle"></i> 开始每月目标练习';
+                
+                // 显示每月目标区域
+                monthlyGoalSection.style.display = 'block';
+                
+                // 显示每月目标提示
+                monthlyGoalHint.style.display = 'block';
+                favoritesReviewHint.style.display = 'none';
+                
+                // 如果还没有加载每月目标数据，显示提示
+                if (currentMonthlyGoalData.length === 0) {
+                    practiceEnglish.textContent = '请先选择月份并加载每月目标';
+                    practiceChinese.textContent = '';
+                    practiceCategory.textContent = '每月目标';
+                }
             } else if (mode === 'eng-to-ch') {
                 // 英译中练习模式
                 engToChPracticeSection.style.display = 'block';
                 basicControls.style.display = 'none';
+                monthlyGoalControls.style.display = 'none';
                 startPracticeBtn.innerHTML = '<i class="fas fa-play-circle"></i> 开始英译中练习';
+                
+                // 隐藏提示
+                favoritesReviewHint.style.display = 'none';
+                monthlyGoalHint.style.display = 'none';
             } else if (mode === 'ch-to-eng') {
                 // 中译英练习模式
                 chToEngPracticeSection.style.display = 'block';
                 basicControls.style.display = 'none';
+                monthlyGoalControls.style.display = 'none';
                 startPracticeBtn.innerHTML = '<i class="fas fa-play-circle"></i> 开始中译英练习';
+                
+                // 隐藏提示
+                favoritesReviewHint.style.display = 'none';
+                monthlyGoalHint.style.display = 'none';
             } else if (mode === 'fill-blank') {
                 // 单词填空练习模式
                 fillBlankPracticeSection.style.display = 'block';
                 basicControls.style.display = 'none';
+                monthlyGoalControls.style.display = 'none';
                 startPracticeBtn.innerHTML = '<i class="fas fa-play-circle"></i> 开始单词填空练习';
+                
+                // 隐藏提示
+                favoritesReviewHint.style.display = 'none';
+                monthlyGoalHint.style.display = 'none';
             }
             
             // 清空当前练习显示
@@ -2340,33 +3115,42 @@
                 return;
             }
             
-            let wordsToPractice = getPracticeWords();
+            let wordsToPractice = [];
+            
+            if (currentPracticeMode === 'monthly-goal') {
+                // 每月目标模式
+                if (currentMonthlyGoalData.length === 0) {
+                    alert('请先选择月份并加载每月目标！');
+                    return;
+                }
+                
+                wordsToPractice = [...currentMonthlyGoalData];
+                monthlyGoalPracticeWords = wordsToPractice;
+                monthlyGoalPracticeIndex = 0;
+            } else {
+                // 其他模式
+                wordsToPractice = getPracticeWords();
+                practiceWords = [...wordsToPractice];
+                practiceIndex = 0;
+            }
             
             if (wordsToPractice.length === 0) {
                 if (currentPracticeMode === 'favorites') {
                     alert('您还没有收藏任何单词，请先收藏一些单词再开始复习！');
+                } else if (currentPracticeMode === 'monthly-goal') {
+                    alert('当前月份没有目标单词！');
                 } else {
                     alert('当前分类没有术语可练习！');
                 }
                 return;
             }
             
-            // 创建练习单词列表
-            practiceWords = [...wordsToPractice];
-            practiceIndex = 0;
             isPracticing = true;
             
             // 更新按钮状态
             startPracticeBtn.style.display = 'none';
             endPracticeBtn.style.display = 'block';
-            practiceProgress.style.display = (currentPracticeMode === 'category' || currentPracticeMode === 'favorites') ? 'block' : 'none';
-            
-            // 显示/隐藏收藏复习提示
-            if (currentPracticeMode === 'favorites') {
-                favoritesReviewHint.style.display = 'block';
-            } else {
-                favoritesReviewHint.style.display = 'none';
-            }
+            practiceProgress.style.display = 'block';
             
             // 根据当前练习模式开始练习
             startPracticeByMode();
@@ -2374,30 +3158,41 @@
         
         // 根据练习模式开始练习
         function startPracticeByMode() {
-            if (practiceWords.length === 0) return;
-            
-            const currentWord = practiceWords[practiceIndex];
-            const originalIndex = words.findIndex(w => w.english === currentWord.english && w.chinese === currentWord.chinese);
-            
-            if (originalIndex === -1) return;
-            
-            if (currentPracticeMode === 'category' || currentPracticeMode === 'favorites') {
-                // 基础练习模式
-                selectWordForPractice(originalIndex);
+            if (currentPracticeMode === 'monthly-goal') {
+                if (monthlyGoalPracticeWords.length === 0) return;
+                
+                selectMonthlyGoalWord(monthlyGoalPracticeIndex);
                 
                 // 自动朗读第一个单词
                 setTimeout(() => {
-                    speakEnglish();
+                    speakMonthlyEnglish();
                 }, 500);
-            } else if (currentPracticeMode === 'eng-to-ch') {
-                // 英译中练习模式
-                setupEngToChPractice(currentWord, originalIndex);
-            } else if (currentPracticeMode === 'ch-to-eng') {
-                // 中译英练习模式
-                setupChToEngPractice(currentWord, originalIndex);
-            } else if (currentPracticeMode === 'fill-blank') {
-                // 单词填空练习模式
-                setupFillBlankPractice(currentWord, originalIndex);
+            } else {
+                if (practiceWords.length === 0) return;
+                
+                const currentWord = practiceWords[practiceIndex];
+                const originalIndex = words.findIndex(w => w.english === currentWord.english && w.chinese === currentWord.chinese);
+                
+                if (originalIndex === -1) return;
+                
+                if (currentPracticeMode === 'category' || currentPracticeMode === 'favorites') {
+                    // 基础练习模式
+                    selectWordForPractice(originalIndex);
+                    
+                    // 自动朗读第一个单词
+                    setTimeout(() => {
+                        speakEnglish();
+                    }, 500);
+                } else if (currentPracticeMode === 'eng-to-ch') {
+                    // 英译中练习模式
+                    setupEngToChPractice(currentWord, originalIndex);
+                } else if (currentPracticeMode === 'ch-to-eng') {
+                    // 中译英练习模式
+                    setupChToEngPractice(currentWord, originalIndex);
+                } else if (currentPracticeMode === 'fill-blank') {
+                    // 单词填空练习模式
+                    setupFillBlankPractice(currentWord, originalIndex);
+                }
             }
         }
         
@@ -2520,9 +3315,15 @@
         
         // 下一个练习单词
         function nextPracticeWord() {
-            if (!isPracticing || practiceWords.length === 0) return;
+            if (!isPracticing) return;
             
-            practiceIndex = (practiceIndex + 1) % practiceWords.length;
+            if (currentPracticeMode === 'monthly-goal') {
+                if (monthlyGoalPracticeWords.length === 0) return;
+                monthlyGoalPracticeIndex = (monthlyGoalPracticeIndex + 1) % monthlyGoalPracticeWords.length;
+            } else {
+                if (practiceWords.length === 0) return;
+                practiceIndex = (practiceIndex + 1) % practiceWords.length;
+            }
             
             // 根据当前练习模式显示下一个单词
             startPracticeByMode();
@@ -2530,53 +3331,63 @@
         
         // 上一个单词
         function prevWord() {
-            if (!isPracticing || practiceWords.length === 0) return;
+            if (!isPracticing) return;
             
-            practiceIndex = (practiceIndex - 1 + practiceWords.length) % practiceWords.length;
-            
-            const word = practiceWords[practiceIndex];
-            const originalIndex = words.findIndex(w => w.english === word.english && w.chinese === word.chinese);
-            
-            if (originalIndex !== -1) {
-                if (currentPracticeMode === 'category' || currentPracticeMode === 'favorites') {
-                    selectWordForPractice(originalIndex);
-                    // 自动朗读英文
-                    setTimeout(() => {
-                        speakEnglish();
-                    }, 100);
-                } else {
-                    // 对于输入练习模式，重新设置练习
-                    startPracticeByMode();
+            if (currentPracticeMode === 'monthly-goal') {
+                if (monthlyGoalPracticeWords.length === 0) return;
+                monthlyGoalPracticeIndex = (monthlyGoalPracticeIndex - 1 + monthlyGoalPracticeWords.length) % monthlyGoalPracticeWords.length;
+                selectMonthlyGoalWord(monthlyGoalPracticeIndex);
+            } else {
+                if (practiceWords.length === 0) return;
+                practiceIndex = (practiceIndex - 1 + practiceWords.length) % practiceWords.length;
+                const word = practiceWords[practiceIndex];
+                const originalIndex = words.findIndex(w => w.english === word.english && w.chinese === word.chinese);
+                
+                if (originalIndex !== -1) {
+                    if (currentPracticeMode === 'category' || currentPracticeMode === 'favorites') {
+                        selectWordForPractice(originalIndex);
+                        // 自动朗读英文
+                        setTimeout(() => {
+                            speakEnglish();
+                        }, 100);
+                    } else {
+                        // 对于输入练习模式，重新设置练习
+                        startPracticeByMode();
+                    }
                 }
             }
         }
         
         // 下一个单词（基础练习模式）
         function nextWord() {
-            if (!isPracticing || practiceWords.length === 0) return;
+            if (!isPracticing) return;
             
-            practiceIndex = (practiceIndex + 1) % practiceWords.length;
-            
-            const word = practiceWords[practiceIndex];
-            const originalIndex = words.findIndex(w => w.english === word.english && w.chinese === word.chinese);
-            
-            if (originalIndex !== -1) {
-                if (currentPracticeMode === 'category' || currentPracticeMode === 'favorites') {
-                    selectWordForPractice(originalIndex);
-                    // 自动朗读英文
-                    setTimeout(() => {
-                        speakEnglish();
-                    }, 100);
-                } else {
-                    // 对于输入练习模式，重新设置练习
-                    startPracticeByMode();
+            if (currentPracticeMode === 'monthly-goal') {
+                nextPracticeWord();
+            } else {
+                if (practiceWords.length === 0) return;
+                practiceIndex = (practiceIndex + 1) % practiceWords.length;
+                const word = practiceWords[practiceIndex];
+                const originalIndex = words.findIndex(w => w.english === word.english && w.chinese === word.chinese);
+                
+                if (originalIndex !== -1) {
+                    if (currentPracticeMode === 'category' || currentPracticeMode === 'favorites') {
+                        selectWordForPractice(originalIndex);
+                        // 自动朗读英文
+                        setTimeout(() => {
+                            speakEnglish();
+                        }, 100);
+                    } else {
+                        // 对于输入练习模式，重新设置练习
+                        startPracticeByMode();
+                    }
                 }
             }
         }
         
         // 跳过当前单词
         function skipPracticeWord() {
-            if (!isPracticing || practiceWords.length === 0) return;
+            if (!isPracticing) return;
             
             // 直接进入下一个单词
             nextPracticeWord();
@@ -2597,9 +3408,11 @@
                 updatePracticeStats();
                 
                 // 如果正在收藏复习模式，需要更新练习列表
-                if (isPracticing && currentPracticeMode === 'favorites') {
+                if (isPracticing && currentPracticeMode === 'favorites' && currentWordIndex === index && !words[index].favorite) {
+                    // 重新获取练习单词列表
                     practiceWords = getPracticeWords();
                     if (practiceWords.length === 0) {
+                        // 如果没有收藏的单词了，结束练习
                         endPractice();
                         alert('已取消收藏所有单词，练习已结束。');
                     } else {
@@ -2625,9 +3438,18 @@
         
         // 更新练习进度
         function updatePracticeProgress() {
-            if (isPracticing && practiceWords.length > 0) {
-                currentProgressElement.textContent = practiceIndex + 1;
-                totalProgressElement.textContent = practiceWords.length;
+            if (isPracticing) {
+                if (currentPracticeMode === 'monthly-goal') {
+                    if (monthlyGoalPracticeWords.length > 0) {
+                        currentProgressElement.textContent = monthlyGoalPracticeIndex + 1;
+                        totalProgressElement.textContent = monthlyGoalPracticeWords.length;
+                    }
+                } else {
+                    if (practiceWords.length > 0) {
+                        currentProgressElement.textContent = practiceIndex + 1;
+                        totalProgressElement.textContent = practiceWords.length;
+                    }
+                }
             }
         }
         
@@ -2828,6 +3650,8 @@
             isPracticing = false;
             practiceWords = [];
             practiceIndex = 0;
+            monthlyGoalPracticeWords = [];
+            monthlyGoalPracticeIndex = 0;
             
             // 更新按钮状态
             startPracticeBtn.style.display = 'block';
@@ -2933,10 +3757,45 @@
                 renderWordList();
                 
                 // 增加练习次数
-                if (currentWordIndex >= 0) {
+                if (currentWordIndex >= 0 && currentPracticeMode !== 'monthly-goal') {
                     words[currentWordIndex].practiceCount = (words[currentWordIndex].practiceCount || 0) + 1;
                     saveWords();
                     updatePracticeStats();
+                } else if (currentPracticeMode === 'monthly-goal' && monthlyGoalPracticeIndex >= 0) {
+                    // 每月目标模式下，记录练习次数
+                    const word = monthlyGoalPracticeWords[monthlyGoalPracticeIndex];
+                    if (word) {
+                        word.practiceCount = (word.practiceCount || 0) + 1;
+                        word.practiced = true;
+                        
+                        // 更新进度记录
+                        if (!monthlyGoalProgress[currentMonthlyGoal]) {
+                            monthlyGoalProgress[currentMonthlyGoal] = [];
+                        }
+                        
+                        const progressIndex = monthlyGoalProgress[currentMonthlyGoal].findIndex(p => 
+                            p.english === word.english && p.chinese === word.chinese
+                        );
+                        
+                        if (progressIndex >= 0) {
+                            monthlyGoalProgress[currentMonthlyGoal][progressIndex].practiceCount = word.practiceCount;
+                            monthlyGoalProgress[currentMonthlyGoal][progressIndex].practiced = true;
+                        } else {
+                            monthlyGoalProgress[currentMonthlyGoal].push({
+                                english: word.english,
+                                chinese: word.chinese,
+                                practiced: true,
+                                mastered: word.mastered || false,
+                                practiceCount: word.practiceCount
+                            });
+                        }
+                        
+                        saveMonthlyGoalProgress();
+                        
+                        // 更新显示
+                        const practicedCount = currentMonthlyGoalData.filter(w => w.practiced).length;
+                        monthlyGoalPracticedElement.textContent = practicedCount;
+                    }
                 }
             };
             
@@ -2951,13 +3810,28 @@
         
         // 说英语
         function speakEnglish() {
-            if (currentWordIndex === -1) {
-                alert('请先选择一个术语！');
-                return;
+            if (currentPracticeMode === 'monthly-goal') {
+                if (monthlyGoalPracticeIndex < 0 || monthlyGoalPracticeIndex >= monthlyGoalPracticeWords.length) {
+                    alert('请先选择一个单词！');
+                    return;
+                }
+                
+                const word = monthlyGoalPracticeWords[monthlyGoalPracticeIndex];
+                speakText(word.english, 'en-US', 1.0);
+            } else {
+                if (currentWordIndex === -1) {
+                    alert('请先选择一个术语！');
+                    return;
+                }
+                
+                const word = words[currentWordIndex];
+                speakText(word.english, 'en-US', 1.0);
             }
-            
-            const word = words[currentWordIndex];
-            speakText(word.english, 'en-US', 1.0);
+        }
+        
+        // 每月目标模式下说英语
+        function speakMonthlyEnglish() {
+            speakEnglish();
         }
         
         // 测试英文发音
