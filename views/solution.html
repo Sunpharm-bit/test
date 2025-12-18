@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>溶液配制量计算</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --secondary: #2ecc71;
+            --secondary-dark: #27ae60;
+            --danger: #e74c3c;
+            --danger-dark: #c0392b;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --border-radius: 8px;
+            --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+        
+        @media (min-width: 992px) {
+            .container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 10px;
+            grid-column: 1 / -1;
+        }
+        
+        h1 {
+            color: var(--dark);
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        h1 i {
+            color: var(--primary);
+        }
+        
+        .subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+        
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            transition: var(--transition);
+        }
+        
+        .card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-title {
+            color: var(--dark);
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--gray-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-title i {
+            color: var(--primary);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ced4da;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+            background-color: #fdfdfd;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .checkbox-container input {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .checkbox-container label {
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .flask-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+            background-color: #f8fafc;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            border: 1px dashed #d1e3f5;
+            transition: var(--transition);
+        }
+        
+        .flask-row:hover {
+            background-color: #f0f7ff;
+            border-color: var(--primary);
+        }
+        
+        .custom-volume-container {
+            display: none;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+        
+        .btn-danger:hover {
+            background-color: var(--danger-dark);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .button-group .btn {
+            flex: 1;
+        }
+        
+        .result-card {
+            background: linear-gradient(135deg, #e8f4fc 0%, #d4e8f9 100%);
+            border-left: 5px solid var(--primary);
+        }
+        
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            margin: 15px 0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .details-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 15px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .details-table th {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .details-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            background-color: white;
+        }
+        
+        .details-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .details-table tr:nth-child(even) td {
+            background-color: #f9f9f9;
+        }
+        
+        .details-table .total-row td {
+            background-color: #e8f4fc;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .calculation-details {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: var(--border-radius);
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+        }
+        
+        .detail-value {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .note {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #d1e3f5;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            grid-column: 1 / -1;
+        }
+        
+        /* 添加一些动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .flask-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .result-value {
+                font-size: 2rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* 自定义滑块样式 */
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+        }
+        
+        .safety-factor-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .safety-factor-value {
+            font-weight: 600;
+            color: var(--primary);
+            min-width: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-flask"></i> 溶液配制量计算器</h1>
+            <p class="subtitle">计算多规格容量瓶配置溶液所需体积，考虑润洗和安全系数</p>
+        </header>
+        
+        <div class="card">
+            <h2 class="card-title"><i class="fas fa-calculator"></i> 所需量瓶</h2>
+            
+            <div id="flask-container">
+                <!-- 动态添加的行会在这里 -->
+            </div>
+            
+            <div class="form-group">
+                <button class="btn btn-secondary" id="addFlaskBtn">
+                    <i class="fas fa-plus-circle"></i> 添加容量瓶类型
+                </button>
+            </div>
+            
+            <div class="checkbox-container">
+                <input type="checkbox" id="rinseCheck" checked>
+                <label for="rinseCheck">考虑润洗所需额外溶液（每个容量瓶约10ml）</label>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="safetyFactor">
+                    <i class="fas fa-shield-alt"></i> 安全系数
+                </label>
+                <div class="safety-factor-container">
+                    <input type="range" id="safetyFactorRange" min="0" max="50" value="10" step="1">
+                    <div class="safety-factor-value" id="safetyFactorValue">10%</div>
+                </div>
+                <input type="number" id="safetyFactor" min="0" max="100" value="10" class="form-control" style="display: none;">
+                <div class="note"><i class="fas fa-info-circle"></i> 增加安全系数可确保有足够的溶液应对意外情况</div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" id="calculateBtn">
+                    <i class="fas fa-calculator"></i> 计算所需溶液体积
+                </button>
+                <button class="btn" id="resetBtn" style="background-color: #6c757d; color: white;">
+                    <i class="fas fa-redo"></i> 重置
+                </button>
+            </div>
+        </div>
+        
+        <div class="card result-card" id="resultContainer" style="display: none;">
+            <h2 class="card-title"><i class="fas fa-chart-bar"></i> 计算结果</h2>
+            
+            <div class="empty-state" id="emptyResult" style="display: none;">
+                <i class="fas fa-clipboard-list"></i>
+                <p>添加容量瓶配置并点击"计算"按钮查看结果</p>
+            </div>
+            
+            <div id="resultContent" style="display: none;">
+                <div class="result-value" id="resultValue"></div>
+                
+                <div class="calculation-details" id="calculationDetails"></div>
+                
+                <h3 style="margin-top: 20px; margin-bottom: 10px;">详细配置</h3>
+                <table class="details-table" id="detailsTable">
+                    <thead>
+                        <tr>
+                            <th>容量瓶类型</th>
+                            <th>数量</th>
+                            <th>规格 (ml)</th>
+                            <th>基础体积 (ml)</th>
+                            <th>润洗体积 (ml)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detailsTableBody">
+                        <!-- 动态添加行 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 实验室溶液配置计算器</p>
+            <p style="font-size: 0.8rem; margin-top: 5px;">提示：使用"添加容量瓶类型"按钮可以添加多种不同规格的容量瓶</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const flaskContainer = document.getElementById('flask-container');
+            const addFlaskBtn = document.getElementById('addFlaskBtn');
+            const calculateBtn = document.getElementById('calculateBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const resultContainer = document.getElementById('resultContainer');
+            const resultContent = document.getElementById('resultContent');
+            const emptyResult = document.getElementById('emptyResult');
+            const resultValue = document.getElementById('resultValue');
+            const calculationDetails = document.getElementById('calculationDetails');
+            const detailsTableBody = document.getElementById('detailsTableBody');
+            const safetyFactorRange = document.getElementById('safetyFactorRange');
+            const safetyFactorValue = document.getElementById('safetyFactorValue');
+            const safetyFactorInput = document.getElementById('safetyFactor');
+            
+            // 安全系数滑块与输入框同步
+            safetyFactorRange.addEventListener('input', function() {
+                const value = this.value;
+                safetyFactorValue.textContent = value + '%';
+                safetyFactorInput.value = value;
+            });
+            
+            // 初始化一个容量瓶行
+            function addFlaskRow(count = 1, volume = "100") {
+                const rowId = Date.now() + Math.random();
+                const row = document.createElement('div');
+                row.className = 'flask-row fade-in';
+                row.id = `flask-row-${rowId}`;
+                
+                row.innerHTML = `
+                    <div>
+                        <label class="form-label"><i class="fas fa-vial"></i> 数量</label>
+                        <input type="number" class="form-control count-input" min="1" value="${count}" placeholder="容量瓶数量">
+                    </div>
+                    <div>
+                        <label class="form-label"><i class="fas fa-weight"></i> 规格</label>
+                        <select class="form-control volume-select">
+                            <option value="10" ${volume === "10" ? "selected" : ""}>10 ml</option>
+                            <option value="25" ${volume === "25" ? "selected" : ""}>25 ml</option>
+                            <option value="50" ${volume === "50" ? "selected" : ""}>50 ml</option>
+                            <option value="100" ${volume === "100" ? "selected" : ""}>100 ml</option>
+                            <option value="250" ${volume === "250" ? "selected" : ""}>250 ml</option>
+                            <option value="500" ${volume === "500" ? "selected" : ""}>500 ml</option>
+                            <option value="1000" ${volume === "1000" ? "selected" : ""}>1000 ml</option>
+                            <option value="custom" ${volume === "custom" ? "selected" : ""}>自定义规格</option>
+                        </select>
+                        <div class="custom-volume-container">
+                            <input type="number" class="form-control custom-volume" min="1" placeholder="输入自定义规格 (ml)" value="${volume !== "10" && volume !== "25" && volume !== "50" && volume !== "100" && volume !== "250" && volume !== "500" && volume !== "1000" ? volume : ''}">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label">&nbsp;</label>
+                        <button type="button" class="btn btn-danger" onclick="removeFlaskRow('${rowId}')">
+                            <i class="fas fa-trash"></i> 移除
+                        </button>
+                    </div>
+                `;
+                
+                flaskContainer.appendChild(row);
+                
+                // 为选择框添加事件监听
+                const select = row.querySelector('.volume-select');
+                const customContainer = row.querySelector('.custom-volume-container');
+                
+                select.addEventListener('change', function() {
+                    if (this.value === 'custom') {
+                        customContainer.style.display = 'block';
+                    } else {
+                        customContainer.style.display = 'none';
+                    }
+                });
+                
+                // 如果默认是自定义，显示自定义输入框
+                if (select.value === 'custom') {
+                    customContainer.style.display = 'block';
+                }
+            }
+            
+            // 移除容量瓶行
+            window.removeFlaskRow = function(rowId) {
+                const row = document.getElementById(`flask-row-${rowId}`);
+                if (row) {
+                    row.style.opacity = '0';
+                    row.style.transform = 'translateX(-20px)';
+                    setTimeout(() => {
+                        row.remove();
+                    }, 300);
+                }
+            };
+            
+            // 添加初始行
+            addFlaskRow(10, "100");  // 示例：10个100ml
+            
+            // 添加新行
+            addFlaskBtn.addEventListener('click', function() {
+                addFlaskRow();
+            });
+            
+            // 重置按钮
+            resetBtn.addEventListener('click', function() {
+                flaskContainer.innerHTML = '';
+                addFlaskRow(10, "100");
+                document.getElementById('rinseCheck').checked = true;
+                safetyFactorRange.value = 10;
+                safetyFactorValue.textContent = '10%';
+                safetyFactorInput.value = 10;
+                resultContent.style.display = 'none';
+                emptyResult.style.display = 'block';
+                resultContainer.style.display = 'block';
+            });
+            
+            // 计算按钮点击事件
+            calculateBtn.addEventListener('click', function() {
+                // 获取所有容量瓶行
+                const flaskRows = document.querySelectorAll('.flask-row');
+                
+                if (flaskRows.length === 0) {
+                    alert('请至少添加一种容量瓶类型');
+                    return;
+                }
+                
+                let totalBaseVolume = 0;
+                let totalRinseVolume = 0;
+                let flaskDetails = [];
+                
+                // 遍历每一行
+                flaskRows.forEach((row, index) => {
+                    const count = parseInt(row.querySelector('.count-input').value) || 0;
+                    const select = row.querySelector('.volume-select');
+                    let volume;
+                    
+                    if (select.value === 'custom') {
+                        volume = parseInt(row.querySelector('.custom-volume').value) || 0;
+                    } else {
+                        volume = parseInt(select.value);
+                    }
+                    
+                    if (count <= 0) {
+                        alert(`第${index + 1}行的容量瓶数量无效`);
+                        return;
+                    }
+                    
+                    if (volume <= 0) {
+                        alert(`第${index + 1}行的容量瓶规格无效`);
+                        return;
+                    }
+                    
+                    const baseVolume = count * volume;
+                    const rinseVolume = count * 10; // 每个容量瓶润洗约10ml
+                    
+                    totalBaseVolume += baseVolume;
+                    totalRinseVolume += rinseVolume;
+                    
+                    flaskDetails.push({
+                        name: `类型${index + 1}`,
+                        count: count,
+                        volume: volume,
+                        baseVolume: baseVolume,
+                        rinseVolume: rinseVolume
+                    });
+                });
+                
+                // 获取润洗和安全系数
+                const rinseCheck = document.getElementById('rinseCheck').checked;
+                const safetyFactor = parseFloat(safetyFactorInput.value) || 0;
+                
+                let actualRinseVolume = rinseCheck ? totalRinseVolume : 0;
+                let safetyVolume = 0;
+                
+                if (safetyFactor > 0) {
+                    safetyVolume = (totalBaseVolume + actualRinseVolume) * (safetyFactor / 100);
+                }
+                
+                let totalVolume = totalBaseVolume + actualRinseVolume + safetyVolume;
+                
+                // 显示结果区域
+                resultContainer.style.display = 'block';
+                emptyResult.style.display = 'none';
+                resultContent.style.display = 'block';
+                
+                // 显示结果
+                resultValue.textContent = `${totalVolume.toFixed(0)} ml`;
+                
+                // 显示详细计算过程
+                calculationDetails.innerHTML = `
+                    <div class="detail-item">
+                        <span class="detail-label">总基础体积：</span>
+                        <span class="detail-value">${totalBaseVolume} ml</span>
+                    </div>
+                    ${rinseCheck ? `
+                    <div class="detail-item">
+                        <span class="detail-label">总润洗体积：</span>
+                        <span class="detail-value">${actualRinseVolume} ml</span>
+                    </div>
+                    ` : ''}
+                    ${safetyFactor > 0 ? `
+                    <div class="detail-item">
+                        <span class="detail-label">安全系数体积：</span>
+                        <span class="detail-value">${safetyVolume.toFixed(0)} ml (${safetyFactor}%)</span>
+                    </div>
+                    ` : ''}
+                    <div class="detail-item" style="border-top: 2px solid var(--primary); padding-top: 12px;">
+                        <span class="detail-label" style="font-size: 1.1rem;">总需配置体积：</span>
+                        <span class="detail-value" style="font-size: 1.1rem;">${totalVolume.toFixed(0)} ml</span>
+                    </div>
+                `;
+                
+                // 更新表格
+                detailsTableBody.innerHTML = '';
+                flaskDetails.forEach(detail => {
+                    const row = document.createElement('tr');
+                    row.className = 'fade-in';
+                    row.innerHTML = `
+                        <td>${detail.name}</td>
+                        <td>${detail.count}</td>
+                        <td>${detail.volume} ml</td>
+                        <td>${detail.baseVolume} ml</td>
+                        <td>${rinseCheck ? detail.rinseVolume + ' ml' : '0 ml'}</td>
+                    `;
+                    detailsTableBody.appendChild(row);
+                });
+                
+                // 添加总计行
+                const totalRow = document.createElement('tr');
+                totalRow.className = 'total-row fade-in';
+                totalRow.innerHTML = `
+                    <td colspan="3"><strong>总计</strong></td>
+                    <td><strong>${totalBaseVolume} ml</strong></td>
+                    <td><strong>${rinseCheck ? actualRinseVolume + ' ml' : '0 ml'}</strong></td>
+                `;
+                detailsTableBody.appendChild(totalRow);
+            });
+            
+            // 初始化显示结果区域
+            resultContainer.style.display = 'block';
+            emptyResult.style.display = 'block';
+        });
+    </script>
+</body>
+</html>

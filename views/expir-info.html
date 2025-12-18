@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c80ff;
+            --primary-dark: #1a6de0;
+            --secondary-color: #6c757d;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --border-color: #dee2e6;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+            --device-color: #4CAF50;
+            --standard-color: #FF9800;
+            --expiring30: #ff9800;
+            --expiring7: #f44336;
+            --expired: #d32f2f;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            padding: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 20px 15px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .header p {
+            color: var(--secondary-color);
+            font-size: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .search-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .search-type {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .type-btn {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            padding: 12px 15px;
+            background-color: white;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .type-btn {
+                min-width: 100px;
+                padding: 10px 12px;
+                font-size: 0.95rem;
+            }
+        }
+
+        .type-btn.active {
+            color: white;
+        }
+
+        .type-btn.both.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .type-btn.device.active {
+            background-color: var(--device-color);
+            border-color: var(--device-color);
+        }
+
+        .type-btn.standard.active {
+            background-color: var(--standard-color);
+            border-color: var(--standard-color);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 480px) {
+            .search-box {
+                flex-direction: column;
+            }
+        }
+
+        .search-input-container {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-input-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary-color);
+            z-index: 1;
+        }
+
+        #keyword {
+            width: 100%;
+            height: 50px;
+            padding: 0 15px 0 45px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: white;
+            font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        #keyword:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(44, 128, 255, 0.2);
+        }
+
+        .search-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .search-buttons {
+                width: 100%;
+            }
+        }
+
+        #search, #clear {
+            height: 50px;
+            padding: 0 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: 100px;
+        }
+
+        @media (max-width: 480px) {
+            #search, #clear {
+                flex: 1;
+                min-width: auto;
+            }
+        }
+
+        #search {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        #search:hover, #search:active {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        #clear {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        #clear:hover, #clear:active {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .content-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            margin-bottom: 25px;
+            min-height: 300px;
+            transition: var(--transition);
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 15px;
+            color: var(--secondary-color);
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(44, 128, 255, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 60px 15px;
+            color: var(--secondary-color);
+        }
+
+        .no-data i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #d1d8e0;
+        }
+
+        .result-section {
+            margin-bottom: 30px;
+        }
+
+        .result-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title.device {
+            border-bottom-color: var(--device-color);
+        }
+
+        .section-title.standard {
+            border-bottom-color: var(--standard-color);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark-color);
+            border-bottom: 2px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .expir30 {
+            color: var(--expiring30);
+            font-weight: 600;
+        }
+
+        .expir7 {
+            color: var(--expiring7);
+            font-weight: 600;
+        }
+
+        .expired {
+            color: var(--expired);
+            text-decoration: line-through;
+            font-weight: 600;
+        }
+
+        .legend {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .legend-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .legend-expir30 {
+            background-color: var(--expiring30);
+        }
+
+        .legend-expir7 {
+            background-color: var(--expiring7);
+        }
+
+        .legend-expired {
+            background-color: var(--expired);
+            text-decoration: line-through;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+            color: var(--secondary-color);
+            font-size: 0.85rem;
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 15px 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+                gap: 8px;
+            }
+            
+            .search-section {
+                padding: 15px;
+            }
+            
+            .content-container {
+                padding: 15px;
+            }
+            
+            th, td {
+                padding: 10px 8px;
+                font-size: 0.9rem;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+            }
+            
+            .legend {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.3rem;
+            }
+            
+            .header p {
+                font-size: 0.9rem;
+            }
+            
+            table {
+                min-width: 500px;
+            }
+            
+            th, td {
+                padding: 8px 6px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* 防止iOS Safari缩放 */
+        input, select, textarea {
+            font-size: 16px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <h1>
+            <i class="fas fa-search"></i>
+            仪器设备/对照品效期查询
+        </h1>
+        <p>快速查询仪器设备和对照品的有效期信息，及时了解即将过期设备/对照品</p>
+    </div>
+
+    <div class="search-section">
+        <div class="search-type">
+            <button class="type-btn both active" data-type="both">
+                <i class="fas fa-th-list"></i>
+                全部查询
+            </button>
+            <button class="type-btn device" data-type="device">
+                <i class="fas fa-microscope"></i>
+                设备信息
+            </button>
+            <button class="type-btn standard" data-type="standard">
+                <i class="fas fa-vial"></i>
+                对照品信息
+            </button>
+        </div>
+        
+        <div class="search-box">
+            <div class="search-input-container">
+                <i class="fas fa-search"></i>
+                <input type="text" name="keyword" id="keyword" 
+                       placeholder="请输入设备编号、名称或对照品批号、名称进行查询">
+            </div>
+            <div class="search-buttons">
+                <button type="submit" id="search">
+                    <i class="fas fa-search"></i>
+                    搜索
+                </button>
+                <button type="button" id="clear">
+                    <i class="fas fa-eraser"></i>
+                    清除
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-container" id="content">
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>正在加载数据，请稍候...</p>
+        </div>
+    </div>
+    
+    <div class="legend">
+        <div class="legend-title">
+            <i class="fas fa-info-circle"></i>
+            过期提醒说明
+        </div>
+        <div class="legend-items">
+            <div class="legend-item">
+                <div class="legend-color legend-expir30"></div>
+                <span>黄色表示有效期剩余30天以内</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color legend-expir7"></div>
+                <span>红色表示有效期剩余7天以内</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color legend-expired"></div>
+                <span>红色加删除线表示已过期</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>仪器设备/对照品效期查询 &copy; 2025 | 版本 3.0</p>
+    </div>
+
+    <script>
+        // 数据库配置
+        const databases = [
+            {
+                "name": "device",
+                "display": "设备信息",
+                "path": "../statics/info/device.json",
+                "columns": ["名称", "编号", "有效期至"],
+                "icon": "fas fa-microscope"
+            },
+            {
+                "name": "standard",
+                "display": "对照品信息",
+                "path": "../statics/info/standard.json",
+                "columns": ["名称", "批号", "有效期至", "来源"],
+                "icon": "fas fa-vial"
+            }
+        ];
+
+        let info = {
+            device: [],
+            standard: []
+        };
+        
+        let currentSearchType = 'both'; // both, device, standard
+
+        $(() => {
+            // 初始化加载数据
+            loadAllData();
+            
+            // 搜索按钮事件
+            $("#search").click(() => {
+                performSearch();
+            });
+            
+            // 回车键搜索
+            $("#keyword").keypress((e) => {
+                if (e.which === 13) {
+                    performSearch();
+                }
+            });
+            
+            // 清除按钮事件
+            $("#clear").click(() => {
+                $("#keyword").val('');
+                $("#content").html(`
+                    <div class="no-data">
+                        <i class="fas fa-search"></i>
+                        <h3>请输入查询关键字开始搜索</h3>
+                        <p>可以输入设备编号、名称或对照品批号进行查询</p>
+                    </div>
+                `);
+            });
+            
+            // 查询类型切换
+            $(".type-btn").click(function() {
+                $(".type-btn").removeClass("active");
+                $(this).addClass("active");
+                currentSearchType = $(this).data("type");
+            });
+        });
+
+        function loadAllData() {
+            let loadingHtml = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>正在加载数据，请稍候...</p>
+                </div>
+            `;
+            $("#content").html(loadingHtml);
+            
+            let promises = databases.map(db => {
+                return $.getJSON(db.path)
+                    .then(data => {
+                        info[db.name] = data;
+                        return `${db.display}数据加载完成，共 ${data.length} 条记录`;
+                    })
+                    .catch(error => {
+                        console.error(`加载${db.display}数据失败:`, error);
+                        return `${db.display}数据加载失败`;
+                    });
+            });
+
+            Promise.all(promises)
+                .then(results => {
+                    let successCount = results.filter(r => r.includes("完成")).length;
+                    if (successCount === databases.length) {
+                        $("#content").html(`
+                            <div class="no-data">
+                                <i class="fas fa-check-circle" style="color: #4CAF50;"></i>
+                                <h3>数据加载完成</h3>
+                                <p>${results.join('<br>')}</p>
+                            </div>
+                        `);
+                    } else {
+                        $("#content").html(`
+                            <div class="no-data">
+                                <i class="fas fa-exclamation-triangle" style="color: #FF9800;"></i>
+                                <h3>数据加载部分完成</h3>
+                                <p>${results.join('<br>')}</p>
+                            </div>
+                        `);
+                    }
+                })
+                .catch(error => {
+                    $("#content").html(`
+                        <div class="no-data">
+                            <i class="fas fa-exclamation-circle" style="color: #f44336;"></i>
+                            <h3>数据加载失败</h3>
+                            <p>无法加载数据，请检查网络连接或联系管理员</p>
+                        </div>
+                    `);
+                });
+        }
+
+        function performSearch() {
+            let keyword = $("#keyword").val().trim().toLowerCase();
+            if (!keyword) {
+                $("#content").html(`
+                    <div class="no-data">
+                        <i class="fas fa-exclamation-circle" style="color: #FF9800;"></i>
+                        <h3>请输入查询关键字</h3>
+                        <p>搜索框不能为空，请输入设备编号、名称或对照品批号进行查询</p>
+                    </div>
+                `);
+                return;
+            }
+
+            $("#content").html(`
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>正在搜索，请稍候...</p>
+                </div>
+            `);
+
+            setTimeout(() => {
+                $("#content").empty();
+                
+                let hasResults = false;
+                
+                if (currentSearchType === 'device' || currentSearchType === 'both') {
+                    let deviceResults = searchDevice(keyword);
+                    if (deviceResults.length > 0) {
+                        hasResults = true;
+                        displayDeviceResults(deviceResults);
+                    }
+                }
+                
+                if (currentSearchType === 'standard' || currentSearchType === 'both') {
+                    let standardResults = searchStandard(keyword);
+                    if (standardResults.length > 0) {
+                        hasResults = true;
+                        displayStandardResults(standardResults);
+                    }
+                }
+
+                // 如果什么都没找到
+                if (!hasResults) {
+                    $("#content").html(`
+                        <div class="no-data">
+                            <i class="fas fa-search" style="color: #d1d8e0;"></i>
+                            <h3>未找到相关记录</h3>
+                            <p>没有找到与"${keyword}"相关的记录，请尝试其他关键字</p>
+                        </div>
+                    `);
+                }
+            }, 300);
+        }
+
+        function searchDevice(keyword) {
+            return info.device.filter(item => {
+                return (item.id && item.id.toLowerCase().includes(keyword)) || 
+                       (item.name && item.name.toLowerCase().includes(keyword));
+            });
+        }
+
+        function searchStandard(keyword) {
+            return info.standard.filter(item => {
+                return (item.batch && item.batch.toLowerCase().includes(keyword)) || 
+                       (item.name && item.name.toLowerCase().includes(keyword)) ||
+                       (item.source && item.source.toLowerCase().includes(keyword));
+            });
+        }
+
+        function displayDeviceResults(results) {
+            let section = $(`
+                <div class="result-section">
+                    <div class="section-title device">
+                        <i class="fas fa-microscope"></i>
+                        设备信息（共 ${results.length} 条）
+                    </div>
+                </div>
+            `);
+            
+            let tableContainer = $('<div class="table-container"></div>');
+            let table = $('<table></table>');
+            let thead = $('<thead></thead>');
+            let headerRow = $('<tr></tr>');
+            
+            databases[0].columns.forEach(col => {
+                headerRow.append(`<th>${col}</th>`);
+            });
+            
+            thead.append(headerRow);
+            table.append(thead);
+            
+            let tbody = $('<tbody></tbody>');
+            
+            results.forEach(item => {
+                let row = $('<tr></tr>');
+                //       名称
+                row.append(`<td>${item.name || '—'}</td>`);
+                //       编号
+                row.append(`<td>${item.id || '—'}</td>`);
+                //      有效期至
+                let expirCell = $('<td></td>');
+                expirCell.html(checkExpir(item.expir || ''));
+                row.append(expirCell);
+                
+                tbody.append(row);
+            });
+            
+            table.append(tbody);
+            tableContainer.append(table);
+            section.append(tableContainer);
+            $("#content").append(section);
+        }
+
+        function displayStandardResults(results) {
+            let section = $(`
+                <div class="result-section">
+                    <div class="section-title standard">
+                        <i class="fas fa-vial"></i>
+                        对照品信息（共 ${results.length} 条）
+                    </div>
+                </div>
+            `);
+            
+            let tableContainer = $('<div class="table-container"></div>');
+            let table = $('<table></table>');
+            let thead = $('<thead></thead>');
+            let headerRow = $('<tr></tr>');
+            
+            databases[1].columns.forEach(col => {
+                headerRow.append(`<th>${col}</th>`);
+            });
+            
+            thead.append(headerRow);
+            table.append(thead);
+            
+            let tbody = $('<tbody></tbody>');
+            
+            results.forEach(item => {
+                let row = $('<tr></tr>');
+                //      名称
+                row.append(`<td>${item.kind || '—'}</td>`);
+                //      批号
+                row.append(`<td>${item.batch || '—'}</td>`);
+                //     有效期至
+                let expirCell = $('<td></td>');
+                expirCell.html(checkExpir(item.expir || ''));
+                row.append(expirCell);
+                //       来源
+                row.append(`<td>${item.source || '—'}</td>`);
+                
+                tbody.append(row);
+            });
+            
+            table.append(tbody);
+            tableContainer.append(table);
+            section.append(tableContainer);
+            $("#content").append(section);
+        }
+
+        function checkExpir(value) {
+            if (!value) return '—';
+            
+            let date = new Date();
+            let array = value.split(".");
+            date.setFullYear(array[0], array[1] - 1, array[2]);
+
+            let day = (date - Date.now()) / 86400000;
+
+            if (day <= 0) {
+                return `<span class='expired'>${value} (已过期)</span>`;
+            }
+
+            if (day <= 7) {
+                return `<span class='expir7'>${value} (剩余${Math.ceil(day)}天)</span>`;
+            }
+
+            if (day <= 30) {
+                return `<span class='expir30'>${value} (剩余${Math.ceil(day)}天)</span>`;
+            }
+
+            return value;
+        }
+    </script>
+</body>
+
+</html>

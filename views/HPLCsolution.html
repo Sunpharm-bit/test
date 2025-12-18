@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>液相流动相量计算</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.5;
+            padding: 0;
+            font-size: 14px;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 20px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        
+        .tab-container {
+            display: flex;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 85px;
+            z-index: 99;
+        }
+        
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px 10px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab.active {
+            color: #1a73e8;
+            border-bottom: 3px solid #1a73e8;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px 15px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .section-title {
+            font-size: 17px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1a73e8;
+            color: #1a73e8;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #444;
+            font-size: 14px;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s;
+            background: white;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        input:focus, select:focus {
+            border-color: #1a73e8;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+        }
+        
+        .preset-gradients {
+            margin-bottom: 20px;
+        }
+        
+        .preset-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .preset-btn {
+            background-color: #e8f0fe;
+            border: 2px solid #1a73e8;
+            border-radius: 8px;
+            padding: 14px 15px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            color: #1a73e8;
+            font-weight: 600;
+        }
+        
+        .preset-btn:hover {
+            background-color: #1a73e8;
+            color: white;
+        }
+        
+        .preset-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .gradient-container {
+            margin-top: 15px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            max-width: 100%;
+        }
+        
+        .gradient-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 0;
+            table-layout: fixed;
+        }
+        
+        .gradient-table th, .gradient-table td {
+            border: 1px solid #e0e0e0;
+            padding: 8px 4px;
+            text-align: center;
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .gradient-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            position: sticky;
+            left: 0;
+            white-space: nowrap;
+        }
+        
+        .gradient-table input {
+            width: 100%;
+            padding: 6px 4px;
+            text-align: center;
+            font-size: 13px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .duration-cell {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .btn {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            display: block;
+            width: 100%;
+            margin-bottom: 12px;
+            touch-action: manipulation;
+        }
+        
+        .btn:active {
+            transform: scale(0.98);
+        }
+        
+        .btn:hover {
+            background-color: #0d47a1;
+        }
+        
+        .btn-success {
+            background-color: #34a853;
+        }
+        
+        .btn-success:hover {
+            background-color: #2e8b47;
+        }
+        
+        .btn-secondary {
+            background-color: #5f6368;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #3c4043;
+        }
+        
+        .btn-danger {
+            background-color: #ea4335;
+            width: auto;
+            padding: 6px 12px;
+            font-size: 12px;
+            margin: 0 auto;
+        }
+        
+        .btn-danger:hover {
+            background-color: #d33426;
+        }
+        
+        .result-box {
+            background: white;
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .result-title {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #1a73e8;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .result-title::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 16px;
+            background-color: #1a73e8;
+            margin-right: 8px;
+            border-radius: 2px;
+        }
+        
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+        
+        .result-row:last-child {
+            border-bottom: none;
+        }
+        
+        .result-label {
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .result-value {
+            font-weight: 600;
+            color: #1a73e8;
+        }
+        
+        .volumes-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            font-size: 13px;
+            table-layout: fixed;
+        }
+        
+        .volumes-table th, .volumes-table td {
+            border: 1px solid #ddd;
+            padding: 10px 5px;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .volumes-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .volumes-table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px 15px;
+            background-color: #f8f9fa;
+            color: #5f6368;
+            font-size: 12px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .phase-badge {
+            display: inline-block;
+            background: #1a73e8;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .note {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            display: block;
+            line-height: 1.4;
+        }
+        
+        .mobile-only {
+            display: block;
+        }
+        
+        .desktop-only {
+            display: none;
+        }
+        
+        .gradient-summary {
+            background-color: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+        
+        .gradient-summary div {
+            margin-bottom: 5px;
+        }
+        
+        .calculation-details {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+        
+        .calculation-step {
+            margin-bottom: 8px;
+            padding: 8px;
+            background-color: white;
+            border-radius: 5px;
+            border-left: 3px solid #1a73e8;
+        }
+        
+        /* 表格列宽设置 */
+        .gradient-table th:nth-child(1), .gradient-table td:nth-child(1) {
+            width: 10%;
+        }
+        
+        .gradient-table th:nth-child(2), .gradient-table td:nth-child(2) {
+            width: 15%;
+        }
+        
+        .gradient-table th:nth-child(3), .gradient-table td:nth-child(3) {
+            width: 15%;
+        }
+        
+        .gradient-table th:nth-child(4), .gradient-table td:nth-child(4) {
+            width: 15%;
+        }
+        
+        .gradient-table th:nth-child(5), .gradient-table td:nth-child(5) {
+            width: 20%;
+        }
+        
+        .volumes-table th:nth-child(1), .volumes-table td:nth-child(1) {
+            width: 30%;
+        }
+        
+        .volumes-table th:nth-child(2), .volumes-table td:nth-child(2) {
+            width: 35%;
+        }
+        
+        .volumes-table th:nth-child(3), .volumes-table td:nth-child(3) {
+            width: 35%;
+        }
+        
+        /* 移动端优化 */
+        @media (max-width: 480px) {
+            header {
+                padding: 15px 10px;
+            }
+            
+            h1 {
+                font-size: 18px;
+            }
+            
+            .subtitle {
+                font-size: 12px;
+            }
+            
+            .tab {
+                padding: 12px 8px;
+                font-size: 14px;
+            }
+            
+            .tab-content {
+                padding: 15px 10px;
+            }
+            
+            .gradient-table th, .gradient-table td {
+                padding: 6px 3px;
+                font-size: 11px;
+            }
+            
+            .gradient-table input {
+                font-size: 12px;
+                padding: 5px 3px;
+            }
+        }
+        
+        /* 平板和桌面 */
+        @media (min-width: 768px) {
+            .mobile-only {
+                display: none;
+            }
+            
+            .desktop-only {
+                display: block;
+            }
+            
+            .container {
+                max-width: 768px;
+                margin: 20px auto;
+                border-radius: 15px;
+                overflow: hidden;
+                box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            }
+            
+            .button-group {
+                flex-direction: row;
+            }
+            
+            .btn {
+                width: auto;
+                flex: 1;
+                margin-right: 10px;
+            }
+            
+            .btn:last-child {
+                margin-right: 0;
+            }
+            
+            .gradient-table th, .gradient-table td {
+                padding: 10px 5px;
+                font-size: 13px;
+            }
+            
+            .gradient-table input {
+                font-size: 14px;
+                padding: 8px 5px;
+            }
+        }
+        
+        /* 防止输入框被放大 */
+        @media screen and (max-width: 768px) {
+            input, select, textarea {
+                font-size: 16px !important;
+            }
+        }
+        
+        /* 优化滚动体验 */
+        .gradient-container::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .gradient-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        
+        .gradient-container::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+        
+        .gradient-container::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>液相流动相量计算器</h1>
+            <p class="subtitle">根据梯度程序、流速和针数计算流动相配制量</p>
+        </header>
+        
+        <div class="tab-container">
+            <div class="tab active" data-tab="input">参数设置</div>
+            <div class="tab" data-tab="result">计算结果</div>
+        </div>
+        
+        <div class="tab-content active" id="inputTab">
+            <h2 class="section-title">基本参数</h2>
+            
+            <div class="form-group">
+                <label for="flowRate">流速 (mL/min)</label>
+                <input type="number" id="flowRate" min="0.1" step="0.1" value="1.0">
+            </div>
+            
+            <div class="form-group">
+                <label for="numInjections">针数</label>
+                <input type="number" id="numInjections" min="1" value="10">
+            </div>
+            
+            <div class="form-group">
+                <label for="safetyFactor">安全系数</label>
+                <input type="number" id="safetyFactor" min="1.0" step="0.1" value="1.2">
+                <span class="note">推荐1.2-1.5，提供20-50%的额外余量</span>
+            </div>
+            
+            <div class="form-group">
+                <label for="numPhases">流动相数量</label>
+                <select id="numPhases">
+                    <option value="2">2相 (A, B)</option>
+                    <option value="3">3相 (A, B, C)</option>
+                </select>
+            </div>
+            
+            <div class="preset-gradients">
+                <h2 class="section-title">常用梯度预设</h2>
+                <div class="note">点击按钮将自动填充下方梯度表格</div>
+                <div class="preset-buttons">
+                    <button class="preset-btn" id="commonPreset">常用梯度</button>
+                </div>
+            </div>
+            
+            <h2 class="section-title">梯度程序</h2>
+            <p style="font-size: 14px; margin-bottom: 15px; color: #555;">
+                预设6个梯度步骤，第一个步骤时间通常为0，表示初始条件。您可以修改或添加更多步骤。
+            </p>
+            
+            <div class="gradient-container">
+                <table class="gradient-table" id="gradientTable">
+                    <thead>
+                        <tr>
+                            <th>步骤</th>
+                            <th>时间 (min)</th>
+                            <th>A (%)</th>
+                            <th>B (%)</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="gradientBody">
+                        <!-- 梯度行将通过JavaScript动态生成 -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn" id="addRow">添加梯度步骤</button>
+                <button class="btn btn-success" id="calculate">计算</button>
+                <button class="btn btn-secondary" id="reset">重置</button>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="resultTab">
+            <h2 class="section-title">计算结果</h2>
+            
+            <div id="resultsContainer">
+                <div class="result-box">
+                    <div class="result-title">基本参数</div>
+                    <div class="result-row">
+                        <span class="result-label">流速:</span>
+                        <span class="result-value" id="resultFlowRate">-</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">针数:</span>
+                        <span class="result-value" id="resultInjections">-</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">每针运行时间:</span>
+                        <span class="result-value" id="resultTime">-</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">安全系数:</span>
+                        <span class="result-label" id="resultSafety">-</span>
+                    </div>
+                </div>
+                
+                <div class="result-box">
+                    <div class="result-title">梯度程序</div>
+                    <div id="gradientResult">
+                        <!-- 梯度程序将在这里显示 -->
+                    </div>
+                </div>
+                
+                <div class="result-box">
+                    <div class="result-title">体积计算结果</div>
+                    <table class="volumes-table" id="volumesTable">
+                        <thead>
+                            <tr>
+                                <th>流动相</th>
+                                <th>每针体积 (mL)</th>
+                                <th>总配置体积 (mL)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="volumesBody">
+                            <!-- 体积结果将在这里显示 -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="result-box" id="calculationDetailsBox" style="display: none;">
+                    <div class="result-title">计算详情</div>
+                    <div id="calculationDetails">
+                        <!-- 计算详情将在这里显示 -->
+                    </div>
+                </div>
+            </div>
+            
+            <div id="noResults" style="text-align: center; padding: 40px 20px; color: #5f6368;">
+                <p>请先在"参数设置"页面输入参数并点击"计算"按钮</p>
+                <button class="btn" id="goToInput" style="margin-top: 20px; width: auto; display: inline-block;">前往参数设置</button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>液相流动相使用量计算 &copy; 2025 实验室工具</p>
+            <p class="mobile-only" style="font-size: 11px; margin-top: 5px; opacity: 0.7;"></p>
+        </div>
+    </div>
+
+    <script>
+        // 常用梯度数据
+        const commonGradient = {
+            name: "常用梯度",
+            steps: [
+                {time: 0, A: 64, B: 36},
+                {time: 25, A: 58, B: 42},
+                {time: 40, A: 30, B: 70},
+                {time: 45, A: 30, B: 70},
+                {time: 45.1, A: 64, B: 36},
+                {time: 50, A: 64, B: 36}
+            ]
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取DOM元素
+            const flowRateInput = document.getElementById('flowRate');
+            const numInjectionsInput = document.getElementById('numInjections');
+            const safetyFactorInput = document.getElementById('safetyFactor');
+            const numPhasesSelect = document.getElementById('numPhases');
+            const gradientBody = document.getElementById('gradientBody');
+            const addRowButton = document.getElementById('addRow');
+            const calculateButton = document.getElementById('calculate');
+            const resetButton = document.getElementById('reset');
+            const tabs = document.querySelectorAll('.tab');
+            const inputTab = document.getElementById('inputTab');
+            const resultTab = document.getElementById('resultTab');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const noResults = document.getElementById('noResults');
+            const goToInputButton = document.getElementById('goToInput');
+            const commonPresetButton = document.getElementById('commonPreset');
+            const calculationDetailsBox = document.getElementById('calculationDetailsBox');
+            
+            // 初始化时隐藏结果
+            resultsContainer.style.display = 'none';
+            noResults.style.display = 'block';
+            
+            // 标签切换
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // 更新标签状态
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 显示对应的内容
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    document.getElementById(tabId + 'Tab').classList.add('active');
+                });
+            });
+            
+            // 前往参数设置按钮
+            goToInputButton.addEventListener('click', function() {
+                tabs.forEach(t => t.classList.remove('active'));
+                document.querySelector('.tab[data-tab="input"]').classList.add('active');
+                
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                inputTab.classList.add('active');
+            });
+            
+            // 常用梯度预设按钮事件
+            commonPresetButton.addEventListener('click', function() {
+                applyCommonGradient();
+            });
+            
+            // 应用常用梯度
+            function applyCommonGradient() {
+                const numPhases = parseInt(numPhasesSelect.value);
+                
+                if (numPhases !== 2) {
+                    alert('常用梯度仅适用于2相系统，请先选择2相');
+                    return;
+                }
+                
+                // 清空现有梯度行
+                gradientBody.innerHTML = '';
+                
+                // 添加常用梯度步骤
+                commonGradient.steps.forEach((step, index) => {
+                    const row = document.createElement('tr');
+                    
+                    // 步骤编号
+                    const stepCell = document.createElement('td');
+                    stepCell.textContent = index + 1;
+                    row.appendChild(stepCell);
+                    
+                    // 时间输入
+                    const timeCell = document.createElement('td');
+                    const timeInput = document.createElement('input');
+                    timeInput.type = 'number';
+                    timeInput.className = 'time-input';
+                    timeInput.min = '0';
+                    timeInput.step = '0.1';
+                    timeInput.value = step.time;
+                    timeCell.appendChild(timeInput);
+                    row.appendChild(timeCell);
+                    
+                    // A相比例输入
+                    const ratioACell = document.createElement('td');
+                    const ratioAInput = document.createElement('input');
+                    ratioAInput.type = 'number';
+                    ratioAInput.className = 'ratio-input';
+                    ratioAInput.min = '0';
+                    ratioAInput.max = '100';
+                    ratioAInput.value = step.A;
+                    ratioACell.appendChild(ratioAInput);
+                    row.appendChild(ratioACell);
+                    
+                    // B相比例输入
+                    const ratioBCell = document.createElement('td');
+                    const ratioBInput = document.createElement('input');
+                    ratioBInput.type = 'number';
+                    ratioBInput.className = 'ratio-input';
+                    ratioBInput.min = '0';
+                    ratioBInput.max = '100';
+                    ratioBInput.value = step.B;
+                    ratioBCell.appendChild(ratioBInput);
+                    row.appendChild(ratioBCell);
+                    
+                    // 删除按钮
+                    const actionCell = document.createElement('td');
+                    const removeButton = document.createElement('button');
+                    removeButton.className = 'btn btn-danger remove-row';
+                    removeButton.textContent = '删除';
+                    actionCell.appendChild(removeButton);
+                    row.appendChild(actionCell);
+                    
+                    gradientBody.appendChild(row);
+                });
+                
+                // 如果常用梯度步骤少于6个，添加空行
+                const currentRows = gradientBody.querySelectorAll('tr').length;
+                for (let i = currentRows; i < 6; i++) {
+                    addGradientRow();
+                }
+                
+                // 更新步骤编号
+                updateStepNumbers();
+                
+                // 显示提示
+                alert('已应用常用梯度 (50分钟梯度程序)');
+            }
+            
+            // 添加梯度步骤行
+            addRowButton.addEventListener('click', function() {
+                addGradientRow();
+            });
+            
+            // 删除行事件委托
+            gradientBody.addEventListener('click', function(e) {
+                if (e.target.classList.contains('remove-row')) {
+                    const row = e.target.closest('tr');
+                    const rows = gradientBody.querySelectorAll('tr');
+                    // 确保至少保留一行
+                    if (rows.length > 1) {
+                        row.remove();
+                        updateStepNumbers();
+                    } else {
+                        alert('至少需要保留一个梯度步骤');
+                    }
+                }
+            });
+            
+            // 计算按钮点击事件
+            calculateButton.addEventListener('click', function() {
+                calculateVolumes();
+                // 切换到结果标签
+                tabs.forEach(t => t.classList.remove('active'));
+                document.querySelector('.tab[data-tab="result"]').classList.add('active');
+                
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                resultTab.classList.add('active');
+            });
+            
+            // 重置按钮点击事件
+            resetButton.addEventListener('click', function() {
+                resetForm();
+            });
+            
+            // 流动相数量变化时更新表格
+            numPhasesSelect.addEventListener('change', function() {
+                updateGradientTable();
+            });
+            
+            // 比例输入变化时自动调整其他相的比例（仅限两相系统）
+            gradientBody.addEventListener('input', function(e) {
+                if (e.target.classList.contains('ratio-input')) {
+                    const numPhases = parseInt(numPhasesSelect.value);
+                    if (numPhases === 2) {
+                        autoAdjustRatios(e.target);
+                    }
+                }
+            });
+            
+            // 自动调整两相系统的比例
+            function autoAdjustRatios(changedInput) {
+                const row = changedInput.closest('tr');
+                const ratioInputs = row.querySelectorAll('.ratio-input');
+                
+                if (ratioInputs.length !== 2) return;
+                
+                const inputA = ratioInputs[0];
+                const inputB = ratioInputs[1];
+                
+                // 确定哪个输入框被更改
+                if (changedInput === inputA) {
+                    // A相被更改，自动调整B相
+                    inputB.value = 100 - parseFloat(inputA.value);
+                } else {
+                    // B相被更改，自动调整A相
+                    inputA.value = 100 - parseFloat(inputB.value);
+                }
+            }
+            
+            // 添加梯度行函数
+            function addGradientRow() {
+                const numPhases = parseInt(numPhasesSelect.value);
+                const row = document.createElement('tr');
+                const stepNumber = gradientBody.querySelectorAll('tr').length + 1;
+                
+                // 步骤编号
+                const stepCell = document.createElement('td');
+                stepCell.textContent = stepNumber;
+                row.appendChild(stepCell);
+                
+                // 时间输入
+                const timeCell = document.createElement('td');
+                const timeInput = document.createElement('input');
+                timeInput.type = 'number';
+                timeInput.className = 'time-input';
+                timeInput.min = '0';
+                timeInput.step = '0.1';
+                // 第一个步骤时间为0，后续步骤递增5分钟
+                timeInput.value = stepNumber === 1 ? '0' : (stepNumber - 1) * 5;
+                timeCell.appendChild(timeInput);
+                row.appendChild(timeCell);
+                
+                // 比例输入
+                for (let i = 0; i < numPhases; i++) {
+                    const ratioCell = document.createElement('td');
+                    const ratioInput = document.createElement('input');
+                    ratioInput.type = 'number';
+                    ratioInput.className = 'ratio-input';
+                    ratioInput.min = '0';
+                    ratioInput.max = '100';
+                    // 默认设置第一个相为100%，其他为0%
+                    ratioInput.value = i === 0 ? '100' : '0';
+                    ratioCell.appendChild(ratioInput);
+                    row.appendChild(ratioCell);
+                }
+                
+                // 删除按钮
+                const actionCell = document.createElement('td');
+                const removeButton = document.createElement('button');
+                removeButton.className = 'btn btn-danger remove-row';
+                    removeButton.textContent = '删除';
+                    actionCell.appendChild(removeButton);
+                    row.appendChild(actionCell);
+                    
+                    gradientBody.appendChild(row);
+                }
+                
+                // 更新步骤编号
+                function updateStepNumbers() {
+                    const rows = gradientBody.querySelectorAll('tr');
+                    rows.forEach((row, index) => {
+                        row.cells[0].textContent = index + 1;
+                    });
+                }
+                
+                // 更新梯度表格
+                function updateGradientTable() {
+                    const numPhases = parseInt(numPhasesSelect.value);
+                    const headerRow = document.querySelector('#gradientTable thead tr');
+                    
+                    // 更新表头
+                    headerRow.innerHTML = '<th>步骤</th><th>时间 (min)</th>';
+                    for (let i = 0; i < numPhases; i++) {
+                        const phaseName = String.fromCharCode(65 + i); // A, B, C, D
+                        headerRow.innerHTML += `<th>${phaseName} (%)</th>`;
+                    }
+                    headerRow.innerHTML += '<th>操作</th>';
+                    
+                    // 更新表格内容 - 预设6行
+                    gradientBody.innerHTML = '';
+                    for (let i = 0; i < 6; i++) {
+                        addGradientRow();
+                    }
+                }
+                
+                // 计算体积函数 - 按整个梯度程序的时间变化计算
+                function calculateVolumes() {
+                    // 获取输入值
+                    const flowRate = parseFloat(flowRateInput.value);
+                    const numInjections = parseInt(numInjectionsInput.value);
+                    const safetyFactor = parseFloat(safetyFactorInput.value);
+                    const numPhases = parseInt(numPhasesSelect.value);
+                    
+                    // 验证输入
+                    if (isNaN(flowRate) || flowRate <= 0) {
+                        alert('请输入有效的流速');
+                        return;
+                    }
+                    
+                    if (isNaN(numInjections) || numInjections <= 0) {
+                        alert('请输入有效的针数');
+                        return;
+                    }
+                    
+                    // 获取梯度程序并按时间排序
+                    const gradientProgram = [];
+                    const rows = gradientBody.querySelectorAll('tr');
+                    
+                    for (const row of rows) {
+                        const timeInput = row.querySelector('.time-input');
+                        const ratioInputs = row.querySelectorAll('.ratio-input');
+                        
+                        const time = parseFloat(timeInput.value);
+                        if (isNaN(time) || time < 0) {
+                            alert('请输入有效的时间值');
+                            return;
+                        }
+                        
+                        const ratios = [];
+                        let totalRatio = 0;
+                        
+                        for (const input of ratioInputs) {
+                            const ratio = parseFloat(input.value);
+                            if (isNaN(ratio) || ratio < 0) {
+                                alert('请输入有效的比例值');
+                                return;
+                            }
+                            ratios.push(ratio);
+                            totalRatio += ratio;
+                        }
+                        
+                        // 检查比例总和是否为100%
+                        if (Math.abs(totalRatio - 100) > 0.1) {
+                            alert(`步骤 ${row.cells[0].textContent} 的比例总和为 ${totalRatio.toFixed(1)}%，不是100%。请调整比例值。`);
+                            return;
+                        }
+                        
+                        gradientProgram.push({
+                            time: time,
+                            ratios: ratios
+                        });
+                    }
+                    
+                    if (gradientProgram.length === 0) {
+                        alert('请至少添加一个梯度步骤');
+                        return;
+                    }
+                    
+                    // 按时间排序
+                    gradientProgram.sort((a, b) => a.time - b.time);
+                    
+                    // 验证时间顺序，确保第一个步骤时间为0
+                    if (gradientProgram[0].time !== 0) {
+                        alert('第一个梯度步骤的时间应为0，表示初始条件');
+                        return;
+                    }
+                    
+                    // 计算每针各流动相体积（按整个梯度程序的时间变化计算）
+                    const volumesPerInjection = new Array(numPhases).fill(0);
+                    let totalRunTime = gradientProgram[gradientProgram.length - 1].time;
+                    
+                    // 存储每个时间段的计算详情
+                    const calculationDetails = [];
+                    
+                    // 计算每个时间段的体积并累加
+                    for (let i = 0; i < gradientProgram.length - 1; i++) {
+                        const currentStep = gradientProgram[i];
+                        const nextStep = gradientProgram[i + 1];
+                        
+                        const timeDuration = nextStep.time - currentStep.time;
+                        
+                        // 如果时间间隔为负数（时间顺序错误），报错
+                        if (timeDuration < 0) {
+                            alert(`梯度步骤时间顺序错误：步骤 ${i+1} 的时间为 ${currentStep.time}，步骤 ${i+2} 的时间为 ${nextStep.time}。请按时间顺序排列。`);
+                            return;
+                        }
+                        
+                        // 计算该时间段内各流动相的体积
+                        // 注意：在时间段内，流动相比例是从当前步骤到下一步骤线性变化的
+                        // 因此我们需要计算平均值
+                        const stepVolumes = new Array(numPhases).fill(0);
+                        
+                        for (let phaseIndex = 0; phaseIndex < numPhases; phaseIndex++) {
+                            // 当前时间段开始时的比例
+                            const startRatio = currentStep.ratios[phaseIndex];
+                            // 当前时间段结束时的比例
+                            const endRatio = nextStep.ratios[phaseIndex];
+                            // 平均比例（线性变化）
+                            const avgRatio = (startRatio + endRatio) / 2;
+                            
+                            // 该时间段内该流动相的体积
+                            const phaseVolume = timeDuration * flowRate * avgRatio / 100;
+                            stepVolumes[phaseIndex] = phaseVolume;
+                            volumesPerInjection[phaseIndex] += phaseVolume;
+                        }
+                        
+                        // 记录计算详情
+                        calculationDetails.push({
+                            step: i + 1,
+                            fromTime: currentStep.time,
+                            toTime: nextStep.time,
+                            duration: timeDuration,
+                            startRatios: [...currentStep.ratios],
+                            endRatios: [...nextStep.ratios],
+                            stepVolumes: [...stepVolumes]
+                        });
+                    }
+                    
+                    // 计算总体积 (考虑针数和安全系数)
+                    const totalVolumes = volumesPerInjection.map(vol => vol * numInjections * safetyFactor);
+                    
+                    // 显示结果
+                    displayResults(
+                        flowRate, 
+                        numInjections, 
+                        totalRunTime, 
+                        safetyFactor,
+                        gradientProgram,
+                        volumesPerInjection,
+                        totalVolumes,
+                        calculationDetails
+                    );
+                }
+                
+                // 显示结果函数
+                function displayResults(flowRate, numInjections, totalTime, safetyFactor, gradientProgram, volumesPerInjection, totalVolumes, calculationDetails) {
+                    // 显示结果容器，隐藏提示
+                    resultsContainer.style.display = 'block';
+                    noResults.style.display = 'none';
+                    
+                    // 更新基本参数
+                    document.getElementById('resultFlowRate').textContent = `${flowRate} mL/min`;
+                    document.getElementById('resultInjections').textContent = numInjections;
+                    document.getElementById('resultTime').textContent = `${totalTime.toFixed(1)} 分钟`;
+                    document.getElementById('resultSafety').textContent = safetyFactor;
+                    
+                    // 更新梯度程序显示
+                    const gradientResult = document.getElementById('gradientResult');
+                    let gradientHtml = '<div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">';
+                    gradientHtml += '<table class="gradient-table" style="width: 100%;"><thead><tr><th>步骤</th><th>时间 (min)</th>';
+                    
+                    for (let i = 0; i < volumesPerInjection.length; i++) {
+                        const phaseName = String.fromCharCode(65 + i);
+                        gradientHtml += `<th>${phaseName} (%)</th>`;
+                    }
+                    gradientHtml += '</tr></thead><tbody>';
+                    
+                    gradientProgram.forEach((step, index) => {
+                        gradientHtml += `<tr><td>${index + 1}</td><td>${step.time.toFixed(1)}</td>`;
+                        for (const ratio of step.ratios) {
+                            gradientHtml += `<td>${ratio.toFixed(1)}%</td>`;
+                        }
+                        gradientHtml += '</tr>';
+                    });
+                    
+                    gradientHtml += '</tbody></table></div>';
+                    
+                    // 添加梯度摘要
+                    gradientHtml += '<div class="gradient-summary">';
+                    gradientHtml += `<div>梯度步骤数: ${gradientProgram.length}</div>`;
+                    gradientHtml += `<div>总运行时间: ${totalTime.toFixed(1)} 分钟</div>`;
+                    
+                    // 计算各相总使用比例
+                    let totalVolumesSum = 0;
+                    for (let i = 0; i < volumesPerInjection.length; i++) {
+                        totalVolumesSum += volumesPerInjection[i];
+                    }
+                    
+                    for (let i = 0; i < volumesPerInjection.length; i++) {
+                        const phaseName = String.fromCharCode(65 + i);
+                        const percentage = totalVolumesSum > 0 ? (volumesPerInjection[i] / totalVolumesSum * 100).toFixed(1) : 0;
+                        gradientHtml += `<div>${phaseName}相总使用比例: ${percentage}%</div>`;
+                    }
+                    
+                    gradientHtml += '</div>';
+                    
+                    gradientResult.innerHTML = gradientHtml;
+                    
+                    // 更新体积结果
+                    const volumesBody = document.getElementById('volumesBody');
+                    volumesBody.innerHTML = '';
+                    
+                    for (let i = 0; i < volumesPerInjection.length; i++) {
+                        const phaseName = String.fromCharCode(65 + i);
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><span class="phase-badge">${phaseName}</span></td>
+                            <td>${volumesPerInjection[i].toFixed(2)}</td>
+                            <td>${totalVolumes[i].toFixed(2)}</td>
+                        `;
+                        volumesBody.appendChild(row);
+                    }
+                    
+                    // 显示计算详情
+                    if (calculationDetails && calculationDetails.length > 0) {
+                        calculationDetailsBox.style.display = 'block';
+                        const calculationDetailsDiv = document.getElementById('calculationDetails');
+                        let detailsHtml = '';
+                        
+                        detailsHtml += '<p>每个时间段内的计算详情：</p>';
+                        
+                        calculationDetails.forEach((detail, index) => {
+                            detailsHtml += `<div class="calculation-step">`;
+                            detailsHtml += `<strong>时间段 ${index + 1}: ${detail.fromTime.toFixed(1)}-${detail.toTime.toFixed(1)} min (持续时间: ${detail.duration.toFixed(1)} min)</strong><br>`;
+                            
+                            for (let i = 0; i < detail.startRatios.length; i++) {
+                                const phaseName = String.fromCharCode(65 + i);
+                                const avgRatio = (detail.startRatios[i] + detail.endRatios[i]) / 2;
+                                detailsHtml += `${phaseName}相: ${detail.startRatios[i].toFixed(1)}% → ${detail.endRatios[i].toFixed(1)}% (平均: ${avgRatio.toFixed(1)}%), 体积: ${detail.stepVolumes[i].toFixed(2)} mL<br>`;
+                            }
+                            
+                            detailsHtml += `</div>`;
+                        });
+                        
+                        calculationDetailsDiv.innerHTML = detailsHtml;
+                    } else {
+                        calculationDetailsBox.style.display = 'none';
+                    }
+                }
+                
+                // 重置表单函数
+                function resetForm() {
+                    flowRateInput.value = '1.0';
+                    numInjectionsInput.value = '10';
+                    safetyFactorInput.value = '1.2';
+                    numPhasesSelect.value = '2';
+                    
+                    // 重置梯度表格
+                    updateGradientTable();
+                    
+                    // 切换到输入标签
+                    tabs.forEach(t => t.classList.remove('active'));
+                    document.querySelector('.tab[data-tab="input"]').classList.add('active');
+                    
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    inputTab.classList.add('active');
+                    
+                    // 隐藏结果
+                    resultsContainer.style.display = 'none';
+                    noResults.style.display = 'block';
+                    calculationDetailsBox.style.display = 'none';
+                }
+                
+                // 初始化表格
+                updateGradientTable();
+            });
+    </script>
+</body>
+</html>

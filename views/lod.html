@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>干燥失重计算器</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .group-title {
+            text-align: center;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            padding: 8px;
+            background-color: #f1f8ff;
+            border-radius: 4px;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        input:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+        
+        .settings {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .decimal-setting {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .formula {
+            text-align: center;
+            font-size: 18px;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #e8f4fc;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        #clear {
+            background-color: #e74c3c;
+        }
+        
+        #clear:hover {
+            background-color: #c0392b;
+        }
+        
+        .results {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border: 1px solid #eaeaea;
+        }
+        
+        .result-label {
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .result-value {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .average {
+            background-color: #e1f5e1 !important;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>干燥失重计算器</h1>
+    
+    <div class="container">
+        <div>
+            <div class="group-title">第一组</div>
+            
+            <div class="input-group">
+                <label for="m0l">恒重后空瓶重 (W₀)</label>
+                <input type="number" id="m0l" placeholder="输入重量值">
+            </div>
+            
+            <div class="input-group">
+                <label for="m1l">样品重 (W₁)</label>
+                <input type="number" id="m1l" placeholder="输入重量值">
+            </div>
+            
+            <div class="input-group">
+                <label for="m3l">干燥恒重后带样品重 (W₂)</label>
+                <input type="number" id="m3l" placeholder="输入重量值">
+            </div>
+        </div>
+        
+        <div>
+            <div class="group-title">第二组</div>
+            
+            <div class="input-group">
+                <label for="m0r">恒重后空瓶重 (W₀)</label>
+                <input type="number" id="m0r" placeholder="输入重量值">
+            </div>
+            
+            <div class="input-group">
+                <label for="m1r">样品重 (W₁)</label>
+                <input type="number" id="m1r" placeholder="输入重量值">
+            </div>
+            
+            <div class="input-group">
+                <label for="m3r">干燥恒重后带样品重 (W₂)</label>
+                <input type="number" id="m3r" placeholder="输入重量值">
+            </div>
+        </div>
+    </div>
+    
+    <div class="settings">
+        <div class="decimal-setting">
+            <label for="decimalPlaces">结果显示位数:</label>
+            <select id="decimalPlaces">
+                <option value="2">2 位小数</option>
+                <option value="3" selected>3 位小数</option>
+                <option value="4">4 位小数</option>
+                <option value="5">5 位小数</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="formula">
+        计算公式: <strong>(W₀ + W₁ - W₂) ÷ W₁ × 100%</strong>
+        <div style="font-size: 14px; margin-top: 5px; color: #666;">
+            其中: W₀ = 恒重后空瓶重, W₁ = 样品重, W₂ = 干燥恒重后带样品重
+        </div>
+    </div>
+    
+    <div class="buttons">
+        <button id="ok">计算干燥失重</button>
+        <button id="clear">清除数据</button>
+    </div>
+    
+    <div class="results">
+        <h2>计算结果</h2>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const calculateBtn = document.getElementById('ok');
+            const clearBtn = document.getElementById('clear');
+            const resultsDiv = document.getElementById('results');
+            
+            // 计算干燥失重
+            function calculateLOD(W0, W1, W2) {
+                if (!W0 || !W1 || !W2) return null;
+                
+                // 转换为数字
+                W0 = parseFloat(W0);
+                W1 = parseFloat(W1);
+                W2 = parseFloat(W2);
+                
+                // 计算干燥失重百分比
+                // 公式: (W0 + W1 - W2) / W1 * 100
+                const numerator = W0 + W1 - W2;
+                const result = (numerator / W1) * 100;
+                
+                return result;
+            }
+            
+            // 格式化数字到指定小数位数
+            function formatNumber(value, decimalPlaces) {
+                if (value === null || isNaN(value)) return '-';
+                return value.toFixed(decimalPlaces);
+            }
+            
+            // 显示计算结果
+            function displayResults(lod1, lod2) {
+                const decimalPlaces = parseInt(document.getElementById('decimalPlaces').value);
+                
+                let resultsHTML = '';
+                
+                if (lod1 && lod2) {
+                    const average = (lod1 + lod2) / 2;
+                    
+                    resultsHTML = `
+                        <div class="result-item">
+                            <span class="result-label">第一组结果:</span>
+                            <span class="result-value">${formatNumber(lod1, decimalPlaces)}%</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">第二组结果:</span>
+                            <span class="result-value">${formatNumber(lod2, decimalPlaces)}%</span>
+                        </div>
+                        <div class="result-item average">
+                            <span class="result-label">平均值:</span>
+                            <span class="result-value">${formatNumber(average, decimalPlaces)}%</span>
+                        </div>
+                    `;
+                } else if (lod1) {
+                    resultsHTML = `
+                        <div class="result-item">
+                            <span class="result-label">第一组结果:</span>
+                            <span class="result-value">${formatNumber(lod1, decimalPlaces)}%</span>
+                        </div>
+                    `;
+                } else if (lod2) {
+                    resultsHTML = `
+                        <div class="result-item">
+                            <span class="result-label">第二组结果:</span>
+                            <span class="result-value">${formatNumber(lod2, decimalPlaces)}%</span>
+                        </div>
+                    `;
+                } else {
+                    resultsHTML = '<p>请输入完整的数据进行计算</p>';
+                }
+                
+                resultsDiv.innerHTML = resultsHTML;
+            }
+            
+            // 计算按钮点击事件
+            calculateBtn.addEventListener('click', function() {
+                // 获取输入值
+                const m0l = document.getElementById('m0l').value;
+                const m1l = document.getElementById('m1l').value;
+                const m3l = document.getElementById('m3l').value;
+                const m0r = document.getElementById('m0r').value;
+                const m1r = document.getElementById('m1r').value;
+                const m3r = document.getElementById('m3r').value;
+                
+                // 计算干燥失重
+                const lod1 = calculateLOD(m0l, m1l, m3l);
+                const lod2 = calculateLOD(m0r, m1r, m3r);
+                
+                 // 显示结果
+                displayResults(lod1, lod2);
+            });
+            
+            // 清除按钮点击事件
+            clearBtn.addEventListener('click', function() {
+                if (confirm("确定要清除所有数据吗？")) {
+                    // 清空所有输入框
+                    document.querySelectorAll('input[type="number"]').forEach(input => {
+                        input.value = '';
+                    });
+                    
+                    // 清空结果显示
+                    resultsDiv.innerHTML = '<p>请输入数据并点击"计算干燥失重"按钮</p>';
+                }
+            });
+            
+            // 初始显示
+            resultsDiv.innerHTML = '<p>请输入数据并点击"计算干燥失重"按钮</p>';
+        });
+    </script>
+</body>
+</html>

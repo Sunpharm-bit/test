@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>色谱柱查询</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c80ff;
+            --primary-dark: #1a6de0;
+            --secondary-color: #6c757d;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --border-color: #dee2e6;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+            --hplc-color: #4CAF50;
+            --gc-color: #FF9800;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: #f5f7fa;
+            padding: 15px;
+            max-width: 1000px;
+            margin: 0 auto;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .header p {
+            color: var(--secondary-color);
+            font-size: 1rem;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 14px 15px;
+            background-color: white;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--secondary-color);
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tab:first-child {
+            border-right: 1px solid var(--border-color);
+        }
+
+        .tab.active {
+            color: white;
+        }
+
+        .tab.hplc.active {
+            background-color: var(--hplc-color);
+        }
+
+        .tab.gc.active {
+            background-color: var(--gc-color);
+        }
+
+        .selector-container {
+            position: relative;
+            margin-bottom: 25px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        select {
+            width: 100%;
+            height: 50px;
+            padding: 0 50px 0 15px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--box-shadow);
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(44, 128, 255, 0.2);
+        }
+
+        .selector-container::after {
+            content: "\f078";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary-color);
+            pointer-events: none;
+            font-size: 0.9rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            min-height: 350px;
+            transition: var(--transition);
+            margin-bottom: 20px;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .tips {
+            text-align: center;
+            color: var(--secondary-color);
+            padding: 30px 15px;
+            line-height: 1.8;
+        }
+
+        .tips i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 15px;
+            color: var(--secondary-color);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(44, 128, 255, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .column-details {
+            line-height: 1.6;
+        }
+
+        .column-details h2 {
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 1.4rem;
+            overflow-wrap: break-word;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        @media (min-width: 480px) {
+            .detail-item {
+                flex-direction: row;
+            }
+        }
+
+        .detail-label {
+            font-weight: 600;
+            min-width: 80px;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+
+        @media (min-width: 480px) {
+            .detail-label {
+                margin-bottom: 0;
+                min-width: 100px;
+            }
+        }
+
+        .detail-value {
+            flex: 1;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+
+        /* 特别为编号添加的样式，防止溢出 */
+        .column-id {
+            display: inline;
+            font-family: monospace;
+            background-color: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+            white-space: pre-wrap;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 15px;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .back-btn:hover, .back-btn:active {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+            color: var(--secondary-color);
+            font-size: 0.85rem;
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+                gap: 8px;
+            }
+            
+            .header h1 i {
+                font-size: 1.3rem;
+            }
+            
+            .tab {
+                padding: 12px 10px;
+                font-size: 0.95rem;
+                min-height: 45px;
+            }
+            
+            select {
+                height: 45px;
+                font-size: 0.95rem;
+                padding: 0 45px 0 12px;
+            }
+            
+            .selector-container::after {
+                right: 15px;
+            }
+            
+            .card {
+                padding: 15px;
+                min-height: 300px;
+            }
+            
+            .column-card {
+                padding: 12px;
+            }
+            
+            .column-card h3 {
+                font-size: 1.1rem;
+            }
+            
+            .column-card p {
+                font-size: 0.9rem;
+            }
+            
+            .column-id {
+                font-size: 0.85rem;
+                display: block;
+                margin-top: 2px;
+            }
+            
+            .back-btn {
+                padding: 8px 16px;
+                font-size: 0.95rem;
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        /* 平板优化 */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .header h1 {
+                font-size: 1.7rem;
+            }
+            
+            .card {
+                padding: 18px;
+            }
+            
+            .column-id {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 防止iOS Safari缩放 */
+        input, select, textarea {
+            font-size: 16px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <h1><i class="fas fa-vial"></i> 色谱柱查询</h1>
+        <p>快速查询液相色谱柱(HPLC)和气相色谱柱(GC)信息</p>
+    </div>
+    
+    <div class="tabs">
+        <button class="tab hplc active" data-type="hplc">液相色谱柱 (HPLC)</button>
+        <button class="tab gc" data-type="gc">气相色谱柱 (GC)</button>
+    </div>
+    
+    <div class="selector-container">
+        <select name="selector" id="selector">
+            <option value='null' selected>请选择色谱柱型号</option>
+        </select>
+    </div>
+    
+    <div class="card" id="content">
+        <div class="tips">
+            <i class="fas fa-search"></i>
+            <h3>色谱柱查询</h3>
+            <p>可查询液相色谱柱(HPLC)和气相色谱柱(GC)的详细信息</p>
+            <p>请从上方选择色谱柱类型和具体型号</p>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2025 色谱柱查询</p>
+    </div>
+
+    <script>
+        // 全局变量存储色谱柱数据
+        let columnsData = {};
+        let currentType = "hplc";
+
+        // 格式化编号，确保在移动端正确显示
+        function formatColumnId(id) {
+            // 将逗号分隔的编号转换为更易读的格式
+            const ids = id.split(',');
+            if (ids.length <= 3) {
+                // 如果编号较少，保持原样
+                return `<span class="column-id">${id}</span>`;
+            } else {
+                // 如果编号较多，进行分组显示
+                let result = '';
+                for (let i = 0; i < ids.length; i += 3) {
+                    const group = ids.slice(i, i + 3).join(',');
+                    result += `<span class="column-id">${group}</span>`;
+                    if (i + 3 < ids.length) {
+                        result += '<br>';
+                    }
+                }
+                return result;
+            }
+        }
+
+        // 加载色谱柱数据
+        function loadColumnData() {
+            $("#content").html(`
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>正在加载色谱柱数据...</p>
+                </div>
+            `);
+
+            // 使用相对路径访问JSON文件
+            $.ajax({
+                url: "../statics/info/column.json",
+                dataType: "json",
+                success: function(data) {
+                    columnsData = data;
+                    initApp();
+                },
+                error: function(xhr, status, error) {
+                    console.error("加载JSON数据失败:", error);
+                    
+                    $("#content").html(`
+                        <div class="tips">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h3>数据加载失败</h3>
+                            <p>无法加载色谱柱数据，请检查以下问题：</p>
+                            <p>1. 确保 statics/info/column.json 文件存在</p>
+                            <p>2. 检查JSON文件格式是否正确</p>
+                            <p>3. 确认网络连接正常</p>
+                            <button id="retry-btn" class="back-btn" style="margin-top: 15px;">重新加载</button>
+                        </div>
+                    `);
+                    
+                    $("#retry-btn").on("click", function() {
+                        loadColumnData();
+                    });
+                }
+            });
+        }
+
+        // 初始化应用
+        function initApp() {
+            // 选项卡切换
+            $(".tab").on("click", function() {
+                $(".tab").removeClass("active");
+                $(this).addClass("active");
+                currentType = $(this).data("type");
+                updateSelector();
+                // 切换类型时重置内容为提示信息
+                $("#content").html(`
+                    <div class="tips">
+                        <i class="fas fa-search"></i>
+                        <h3>色谱柱查询</h3>
+                        <p>请选择 ${currentType === "hplc" ? "液相色谱柱" : "气相色谱柱"} 的具体型号</p>
+                    </div>
+                `);
+            });
+
+            // 更新下拉选择器
+            function updateSelector() {
+                $("#selector").empty();
+                $("#selector").append(`<option value='null' selected>请选择色谱柱型号</option>`);
+                
+                if (columnsData[currentType]) {
+                    columnsData[currentType].forEach(column => {
+                        $("#selector").append(`<option value='${column.id}'>${column.model} - ${column.specification}</option>`);
+                    });
+                }
+            }
+
+            // 显示色谱柱详情
+            function showColumnDetails(id) {
+                const column = columnsData[currentType].find(col => col.id === id);
+                if (!column) {
+                    // 如果未找到对应色谱柱，显示错误信息
+                    $("#content").html(`
+                        <div class="tips">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h3>未找到色谱柱信息</h3>
+                            <p>抱歉，未找到对应的色谱柱信息，请重新选择。</p>
+                            <button id="back-to-select" class="back-btn" style="margin-top: 15px;">重新选择</button>
+                        </div>
+                    `);
+                    
+                    $("#back-to-select").on("click", function() {
+                        $("#selector").val("null").trigger("change");
+                    });
+                    return;
+                }
+                
+                let html = `
+                    <div class="column-details">
+                        <h2>${column.model} 色谱柱详情</h2>
+                        <div class="detail-item">
+                            <div class="detail-label">编号</div>
+                            <div class="detail-value">${formatColumnId(column.id)}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">型号</div>
+                            <div class="detail-value">${column.model}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">规格</div>
+                            <div class="detail-value">${column.specification}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">描述</div>
+                            <div class="detail-value">${column.description}</div>
+                        </div>
+                        <button id="back-btn" class="back-btn">重新选择</button>
+                    </div>
+                `;
+                
+                $("#content").html(html);
+                
+                // 返回按钮事件
+                $("#back-btn").on("click", function() {
+                    $("#selector").val("null").trigger("change");
+                });
+            }
+
+            // 下拉选择器变化事件
+            $("#selector").on("change", function() {
+                const selectedId = $(this).val();
+                
+                if (selectedId === "null") {
+                    // 如果选择"请选择色谱柱型号"，显示提示信息
+                    $("#content").html(`
+                        <div class="tips">
+                            <i class="fas fa-search"></i>
+                            <h3>色谱柱查询系统</h3>
+                            <p>请选择 ${currentType === "hplc" ? "液相色谱柱" : "气相色谱柱"} 的具体型号</p>
+                        </div>
+                    `);
+                    return;
+                }
+                
+                showColumnDetails(selectedId);
+            });
+
+            // 初始化
+            updateSelector();
+        }
+
+        // 页面加载完成后开始加载数据
+        $(() => {
+            loadColumnData();
+        });
+    </script>
+</body>
+
+</html>

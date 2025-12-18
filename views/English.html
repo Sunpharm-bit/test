@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>实验室词汇翻译工具 - 质量部分析室II</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 15px;
+            -webkit-text-size-adjust: 100%;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            z-index: 1;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header h1 {
+            font-size: 22px;
+            margin-bottom: 6px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        
+        .content {
+            padding: 20px 15px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eaecef;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: #3498db;
+        }
+        
+        .refresh-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+        
+        .refresh-btn:hover, .refresh-btn:active {
+            background: #2980b9;
+        }
+        
+        .search-box {
+            display: flex;
+            margin-bottom: 20px;
+            gap: 8px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+            -webkit-appearance: none;
+        }
+        
+        .search-input:focus {
+            border-color: #3498db;
+        }
+        
+        .search-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+            min-width: 80px;
+        }
+        
+        .search-btn:hover, .search-btn:active {
+            background: #2980b9;
+        }
+        
+        .search-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .search-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+        
+        .search-option input {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .translation-result {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .translation-result.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .word-title {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .translation {
+            font-size: 18px;
+            color: #3498db;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .category {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 6px;
+        }
+        
+        .no-result {
+            text-align: center;
+            padding: 30px 15px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        
+        .history-section {
+            margin-bottom: 25px;
+        }
+        
+        .history-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+        }
+        
+        .history-item {
+            background: white;
+            border: 1px solid #e1e4e8;
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .history-item:hover, .history-item:active {
+            border-color: #3498db;
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            color: #666;
+            margin-top: 25px;
+            border-top: 1px solid #eaeaea;
+            font-size: 12px;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 15px;
+            transition: background 0.3s;
+            font-size: 14px;
+        }
+        
+        .back-btn:hover, .back-btn:active {
+            background: #2980b9;
+        }
+        
+        /* 分类标签样式 */
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .category-tab {
+            background: #f8f9fa;
+            border: 1px solid #e1e4e8;
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-tab.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        .multiple-results {
+            margin-top: 15px;
+        }
+        
+        .result-item {
+            padding: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* 移动端优化 */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 15px 10px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .header p {
+                font-size: 13px;
+            }
+            
+            .content {
+                padding: 15px 10px;
+            }
+            
+            .section-title {
+                font-size: 16px;
+            }
+            
+            .search-input {
+                font-size: 16px; /* 防止iOS缩放 */
+            }
+            
+            .history-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* 防止iOS输入框样式问题 */
+        input {
+            -webkit-appearance: none;
+            border-radius: 0;
+        }
+        
+        input[type="text"] {
+            border-radius: 8px;
+        }
+        
+        /* 防止长按出现菜单 */
+        .item, .history-item, button {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>实验室词汇翻译工具</h1>
+                <p>色谱系统审计跟踪词汇中英文对照</p>
+            </div>
+        </div>
+        
+        <div class="content">
+            <h2 class="section-title">词汇查询</h2>
+            
+            <div class="search-options">
+                <div class="search-option">
+                    <input type="radio" id="search-chinese" name="search-type" value="chinese" checked>
+                    <label for="search-chinese">中文查询</label>
+                </div>
+                <div class="search-option">
+                    <input type="radio" id="search-english" name="search-type" value="english">
+                    <label for="search-english">英文查询</label>
+                </div>
+                <div class="search-option">
+                    <input type="radio" id="search-both" name="search-type" value="both">
+                    <label for="search-both">双向查询</label>
+                </div>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="输入中文或英文词汇..." id="searchInput">
+                <button class="search-btn" id="searchBtn">查询</button>
+            </div>
+            
+            <div class="category-tabs" id="categoryTabs">
+                <!-- 分类标签将动态生成 -->
+            </div>
+            
+            <div class="translation-result" id="translationResult">
+                <!-- 翻译结果将动态填充 -->
+            </div>
+            
+            <div class="history-section">
+                <h2 class="section-title">常用实验室词汇
+                    <button class="refresh-btn" id="refreshBtn">刷新词汇</button>
+                </h2>
+                <div class="history-list" id="historyList">
+                    <!-- 常用词汇将动态填充 -->
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="../index.html" class="back-btn">返回主页面</a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>为实验室质量控制提升效率，仅限内部使用，勿传播</p>
+        </div>
+    </div>
+
+    <script>
+        // 实验室词汇数据（从PDF中提取）
+        const labVocabulary = {
+            "仪器管理": [
+                { "chinese": "新建项目文件", "english": "New project" },
+                { "chinese": "新建主方法文件", "english": "New method" },
+                { "chinese": "保存主方法文件", "english": "Save method" },
+                { "chinese": "新建积分方法", "english": "New integration method" },
+                { "chinese": "保存积分方法", "english": "Save integration method" },
+                { "chinese": "新建批处理文件", "english": "New sequence" },
+                { "chinese": "保存批处理文件", "english": "Save sequence" },
+                { "chinese": "更正批处理信息", "english": "Modify sequence" },
+                { "chinese": "批处理中添加行", "english": "Add rows in sequence" },
+                { "chinese": "批处理中删除行", "english": "Delete rows in sequence" },
+                { "chinese": "更改仪器配置", "english": "Modify instrument configuration" },
+                { "chinese": "更换色谱柱", "english": "Change chromatographic column" },
+                { "chinese": "更正分析方法", "english": "Modify method" },
+                { "chinese": "修改积分参数", "english": "Modify integration parameter" },
+                { "chinese": "更正样品文件名", "english": "Change sample filename" },
+                { "chinese": "更正数据文件名", "english": "Change data file name" },
+                { "chinese": "备份数据", "english": "Backup data" },
+                { "chinese": "还原数据", "english": "Restore data" },
+                { "chinese": "更改色谱柱流量", "english": "Modify flow rate" },
+                { "chinese": "色谱", "english": "Chromatograph" },
+                { "chinese": "导入方法文件", "english": "Import method file" },
+                { "chinese": "导出方法文件", "english": "Export method file" },
+                { "chinese": "新建报告模板", "english": "Create report template" },
+                { "chinese": "保存报告模板", "english": "Save report template" },
+                { "chinese": "添加新用户", "english": "Create new user" },
+                { "chinese": "添加新仪器", "english": "Add new instrument" },
+                { "chinese": "添置权限", "english": "Add privilege" },
+                { "chinese": "修改账户及密码", "english": "Modify account and password" },
+                { "chinese": "解除锁定", "english": "Unlock" },
+                { "chinese": "接管/交接分析", "english": "Takeover / handover analysis" },
+                { "chinese": "暂停批处理", "english": "Pause batch processing" },
+                { "chinese": "停止批处理", "english": "Abort batch processing" },
+                { "chinese": "样品处理", "english": "Sample Handling" }
+            ],
+            "项目": [
+                { "chinese": "反应液", "english": "Reaction mixture" },
+                { "chinese": "离心湿品", "english": "Centrifugal wet product" },
+                { "chinese": "精制湿品", "english": "Wet purified product" },
+                { "chinese": "回收溶剂", "english": "Recycled solvent" },
+                { "chinese": "回收物料", "english": "Recycled materials" },
+                { "chinese": "中控", "english": "IPC" },
+                { "chinese": "中间体", "english": "IM (intermediate)" },
+                { "chinese": "成品", "english": "CP (final product)" },
+                { "chinese": "方法重现及研究", "english": "Analytical method reproduction and study" },
+                { "chinese": "标品标定", "english": "Standardization of standard" },
+                { "chinese": "方法验证", "english": "Validation of methods" },
+                { "chinese": "原料", "english": "Raw materials" },
+                { "chinese": "起始物料", "english": "Starting material" }
+            ],
+            "序列": [
+                { "chinese": "空白", "english": "Blank" },
+                { "chinese": "灵敏度溶液", "english": "Sensitivity solution" },
+                { "chinese": "系统适用性溶液", "english": "System suitability solution" },
+                { "chinese": "对照溶液", "english": "Contrast solution" },
+                { "chinese": "对照品溶液", "english": "Standard solution" },
+                { "chinese": "加速实验", "english": "Accelerated test" },
+                { "chinese": "长期实验", "english": "Long-term test" },
+                { "chinese": "积分方法", "english": "Integration method" },
+                { "chinese": "检测方法", "english": "Detection method" },
+                { "chinese": "测定", "english": "Residue" },
+                { "chinese": "有关物质", "english": "Related substances" },
+                { "chinese": "残留溶剂", "english": "Residual solvents" },
+                { "chinese": "异构体", "english": "Chiral purity" },
+                { "chinese": "供试品溶液", "english": "Test solution" },
+                { "chinese": "杂质储备液", "english": "Stock solution" },
+                { "chinese": "定位", "english": "Orientation" }
+            ],
+            "残留溶剂": [
+                { "chinese": "甲醇", "english": "Methyl alcohol (MT)" },
+                { "chinese": "乙醇", "english": "Ethanol (EtOH)" },
+                { "chinese": "甲苯", "english": "Toluene (TOL)" },
+                { "chinese": "乙酸乙酯", "english": "Ethyl acetate (EAC)" },
+                { "chinese": "正庚烷", "english": "n-Heptane" },
+                { "chinese": "三乙胺", "english": "Triethyl amine (TEA)" },
+                { "chinese": "乙酸异丙酯", "english": "Isopropyl acetate (IPAC)" },
+                { "chinese": "苯", "english": "Benzene (BZ)" },
+                { "chinese": "N-甲基吡咯烷酮", "english": "NMP" },
+                { "chinese": "硫酸二乙酯", "english": "Diethyl sulfate" },
+                { "chinese": "碘化钠", "english": "Sodium iodide (NaI)" },
+                { "chinese": "溴乙烷", "english": "Bromoethane (EtBr)" },
+                { "chinese": "异丙醇", "english": "Isopropanol (IPA)" },
+                { "chinese": "苯甲醛", "english": "Benzaldehyde" },
+                { "chinese": "正己烷", "english": "N-hexane" },
+                { "chinese": "吡啶", "english": "Pyridine (Pyr)" },
+                { "chinese": "二氯甲烷", "english": "Dichloromethane (DCM)" },
+                { "chinese": "甲酸", "english": "Formic acid" },
+                { "chinese": "丙酮", "english": "Acetone (AC)" },
+                { "chinese": "四氢扶喃", "english": "Tetrahydrofuran (THF)" },
+                { "chinese": "甘氨酸", "english": "glycine(Gly, G)" },
+                { "chinese": "冰乙酸", "english": "Acetic acid glacial" },
+                { "chinese": "氯化钙", "english": "Calcium chloride" },
+                { "chinese": "氯化钠", "english": "Sodium chloride" },
+                { "chinese": "十二烷基磺酸钠", "english": "Sodium dodecyl sulphate" },
+                { "chinese": "盐酸", "english": "hydrochloric acid (HCl)" },
+                { "chinese": "氢氧化钠", "english": "Sodium hydrate/hydroxide" },
+                { "chinese": "醋酸钾", "english": "Potassium acetate" },
+                { "chinese": "醋酸铵", "english": "Ammonium acetate" },
+                { "chinese": "氯仿", "english": "Chloroform" },
+                { "chinese": "高锰酸钾", "english": "Potassium hypermanganate" },
+                { "chinese": "次氯酸钠", "english": "Clorox" },
+                { "chinese": "苯酚", "english": "Phenol" },
+                { "chinese": "催化剂", "english": "Catalyst" }
+            ],
+            "名称": [
+                { "chinese": "缬沙坦", "english": "Valsartan" },
+                { "chinese": "沙库巴曲", "english": "Sacubitril" },
+                { "chinese": "浸泡液", "english": "Immersion" },
+                { "chinese": "擦拭样", "english": "Rubbing" },
+                { "chinese": "淋洗液", "english": "Leacheate" },
+                { "chinese": "上，中，下", "english": "On, In, Under" },
+                { "chinese": "附加性...个月", "english": "Addition...month" },
+                { "chinese": "预加速", "english": "Preacceleration" },
+                { "chinese": "氧化杂质", "english": "Oxiditing impurities" },
+                { "chinese": "氢化反应液", "english": "Hydrogenation reaction mixture" },
+                { "chinese": "保温反应液", "english": "Heat preservation reaction solution" },
+                { "chinese": "在烘湿品", "english": "Drying wet products" },
+                { "chinese": "原容量瓶", "english": "Original volumetric flask" },
+                { "chinese": "原进样瓶", "english": "Original injection bottle" },
+                { "chinese": "原顶空瓶", "english": "Original headspace bottle" },
+                { "chinese": "标准贮备液", "english": "Standard stock solution" },
+                { "chinese": "样品制备", "english": "Again sample preparation" },
+                { "chinese": "重新配制样品", "english": "Reformulate the sample" },
+                { "chinese": "均一性", "english": "Homogeneity" },
+                { "chinese": "浑浊的", "english": "Turbid" },
+                { "chinese": "混合干品", "english": "Dry mix" },
+                { "chinese": "摄氏度", "english": "Centigrade" },
+                { "chinese": "烘柱子", "english": "Drying column" },
+                { "chinese": "降温", "english": "Cooling down" },
+                { "chinese": "停泵", "english": "Stop pump" },
+                { "chinese": "关闭", "english": "Shutdown" },
+                { "chinese": "分解", "english": "Analysis" },
+                { "chinese": "氧化", "english": "to oxidize" }
+            ],
+            "积分": [
+                { "chinese": "最小峰面积", "english": "Area reject" },
+                { "chinese": "峰面积加和", "english": "Area sum" },
+                { "chinese": "峰面积加和片段", "english": "Area sum slice" },
+                { "chinese": "自动调节峰宽", "english": "Auto peak width" },
+                { "chinese": "峰谷处的基线", "english": "Baseline at valleys" },
+                { "chinese": "基线返回", "english": "Baseline backwards" },
+                { "chinese": "基线保持", "english": "Baseline hold" },
+                { "chinese": "基线连到下一峰谷", "english": "Baseline next valley" },
+                { "chinese": "基线连到此点", "english": "Baseline now" },
+                { "chinese": "检测肩峰", "english": "Detect shoulders" },
+                { "chinese": "固定峰宽", "english": "Fixed peak width" },
+                { "chinese": "最小峰高", "english": "Height reject" },
+                { "chinese": "积分", "english": "Integration" },
+                { "chinese": "最大峰面积", "english": "Maximum area" },
+                { "chinese": "最大峰高", "english": "Maximum height" },
+                { "chinese": "负峰", "english": "Negative peak" },
+                { "chinese": "设置范围内基线", "english": "Set baseline from range" },
+                { "chinese": "设置范围内低基线", "english": "Set low baseline from range" },
+                { "chinese": "肩峰模式", "english": "Shoulders mode" },
+                { "chinese": "斜率灵敏度", "english": "Slope sensitivity" },
+                { "chinese": "溶剂峰", "english": "Solvent peak" },
+                { "chinese": "溶剂峰斜率", "english": "Solvent peak slope" },
+                { "chinese": "分裂峰", "english": "Split peak" },
+                { "chinese": "拖尾切线撤去", "english": "Tall tangent skim" },
+                { "chinese": "切线撤去模式", "english": "Tangent skim mode" },
+                { "chinese": "未指定峰", "english": "Unassigned peaks" },
+                { "chinese": "使用范围内基线", "english": "Use baseline from range" }
+            ],
+            "设备类型": [
+                { "chinese": "原子吸收光谱仪", "english": "Atomic Absorption Spectroscopy (AAS)" },
+                { "chinese": "原子发射光谱仪", "english": "Atomic Emission Spectrometer (AES)" },
+                { "chinese": "原子荧光光谱仪", "english": "Atomic Fluorescence Spectroscopy (AFS)" },
+                { "chinese": "自动滴定仪", "english": "Automatic Titrator" },
+                { "chinese": "电导仪", "english": "Conductivity Meter" },
+                { "chinese": "傅里叶变换红外光谱仪", "english": "FT-IR Spectrometer (IR)" },
+                { "chinese": "气体分析", "english": "Gas Analysis" },
+                { "chinese": "气相色谱仪", "english": "Gas Chromatograph (GC)" },
+                { "chinese": "气相色谱-质谱联用仪", "english": "GC-MS" },
+                { "chinese": "高压/效液相色谱仪", "english": "High Pressure/Performance Liquid Chromatography (HPLC)" },
+                { "chinese": "分子杂交仪", "english": "Hybridization Oven" },
+                { "chinese": "ICP-质谱联用仪", "english": "ICP-MS" },
+                { "chinese": "电感偶合等离子体发射光谱仪", "english": "Inductive Coupled Plasma Emission Spectrometer (ICP-MS)" },
+                { "chinese": "液相色谱-质谱联用仪", "english": "LC-MS" },
+                { "chinese": "质谱仪", "english": "Mass Spectrometer (MS)" },
+                { "chinese": "核磁共振波谱仪", "english": "Nuclear Magnetic Resonance Spectrometer (NMRS)" },
+                { "chinese": "粒度分析仪", "english": "Particle Size Analyzer (PSD)" },
+                { "chinese": "传感器", "english": "Sensors" },
+                { "chinese": "紫外检测仪", "english": "Ultraviolet Detector" },
+                { "chinese": "紫外观察灯", "english": "Ultraviolet Lamp" },
+                { "chinese": "紫外-可见光分光光度计", "english": "UV-Visible Spectrophotometer (UV)" },
+                { "chinese": "X射线衍射仪", "english": "X-Ray Diffractomer (XRD)" },
+                { "chinese": "紫外灯", "english": "Ultraviolet illumination" },
+                { "chinese": "真空泵", "english": "Vacuum pump" },
+                { "chinese": "天平", "english": "Balance/scale" },
+                { "chinese": "分析天平", "english": "Analytical balance" },
+                { "chinese": "电子天平", "english": "Electronic balance" },
+                { "chinese": "培养箱", "english": "Incubator" },
+                { "chinese": "超低温冰箱", "english": "Ultra-low Temperature Freezer" },
+                { "chinese": "离心机转子", "english": "Rotor" },
+                { "chinese": "真空泵", "english": "Vacuum pump" },
+                { "chinese": "水浴锅", "english": "Water bath kettle" },
+                { "chinese": "pH 计", "english": "pH meter" },
+                { "chinese": "磁力搅拌器", "english": "Magnetic stirrer" },
+                { "chinese": "烘箱", "english": "Oven" },
+                { "chinese": "超净工作台", "english": "Superclean bench" },
+                { "chinese": "通风橱", "english": "Fume cupboard" },
+                { "chinese": "高压蒸汽灭菌器", "english": "Autoclave" }
+            ],
+            "实验器具": [
+                { "chinese": "量杯", "english": "Measuring cup" },
+                { "chinese": "烧杯", "english": "Beaker" },
+                { "chinese": "坩埚", "english": "Crucible" },
+                { "chinese": "锥形瓶", "english": "Conical flask" },
+                { "chinese": "洗瓶", "english": "Plastic wash bottle" },
+                { "chinese": "搅拌棒", "english": "Stirring rod" },
+                { "chinese": "容量瓶", "english": "Volumetric flask/measuring flask" },
+                { "chinese": "移液管", "english": "(one-mark) pipette" },
+                { "chinese": "吸液管", "english": "Pipette" },
+                { "chinese": "滤器", "english": "Filter" },
+                { "chinese": "滤纸", "english": "Filter paper" },
+                { "chinese": "培养皿", "english": "Culture dish" },
+                { "chinese": "移液枪", "english": "Pipette" },
+                { "chinese": "移液枪枪头", "english": "Pipette tips" },
+                { "chinese": "铝箔", "english": "Aluminium foil" },
+                { "chinese": "洗耳球", "english": "Rubber suction bulb" },
+                { "chinese": "研磨钵", "english": "Mortar" },
+                { "chinese": "研杵", "english": "Pestle" },
+                { "chinese": "药匙", "english": "Lab spoon" },
+                { "chinese": "转移容器", "english": "Decant" },
+                { "chinese": "吸出", "english": "Aspirate" },
+                { "chinese": "吹吸", "english": "Blowing and suction" },
+                { "chinese": "烘", "english": "Bake" },
+                { "chinese": "灭菌", "english": "Sterilize" },
+                { "chinese": "分装", "english": "Aliquot" },
+                { "chinese": "冷却", "english": "Chill down" },
+                { "chinese": "稀释", "english": "Dilute" },
+                { "chinese": "洗脱", "english": "Elute" },
+                { "chinese": "搅拌", "english": "Stir/agitate" },
+                { "chinese": "旋转", "english": "Swirl/spin" }
+            ]
+        };
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            initCategoryTabs();
+            initHistoryList();
+            
+            // 事件监听
+            document.getElementById('searchBtn').addEventListener('click', performSearch);
+            document.getElementById('refreshBtn').addEventListener('click', refreshHistoryList);
+            
+            document.getElementById('searchInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+        });
+
+        // 初始化分类标签
+        function initCategoryTabs() {
+            const categoryTabs = document.getElementById('categoryTabs');
+            categoryTabs.innerHTML = '';
+            
+            // 添加"全部"标签
+            const allTab = document.createElement('div');
+            allTab.className = 'category-tab active';
+            allTab.textContent = '全部';
+            allTab.dataset.category = 'all';
+            allTab.addEventListener('click', function() {
+                document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+                this.classList.add('active');
+                initHistoryList();
+            });
+            categoryTabs.appendChild(allTab);
+            
+            // 添加各个分类标签
+            Object.keys(labVocabulary).forEach(category => {
+                const tab = document.createElement('div');
+                tab.className = 'category-tab';
+                tab.textContent = category;
+                tab.dataset.category = category;
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+                    this.classList.add('active');
+                    initHistoryList(category);
+                });
+                categoryTabs.appendChild(tab);
+            });
+        }
+
+        // 初始化常用词汇列表
+        function initHistoryList(category = 'all') {
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = '';
+            
+            let words = [];
+            
+            if (category === 'all') {
+                // 获取所有分类的词汇
+                Object.values(labVocabulary).forEach(categoryWords => {
+                    words = words.concat(categoryWords.slice(0, 5)); // 每个分类取前5个
+                });
+            } else {
+                // 获取指定分类的词汇
+                words = labVocabulary[category] || [];
+            }
+            
+            // 随机选择20个词汇显示
+            const shuffled = words.sort(() => 0.5 - Math.random());
+            const selectedWords = shuffled.slice(0, 20);
+            
+            selectedWords.forEach(word => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                item.textContent = word.chinese;
+                item.addEventListener('click', () => {
+                    document.getElementById('searchInput').value = word.chinese;
+                    performSearch();
+                });
+                historyList.appendChild(item);
+            });
+        }
+
+        // 刷新常用词汇列表
+        function refreshHistoryList() {
+            const activeTab = document.querySelector('.category-tab.active');
+            const category = activeTab ? activeTab.dataset.category : 'all';
+            initHistoryList(category);
+        }
+
+        // 执行搜索
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.trim();
+            const searchType = document.querySelector('input[name="search-type"]:checked').value;
+            const resultElement = document.getElementById('translationResult');
+            
+            if (!query) {
+                resultElement.innerHTML = '<div class="no-result">请输入查询内容</div>';
+                resultElement.classList.add('active');
+                return;
+            }
+            
+            let results = [];
+            
+            // 根据搜索类型进行查询
+            if (searchType === 'chinese' || searchType === 'both') {
+                // 搜索中文
+                Object.entries(labVocabulary).forEach(([category, words]) => {
+                    words.forEach(word => {
+                        if (word.chinese.includes(query)) {
+                            results.push({ ...word, category });
+                        }
+                    });
+                });
+            }
+            
+            if (searchType === 'english' || searchType === 'both') {
+                // 搜索英文
+                Object.entries(labVocabulary).forEach(([category, words]) => {
+                    words.forEach(word => {
+                        if (word.english.toLowerCase().includes(query.toLowerCase())) {
+                            results.push({ ...word, category });
+                        }
+                    });
+                });
+            }
+            
+            // 显示结果
+            if (results.length > 0) {
+                let html = '';
+                
+                if (results.length === 1) {
+                    // 单个结果
+                    const result = results[0];
+                    html = `
+                        <div class="word-title">
+                            ${result.chinese}
+                            <span class="category">${result.category}</span>
+                        </div>
+                        <div class="translation">${result.english}</div>
+                    `;
+                } else {
+                    // 多个结果
+                    html = '<div class="multiple-results">';
+                    results.forEach(result => {
+                        html += `
+                            <div class="result-item">
+                                <div class="word-title">
+                                    ${result.chinese}
+                                    <span class="category">${result.category}</span>
+                                </div>
+                                <div class="translation">${result.english}</div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                }
+                
+                resultElement.innerHTML = html;
+                resultElement.classList.add('active');
+            } else {
+                resultElement.innerHTML = '<div class="no-result">未找到相关词汇</div>';
+                resultElement.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

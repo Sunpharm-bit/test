@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>API检验操作规程查询</title>
+    <link rel="stylesheet" href="../statics/github.css">
+    <link rel="stylesheet" href="../statics/theme.css">
+    <link rel="stylesheet" href="../statics/column.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c80ff;
+            --primary-dark: #1a6de0;
+            --secondary-color: #6c757d;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --border-color: #dee2e6;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: #f5f7fa;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .header p {
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+        }
+
+        .selector-container {
+            position: relative;
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        select {
+            width: 100%;
+            height: 50px;
+            padding: 0 20px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background-color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--box-shadow);
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+            padding-right: 50px;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(44, 128, 255, 0.2);
+        }
+
+        .selector-container::after {
+            content: "\f078";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary-color);
+            pointer-events: none;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            min-height: 400px;
+            transition: var(--transition);
+        }
+
+        .tips {
+            text-align: center;
+            color: var(--secondary-color);
+            padding: 40px 20px;
+            line-height: 1.8;
+        }
+
+        .tips i {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            color: var(--secondary-color);
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(44, 128, 255, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .content {
+            line-height: 1.7;
+        }
+
+        .content h1, .content h2, .content h3 {
+            margin-top: 1.5em;
+            margin-bottom: 0.8em;
+            color: var(--primary-dark);
+        }
+
+        .content h1 {
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .content p {
+            margin-bottom: 1em;
+        }
+
+        .content ul, .content ol {
+            margin-bottom: 1em;
+            padding-left: 1.5em;
+        }
+
+        .content li {
+            margin-bottom: 0.5em;
+        }
+
+        .content code {
+            background-color: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .content pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            overflow-x: auto;
+            margin-bottom: 1.5em;
+        }
+
+        .content blockquote {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 15px;
+            margin-left: 0;
+            color: var(--secondary-color);
+            font-style: italic;
+        }
+
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+        }
+
+        .content th, .content td {
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .content th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            select {
+                height: 45px;
+                font-size: 0.95rem;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/13.0.1/markdown-it.min.js"></script>
+    <script src="../statics/modules/jquery.min.js"></script>
+    <script>
+        const md = window.markdownit({
+            breaks: true
+        })
+        const tips = `
+            <div class="tips">
+                <i class="fas fa-file-alt"></i>
+                <h3>API检验操作规程查询</h3>
+                <p>整理了常用的检验操作规程中的关键内容以供查询</p>
+                <p><strong>具体请以纸质操作规程为准！</strong></p>
+                <p>请从上方下拉菜单中选择要查看的操作规程</p>
+            </div>
+        `
+        const sop = [
+            "L414-9PX-01",
+            "L414-10PX-01",
+            "L414-11PX-01",
+            "L414-12PX-01",
+            "L414-801PX-01",
+            "丁二酸酐",
+            "P006",
+        ]
+
+        $(() => {
+            $("#content").html(tips)
+
+            // 对操作规程列表进行排序
+            sop.sort().forEach(value => {
+                $("#selector").append(`<option value='${value}.md'>${value}</option>`)
+            })
+
+            $("#selector").on("change", () => {
+                let name = $("#selector").val()
+
+                if (name == "null") {
+                    $("#content").empty()
+                    $("#content").html(tips)
+                    return
+                }
+
+                $("#content").empty()
+                $("#content").html(`
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>正在加载规程内容...</p>
+                    </div>
+                `)
+                
+                // 模拟加载延迟，让用户看到加载状态
+                setTimeout(() => {
+                    $.ajax({
+                        url: `../statics/sop/${name}`,
+                        success: (data) => {
+                            $("#content").empty()
+                            $("#content").html(`<div class="content">${md.render(data)}</div>`)
+                        },
+                        error: () => {
+                            $("#content").empty()
+                            $("#content").html(`
+                                <div class="tips">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <h3>加载失败</h3>
+                                    <p>无法加载所选规程的内容，请稍后重试。</p>
+                                    <button id="retry-btn" style="margin-top: 15px; padding: 8px 20px; background: var(--primary-color); color: white; border: none; border-radius: var(--border-radius); cursor: pointer;">重试</button>
+                                </div>
+                            `)
+                            
+                            $("#retry-btn").on("click", function() {
+                                $("#selector").trigger("change")
+                            })
+                        }
+                    })
+                }, 500)
+            })
+        })
+    </script>
+</head>
+
+<body>
+    <div class="header">
+        <h1><i class="fas fa-book-open"></i> API检验操作规程查询</h1>
+        <p>快速查阅相应操作规程，提高工作效率</p>
+    </div>
+    
+    <div class="selector-container">
+        <select name="selector" id="selector">
+            <option value='null' selected>请选择要查看的操作规程</option>
+        </select>
+    </div>
+    
+    <div class="card" id="content"></div>
+    
+    <div class="footer">
+        <p>© 2025 API检验规程查询 | 内容仅供参考，具体请以纸质操作规程为准</p>
+    </div>
+</body>
+
+</html>
