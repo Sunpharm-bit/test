@@ -255,537 +255,133 @@
             transform: translateY(1px);
         }
         
-        /* 单词列表 */
-        .word-list-container {
-            max-height: 400px;
-            overflow-y: auto;
-            margin-top: 5px;
-            -webkit-overflow-scrolling: touch;
-            border: 1px solid #eee;
-            border-radius: 3px;
+        .btn:hover {
+            opacity: 0.9;
         }
         
-        .word-item {
-            padding: 8px 10px;
-            border-bottom: 1px solid #f0f0f0;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-        }
-        
-        .word-item:last-child {
-            border-bottom: none;
-        }
-        
-        .word-item.active {
-            background-color: #f0f9ff;
-            border-left: 2px solid var(--secondary-color);
-        }
-        
-        .word-item.speaking {
-            background-color: #e8f4fc;
-        }
-        
-        .word-info {
-            flex: 1;
-            min-width: 0;
-        }
-        
-        .word-english {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--dark-color);
-            margin-bottom: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .word-chinese {
-            font-size: 0.8rem;
-            color: var(--gray-color);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .word-category {
-            font-size: 0.6rem;
-            color: white;
-            background-color: var(--primary-color);
-            padding: 1px 4px;
-            border-radius: 6px;
-            display: inline-block;
-            margin-top: 3px;
-        }
-        
-        .word-actions {
-            display: flex;
-            gap: 4px;
-        }
-        
-        /* 输入练习区域 */
-        .input-practice-section {
-            padding: 12px 10px;
-            background: linear-gradient(135deg, #f8f9ff 0%, #eef2ff 100%);
-            border-radius: var(--border-radius);
-            margin-bottom: 10px;
-            box-shadow: var(--box-shadow);
-        }
-        
-        /* 练习区域 - 修改为练习模式 */
-        .practice-area {
-            padding: 12px 10px;
-            background: linear-gradient(135deg, #f8f9ff 0%, #eef2ff 100%);
-            border-radius: var(--border-radius);
-            margin-bottom: 10px;
-            box-shadow: var(--box-shadow);
-        }
-        
-        .practice-english {
-            font-size: 1.3rem;
-            color: var(--dark-color);
-            margin-bottom: 8px;
-            font-weight: 700;
-            word-break: break-word;
-            min-height: 30px;
-        }
-        
-        .practice-chinese {
-            font-size: 0.9rem;
-            color: var(--secondary-color);
-            margin-bottom: 6px;
-            min-height: 20px;
-            display: none;
-        }
-        
-        .practice-chinese.show {
-            display: block;
-        }
-        
-        .practice-category {
+        .btn i {
             font-size: 0.7rem;
-            color: var(--accent-color);
-            background-color: rgba(39, 174, 96, 0.1);
-            padding: 2px 6px;
-            border-radius: 8px;
-            display: inline-block;
-            margin-bottom: 8px;
         }
         
-        /* 练习控制按钮 */
-        .practice-controls {
+        /* 功能列表样式 */
+        .functions-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5px;
-            margin-bottom: 10px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
         }
         
-        .practice-btn {
-            padding: 10px 5px;
-            font-size: 0.8rem;
-        }
-        
-        /* 练习模式选择 */
-        .practice-mode-selector {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 5px;
-            margin-bottom: 10px;
-        }
-        
-        .mode-btn {
-            padding: 8px 5px;
-            border: none;
-            border-radius: 3px;
-            background-color: #f0f2f5;
-            color: var(--dark-color);
-            font-size: 0.8rem;
-            font-weight: 600;
+        .function-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            text-align: center;
             cursor: pointer;
             transition: var(--transition);
-        }
-        
-        .mode-btn.active {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-        
-        /* 练习统计信息 */
-        .practice-stats {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 5px;
-            background-color: #f8f9fa;
-            border-radius: 3px;
-            margin-top: 10px;
-            font-size: 0.75rem;
-        }
-        
-        .stat-item {
+            border: 1px solid #dee2e6;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            flex: 1;
+            gap: 8px;
         }
         
-        .stat-value {
-            font-weight: 700;
-            color: var(--primary-color);
-            font-size: 0.9rem;
-        }
-        
-        .stat-label {
-            color: var(--gray-color);
-            margin-top: 2px;
-            font-size: 0.7rem;
-        }
-        
-        /* 空状态 */
-        .empty-state {
-            text-align: center;
-            padding: 20px 10px;
-            color: var(--gray-color);
-        }
-        
-        .empty-state i {
-            font-size: 1.8rem;
-            margin-bottom: 6px;
-            opacity: 0.5;
-        }
-        
-        .empty-state p {
-            font-size: 0.8rem;
-        }
-        
-        /* 语音选择 */
-        .voice-selector {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px dashed #eee;
-        }
-        
-        .voice-select {
-            width: 100%;
-            padding: 7px 8px;
-            border: 1px solid #e1e5eb;
-            border-radius: 3px;
-            font-size: 0.8rem;
-            background-color: #f9fafc;
-            margin-top: 3px;
-        }
-        
-        /* 分类筛选 */
-        .category-filter {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 4px;
-            margin-bottom: 10px;
-        }
-        
-        .category-btn {
-            padding: 5px 3px;
-            border: none;
-            border-radius: 3px;
-            font-size: 0.7rem;
-            background-color: #f0f2f5;
-            color: var(--dark-color);
-            cursor: pointer;
-            transition: var(--transition);
-            text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .category-btn.active {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-        
-        /* 搜索框样式 */
-        .search-container {
-            margin-bottom: 10px;
-            position: relative;
-        }
-        
-        .search-input {
-            width: 100%;
-            padding: 8px 32px 8px 10px;
-            border: 1px solid #e1e5eb;
-            border-radius: 3px;
-            font-size: 0.8rem;
-            transition: var(--transition);
-            background-color: #f9fafc;
-        }
-        
-        .search-input:focus {
+        .function-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-color: var(--secondary-color);
-            outline: none;
-            box-shadow: 0 0 0 1px rgba(52, 152, 219, 0.15);
-            background-color: white;
         }
         
-        .search-icon {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray-color);
-            pointer-events: none;
-        }
-        
-        .clear-search-btn {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: var(--gray-color);
-            cursor: pointer;
-            font-size: 0.8rem;
-            padding: 2px;
-            display: none;
-        }
-        
-        .clear-search-btn:hover {
-            color: var(--danger-color);
-        }
-        
-        /* 紧凑提示信息 */
-        .hint {
-            background-color: #e8f4fc;
-            padding: 8px;
-            border-radius: 3px;
-            margin-top: 10px;
-            border-left: 2px solid var(--secondary-color);
-            font-size: 0.75rem;
-        }
-        
-        .hint-title {
-            font-weight: 600;
-            color: var(--dark-color);
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .hint-title i {
-            margin-right: 4px;
+        .function-item i {
+            font-size: 1.5rem;
             color: var(--secondary-color);
         }
         
-        /* 语音动画 */
-        .speaking {
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { background-color: #e8f4fc; }
-            50% { background-color: #d4e7fa; }
-            100% { background-color: #e8f4fc; }
-        }
-        
-        /* 保存提示 */
-        .save-notification {
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--accent-color);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 12px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.3s;
+        .function-item span {
             font-weight: 600;
-            font-size: 0.8rem;
-        }
-        
-        .save-notification.show {
-            opacity: 1;
-        }
-        
-        /* 练习结果样式 */
-        .practice-result {
-            padding: 10px;
-            border-radius: 3px;
             font-size: 0.85rem;
+            color: var(--dark-color);
         }
         
-        .practice-result.correct {
-            background-color: rgba(39, 174, 96, 0.1);
-            border-left: 3px solid var(--accent-color);
+        .function-item .description {
+            font-size: 0.7rem;
+            color: var(--gray-color);
+            margin-top: 2px;
+        }
+        
+        /* 状态指示器 */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background-color: #e8f4fc;
+            color: var(--secondary-color);
+        }
+        
+        .status-indicator.active {
+            background-color: #e7f6ec;
             color: var(--accent-color);
         }
         
-        .practice-result.incorrect {
-            background-color: rgba(231, 76, 60, 0.1);
-            border-left: 3px solid var(--danger-color);
-            color: var(--danger-color);
-        }
-        
-        .practice-result .correct-answer {
-            font-weight: 700;
+        /* 学习进度条 */
+        .progress-bar {
+            height: 6px;
+            background-color: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
             margin-top: 5px;
         }
         
-        /* 填空单词样式 */
-        .blank-word {
-            background-color: white;
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        /* 单词卡片 */
+        .word-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: var(--border-radius);
             padding: 12px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-            text-align: center;
-            font-family: 'Courier New', monospace;
+            margin-bottom: 8px;
+            border-left: 3px solid var(--secondary-color);
         }
         
-        .blank-letter {
-            color: var(--secondary-color);
-            font-weight: 900;
+        .word-card .word {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary-color);
         }
         
-        .blank-space {
-            color: var(--danger-color);
-            display: inline-block;
-            min-width: 20px;
-            border-bottom: 2px solid var(--danger-color);
-            margin: 0 2px;
-            text-align: center;
+        .word-card .phonetic {
+            font-size: 0.75rem;
+            color: var(--gray-color);
+            margin: 2px 0;
         }
         
-        /* 基础练习区域 */
-        .basic-practice-section {
-            margin-bottom: 15px;
+        .word-card .meaning {
+            font-size: 0.8rem;
+            color: var(--dark-color);
         }
         
         /* 响应式调整 */
-        @media (min-width: 768px) {
-            .app-container {
-                max-width: 420px;
-                margin: 5px auto;
-                min-height: calc(100vh - 10px);
-                border-radius: 5px;
-                overflow: hidden;
+        @media (max-width: 480px) {
+            .functions-grid {
+                grid-template-columns: 1fr;
             }
         }
         
-        /* 禁用状态 */
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        
-        /* 分类练习统计 */
-        .category-stats {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
-        }
-        
-        .category-count {
-            font-size: 0.75rem;
-            color: var(--gray-color);
-        }
-        
-        /* 列表内发音指示 */
-        .pronunciation-indicator {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 18px;
-            height: 18px;
+        /* 加载动画 */
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid var(--secondary-color);
             border-radius: 50%;
-            background-color: var(--secondary-color);
-            color: white;
-            font-size: 0.6rem;
-            margin-left: 5px;
-            opacity: 0.8;
-        }
-        
-        /* 收藏按钮 */
-        .favorite-btn {
-            color: #ffd700;
-        }
-        
-        .favorite-btn.active {
-            color: #ffd700;
-        }
-        
-        /* 显示中文按钮 */
-        .show-chinese-btn {
-            margin-bottom: 10px;
-        }
-        
-        /* 练习进度指示 */
-        .practice-progress {
-            font-size: 0.8rem;
-            color: var(--gray-color);
-            margin-top: 5px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        
-        /* 复习按钮 */
-        .review-favorites-btn {
-            margin-top: 10px;
-        }
-        
-        /* 系统术语标签 */
-        .system-tag {
-            font-size: 0.6rem;
-            color: var(--secondary-color);
-            margin-left: 4px;
-            padding: 1px 3px;
-            background-color: rgba(52, 152, 219, 0.1);
-            border-radius: 3px;
-        }
-        
-        /* 用户术语标签 */
-        .user-tag {
-            font-size: 0.6rem;
-            color: var(--accent-color);
-            margin-left: 4px;
-            padding: 1px 3px;
-            background-color: rgba(39, 174, 96, 0.1);
-            border-radius: 3px;
-        }
-        
-        /* 管理按钮组 */
-        .management-buttons {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 5px;
-            margin-top: 10px;
-        }
-        
-        /* 新练习模式按钮 */
-        .mode-btn i {
-            margin-right: 4px;
-        }
-        
-        /* 加载指示器 */
-        .loading-indicator {
-            display: none;
-            text-align: center;
-            padding: 10px;
-            color: var(--secondary-color);
-        }
-        
-        .loading-indicator.active {
-            display: block;
-        }
-        
-        .loading-indicator i {
-            margin-right: 5px;
             animation: spin 1s linear infinite;
         }
         
@@ -794,160 +390,588 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* 签到相关样式 */
-        .checkin-section {
-            margin-top: 15px;
-            padding: 12px 10px;
-            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-            border-radius: var(--border-radius);
-            border: 1px solid #ffd54f;
+        /* 工具提示 */
+        .tooltip {
+            position: relative;
+            display: inline-block;
         }
         
-        .checkin-title {
-            font-weight: 700;
-            color: #ff9800;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .checkin-title i {
-            margin-right: 6px;
-        }
-        
-        .checkin-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .checkin-stats {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .checkin-stat-item {
-            text-align: center;
-        }
-        
-        .checkin-stat-value {
-            font-weight: 700;
-            color: #f57c00;
-            font-size: 1.2rem;
-        }
-        
-        .checkin-stat-label {
-            font-size: 0.7rem;
-            color: #ff9800;
-        }
-        
-        .checkin-btn {
-            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            background-color: var(--dark-color);
             color: white;
-            border: none;
-            border-radius: 20px;
-            padding: 8px 15px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .checkin-btn:active {
-            transform: translateY(1px);
-        }
-        
-        .checkin-btn:disabled {
-            background: linear-gradient(135deg, #bdbdbd 0%, #9e9e9e 100%);
-            cursor: not-allowed;
-        }
-        
-        .checkin-record {
-            margin-top: 8px;
-            font-size: 0.75rem;
-            color: #ff9800;
-        }
-        
-        /* 发音测试区域 */
-        .pronunciation-test {
-            margin-top: 15px;
-            padding: 10px;
-            background-color: #f8f9fa;
-            border-radius: var(--border-radius);
-            border: 1px solid #e9ecef;
-        }
-        
-        .pronunciation-test h4 {
-            margin-bottom: 8px;
-            color: var(--dark-color);
-            font-size: 0.9rem;
-        }
-        
-        .pronunciation-test-controls {
-            display: flex;
-            gap: 5px;
-        }
-        
-        .test-speech-btn {
-            flex: 1;
-            padding: 6px;
+            text-align: center;
+            padding: 4px 8px;
+            border-radius: 3px;
             font-size: 0.7rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
         }
     </style>
 </head>
-        <div class="content">
-            <h2 class="section-title">功能列表</h2>
-            <div class="list"></div>
-            
-            <h2 class="section-title">关于</h2>
-            <div class="about">
-                <p>• <strong>更新系统术语</strong>: 更新预置术语，保留自定义术语</p>
-                            <p>• <strong>导出/导入</strong>: 备份或恢复自定义术语</p>
-                            <p>• <strong>清空系统术语</strong>: 只保留自己添加的术语</p>
+<body>
+    <div class="app-container">
+        <!-- 顶部标题栏 -->
+        <header class="app-header">
+            <div class="app-title">
+                <i class="fas fa-language"></i>
+                隆莱英语学习助手
+            </div>
+            <div class="word-count">
+                <span id="wordCount">0</span> 词
+            </div>
+        </header>
+        
+        <!-- 选项卡导航 -->
+        <nav class="tab-nav">
+            <button class="tab-button active" data-tab="home">
+                <i class="fas fa-home"></i> 首页
+            </button>
+            <button class="tab-button" data-tab="words">
+                <i class="fas fa-book"></i> 单词库
+            </button>
+            <button class="tab-button" data-tab="practice">
+                <i class="fas fa-pen-alt"></i> 练习
+            </button>
+            <button class="tab-button" data-tab="progress">
+                <i class="fas fa-chart-line"></i> 统计
+            </button>
+        </nav>
+        
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 首页选项卡 -->
+            <div id="home" class="tab-content active">
+                <div class="card">
+                    <div class="card-title">
+                        <span><i class="fas fa-rocket"></i> 快速开始</span>
+                        <div class="status-indicator active">
+                            <i class="fas fa-circle"></i> 在线
                         </div>
                     </div>
                     
-                    <div class="hint" style="margin-top: 10px;">
-                        <div class="hint-title">
-                            <i class="fas fa-lightbulb"></i> 提示
+                    <div class="functions-grid">
+                        <div class="function-item" onclick="showTab('words')">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>添加单词</span>
+                            <div class="description">添加新单词到学习库</div>
                         </div>
-                        <p>• 添加的术语会自动保存到本地，只有自己可以看到，无需网络连接，数据不会丢失。</p>
-                        <p>• 首次进入无词语，请先手动更新系统术语。</p>
-                        <p>• 华为手机受鸿蒙系统权限保护可能无法正常语音（如其他手机也遇到相同问题），可尝试修改权限或使用Edge/Chrome浏览器代替默认浏览器。</p>
-                        <p>• 仅供内部使用，请勿传播！</p>
+                        
+                        <div class="function-item" onclick="showTab('practice')">
+                            <i class="fas fa-pen-alt"></i>
+                            <span>练习测试</span>
+                            <div class="description">巩固已学单词</div>
+                        </div>
+                        
+                        <div class="function-item" onclick="showWeeklyPlan()">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>每周学习计划</span>
+                            <div class="description">制定学习计划</div>
+                        </div>
+                        
+                        <div class="function-item" onclick="showKnowledgeBase()">
+                            <i class="fas fa-brain"></i>
+                            <span>博普智库</span>
+                            <div class="description">学习资源库</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-chart-bar"></i> 学习进度
+                    </div>
+                    
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px;">
+                            <span>今日进度</span>
+                            <span id="todayProgress">0/10</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                            <span>本周已学单词</span>
+                            <span id="weeklyWords">0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-lightbulb"></i> 今日单词推荐
+                    </div>
+                    
+                    <div id="dailyWord">
+                        <div class="word-card">
+                            <div class="word">Welcome</div>
+                            <div class="phonetic">/ˈwelkəm/</div>
+                            <div class="meaning">v. 欢迎；迎接 n. 欢迎；迎接 adj. 受欢迎的</div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="getNewWord()">
+                        <i class="fas fa-redo"></i> 换一个单词
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 单词库选项卡 -->
+            <div id="words" class="tab-content">
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-book"></i> 单词管理
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">添加新单词</label>
+                        <input type="text" class="form-input" id="newWord" placeholder="输入英文单词">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">音标（可选）</label>
+                        <input type="text" class="form-input" id="wordPhonetic" placeholder="例如：/ˈæpl/">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">中文释义</label>
+                        <input type="text" class="form-input" id="wordMeaning" placeholder="输入单词的中文意思">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">难度等级</label>
+                        <select class="form-select" id="wordLevel">
+                            <option value="1">初级</option>
+                            <option value="2" selected>中级</option>
+                            <option value="3">高级</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-success" onclick="addWord()">
+                        <i class="fas fa-plus"></i> 添加单词
+                    </button>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-list"></i> 单词列表
+                    </div>
+                    
+                    <div id="wordList">
+                        <div class="word-card">
+                            <div class="word">Apple</div>
+                            <div class="phonetic">/ˈæpl/</div>
+                            <div class="meaning">n. 苹果；苹果公司</div>
+                            <div style="margin-top: 5px; display: flex; gap: 5px;">
+                                <button class="btn btn-sm btn-secondary" onclick="editWord(this)">编辑</button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteWord(this)">删除</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
+            
+            <!-- 练习选项卡 -->
+            <div id="practice" class="tab-content">
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-pen-alt"></i> 练习模式
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">选择练习类型</label>
+                        <select class="form-select" id="practiceType">
+                            <option value="meaning">词义选择</option>
+                            <option value="spelling">拼写练习</option>
+                            <option value="listening">听力练习</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">单词数量</label>
+                        <select class="form-select" id="wordCountSelect">
+                            <option value="5">5个单词</option>
+                            <option value="10" selected>10个单词</option>
+                            <option value="15">15个单词</option>
+                            <option value="20">20个单词</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="startPractice()">
+                        <i class="fas fa-play"></i> 开始练习
+                    </button>
+                    
+                    <div id="practiceArea" style="display: none; margin-top: 15px;">
+                        <div class="card">
+                            <div class="card-title" id="practiceQuestion">
+                                问题将在这里显示
+                            </div>
+                            
+                            <div id="practiceOptions" style="display: flex; flex-direction: column; gap: 8px;">
+                                <!-- 选项将通过JS动态生成 -->
+                            </div>
+                            
+                            <div style="margin-top: 15px; display: flex; justify-content: space-between;">
+                                <span id="practiceProgress">0/0</span>
+                                <button class="btn btn-sm btn-success" onclick="nextQuestion()" id="nextBtn" style="display: none;">
+                                    下一题
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 统计选项卡 -->
+            <div id="progress" class="tab-content">
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-chart-pie"></i> 学习统计
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px;">
+                        <div class="function-item" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);">
+                            <i class="fas fa-book" style="color: #1976d2;"></i>
+                            <span id="totalWords">0</span>
+                            <div class="description">总单词数</div>
+                        </div>
+                        
+                        <div class="function-item" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);">
+                            <i class="fas fa-check-circle" style="color: #388e3c;"></i>
+                            <span id="masteredWords">0</span>
+                            <div class="description">已掌握</div>
+                        </div>
+                        
+                        <div class="function-item" style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);">
+                            <i class="fas fa-fire" style="color: #f57c00;"></i>
+                            <span id="streakDays">0</span>
+                            <div class="description">连续学习</div>
+                        </div>
+                        
+                        <div class="function-item" style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);">
+                            <i class="fas fa-clock" style="color: #7b1fa2;"></i>
+                            <span id="studyTime">0</span>
+                            <div class="description">学习时间(小时)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">本周学习趋势</label>
+                        <div style="height: 150px; background-color: #f8f9fa; border-radius: var(--border-radius); padding: 10px; display: flex; align-items: flex-end; gap: 8px; justify-content: space-around;">
+                            <div style="display: flex; flex-direction: column; align-items: center;">
+                                <div class="progress-bar" style="height: 100px; width: 20px;">
+                                    <div class="progress-fill" style="width: 100%; height: 30%;"></div>
+                                </div>
+                                <span style="font-size: 0.7rem; margin-top: 5px;">一</span>
+                            </div>
+                            <!-- 其他日期类似，这里简略显示 -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-trophy"></i> 学习成就
+                    </div>
+                    
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+                        <div style="text-align: center;">
+                            <i class="fas fa-medal" style="font-size: 2rem; color: #ffd700;"></i>
+                            <div style="font-size: 0.7rem; margin-top: 5px;">单词大师</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <i class="fas fa-star" style="font-size: 2rem; color: #c0c0c0;"></i>
+                            <div style="font-size: 0.7rem; margin-top: 5px;">连续学习</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <i class="fas fa-bolt" style="font-size: 2rem; color: #cd7f32;"></i>
+                            <div style="font-size: 0.7rem; margin-top: 5px;">快速学习者</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
     <script>
-        let functions = [
-            {
-                "name": "添加",
-                "location": "./views/expir-info.html"
-            },
-            {
-                "name": ": "练习,
-                "location": "./views/sop.html"
-            },
-            {
-                "name": "每周学习",
-                "location": "./views/injection-sequence.html"
-            },
-            {
-                "name": "博普智库",
-                "location": "./views/english-assistant.html"
+        // 初始化数据
+        let wordCount = 0;
+        let todayProgress = 0;
+        let weeklyWords = 0;
+        
+        // 初始化函数
+        function initApp() {
+            // 从本地存储加载数据
+            const savedWordCount = localStorage.getItem('wordCount');
+            const savedProgress = localStorage.getItem('todayProgress');
+            const savedWeeklyWords = localStorage.getItem('weeklyWords');
+            
+            wordCount = savedWordCount ? parseInt(savedWordCount) : 0;
+            todayProgress = savedProgress ? parseInt(savedProgress) : 0;
+            weeklyWords = savedWeeklyWords ? parseInt(savedWeeklyWords) : 0;
+            
+            // 更新UI
+            updateUI();
+            
+            // 设置默认选项卡
+            showTab('home');
+        }
+        
+        // 更新UI显示
+        function updateUI() {
+            document.getElementById('wordCount').textContent = wordCount;
+            document.getElementById('todayProgress').textContent = `${todayProgress}/10`;
+            document.getElementById('progressFill').style.width = `${(todayProgress/10)*100}%`;
+            document.getElementById('weeklyWords').textContent = weeklyWords;
+            
+            // 更新统计页面
+            document.getElementById('totalWords').textContent = wordCount;
+            document.getElementById('masteredWords').textContent = Math.floor(wordCount * 0.7);
+            document.getElementById('streakDays').textContent = todayProgress > 0 ? '3' : '0';
+            document.getElementById('studyTime').textContent = Math.floor(wordCount * 0.5);
+        }
+        
+        // 显示指定选项卡
+        function showTab(tabId) {
+            // 隐藏所有选项卡内容
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // 移除所有选项卡按钮的激活状态
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // 显示选中的选项卡内容
+            document.getElementById(tabId).classList.add('active');
+            
+            // 激活对应的选项卡按钮
+            const activeButton = document.querySelector(`[data-tab="${tabId}"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
             }
-        ];
-
-        $(document).ready(function() {
-            // 加载功能列表
-            functions.forEach(value => {
-                let onclick = `window.location.href='${value.location}'`;
-                let div = `<div class="item" onclick="${onclick}">${value.name}</div>`;
-                $(".list").append(div);
+        }
+        
+        // 添加单词
+        function addWord() {
+            const newWord = document.getElementById('newWord').value.trim();
+            const phonetic = document.getElementById('wordPhonetic').value.trim();
+            const meaning = document.getElementById('wordMeaning').value.trim();
+            const level = document.getElementById('wordLevel').value;
+            
+            if (!newWord || !meaning) {
+                alert('请填写单词和释义');
+                return;
+            }
+            
+            // 创建单词卡片
+            const wordCard = document.createElement('div');
+            wordCard.className = 'word-card';
+            wordCard.innerHTML = `
+                <div class="word">${newWord}</div>
+                <div class="phonetic">${phonetic || '/暂无音标/'}</div>
+                <div class="meaning">${meaning}</div>
+                <div style="margin-top: 5px; display: flex; gap: 5px;">
+                    <button class="btn btn-sm btn-secondary" onclick="editWord(this)">编辑</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteWord(this)">删除</button>
+                </div>
+            `;
+            
+            // 添加到单词列表
+            document.getElementById('wordList').prepend(wordCard);
+            
+            // 更新计数
+            wordCount++;
+            todayProgress = Math.min(todayProgress + 1, 10);
+            weeklyWords++;
+            
+            // 保存到本地存储
+            localStorage.setItem('wordCount', wordCount);
+            localStorage.setItem('todayProgress', todayProgress);
+            localStorage.setItem('weeklyWords', weeklyWords);
+            
+            // 更新UI
+            updateUI();
+            
+            // 清空输入框
+            document.getElementById('newWord').value = '';
+            document.getElementById('wordPhonetic').value = '';
+            document.getElementById('wordMeaning').value = '';
+            
+            // 显示成功消息
+            alert('单词添加成功！');
+        }
+        
+        // 编辑单词
+        function editWord(button) {
+            const wordCard = button.closest('.word-card');
+            const word = wordCard.querySelector('.word').textContent;
+            const phonetic = wordCard.querySelector('.phonetic').textContent;
+            const meaning = wordCard.querySelector('.meaning').textContent;
+            
+            const newWord = prompt('编辑单词：', word);
+            const newPhonetic = prompt('编辑音标：', phonetic);
+            const newMeaning = prompt('编辑释义：', meaning);
+            
+            if (newWord && newMeaning) {
+                wordCard.querySelector('.word').textContent = newWord;
+                wordCard.querySelector('.phonetic').textContent = newPhonetic || '/暂无音标/';
+                wordCard.querySelector('.meaning').textContent = newMeaning;
+                alert('单词编辑成功！');
+            }
+        }
+        
+        // 删除单词
+        function deleteWord(button) {
+            if (confirm('确定要删除这个单词吗？')) {
+                const wordCard = button.closest('.word-card');
+                wordCard.remove();
+                
+                // 更新计数
+                wordCount = Math.max(wordCount - 1, 0);
+                localStorage.setItem('wordCount', wordCount);
+                updateUI();
+            }
+        }
+        
+        // 开始练习
+        function startPractice() {
+            const practiceType = document.getElementById('practiceType').value;
+            const wordCount = parseInt(document.getElementById('wordCountSelect').value);
+            
+            // 显示练习区域
+            document.getElementById('practiceArea').style.display = 'block';
+            
+            // 根据练习类型生成问题
+            generatePracticeQuestion(practiceType, wordCount);
+        }
+        
+        // 生成练习问题
+        function generatePracticeQuestion(type, count) {
+            const questionElement = document.getElementById('practiceQuestion');
+            const optionsElement = document.getElementById('practiceOptions');
+            const progressElement = document.getElementById('practiceProgress');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            // 清空选项
+            optionsElement.innerHTML = '';
+            
+            // 根据类型生成问题
+            let questionText = '';
+            let options = [];
+            
+            if (type === 'meaning') {
+                questionText = "单词 'Apple' 的中文意思是什么？";
+                options = ['苹果', '香蕉', '橙子', '梨子'];
+            } else if (type === 'spelling') {
+                questionText = "请拼写单词：苹果";
+                options = ['Apple', 'Aple', 'Appel', 'Aplle'];
+            } else if (type === 'listening') {
+                questionText = "请选择你听到的单词";
+                options = ['Apple', 'Banana', 'Orange', 'Grape'];
+            }
+            
+            questionElement.textContent = questionText;
+            
+            // 生成选项按钮
+            options.forEach((option, index) => {
+                const optionButton = document.createElement('button');
+                optionButton.className = 'btn';
+                optionButton.style.backgroundColor = '#f8f9fa';
+                optionButton.style.color = var('--dark-color');
+                optionButton.style.border = '1px solid #dee2e6';
+                optionButton.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+                optionButton.onclick = function() {
+                    // 检查答案
+                    const isCorrect = index === 0; // 假设第一个选项是正确答案
+                    
+                    if (isCorrect) {
+                        this.style.backgroundColor = '#d4edda';
+                        this.style.color = '#155724';
+                        this.style.borderColor = '#c3e6cb';
+                        nextBtn.style.display = 'block';
+                    } else {
+                        this.style.backgroundColor = '#f8d7da';
+                        this.style.color = '#721c24';
+                        this.style.borderColor = '#f5c6cb';
+                    }
+                };
+                
+                optionsElement.appendChild(optionButton);
+            });
+            
+            progressElement.textContent = `1/${count}`;
+            nextBtn.style.display = 'none';
+        }
+        
+        // 下一题
+        function nextQuestion() {
+            // 这里可以添加逻辑来生成下一题
+            alert('这是最后一题了！练习完成。');
+        }
+        
+        // 获取新单词
+        function getNewWord() {
+            const words = [
+                {word: 'Perseverance', phonetic: '/ˌpɜːsɪˈvɪərəns/', meaning: 'n. 毅力；坚持不懈'},
+                {word: 'Eloquent', phonetic: '/ˈeləkwənt/', meaning: 'adj. 雄辩的；有说服力的'},
+                {word: 'Ubiquitous', phonetic: '/juːˈbɪkwɪtəs/', meaning: 'adj. 无处不在的'},
+                {word: 'Serendipity', phonetic: '/ˌserənˈdɪpəti/', meaning: 'n. 意外发现珍奇事物的本领'},
+                {word: 'Ephemeral', phonetic: '/ɪˈfemərəl/', meaning: 'adj. 短暂的；瞬息的'}
+            ];
+            
+            const randomWord = words[Math.floor(Math.random() * words.length)];
+            
+            document.getElementById('dailyWord').innerHTML = `
+                <div class="word-card">
+                    <div class="word">${randomWord.word}</div>
+                    <div class="phonetic">${randomWord.phonetic}</div>
+                    <div class="meaning">${randomWord.meaning}</div>
+                </div>
+            `;
+        }
+        
+        // 显示每周计划
+        function showWeeklyPlan() {
+            alert('每周学习计划功能开发中...');
+        }
+        
+        // 显示知识库
+        function showKnowledgeBase() {
+            alert('博普智库功能开发中...');
+        }
+        
+        // 选项卡按钮点击事件
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化应用
+            initApp();
+            
+            // 为选项卡按钮添加点击事件
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    showTab(tabId);
+                });
             });
         });
     </script>
 </body>
-
 </html>
