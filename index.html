@@ -5,8 +5,147 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>隆莱英语提升学习助手</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        /* 原有样式保持不变，以下是新增样式 */
+        
+        /* 每周练习样式 */
+        .weekly-practice-section {
+            padding: 12px 10px;
+            background: linear-gradient(135deg, #fff0f7 0%, #ffeef7 100%);
+            border-radius: var(--border-radius);
+            margin-bottom: 10px;
+            box-shadow: var(--box-shadow);
+            border: 1px solid #ffd1dc;
+        }
+        
+        .weekly-item-type {
+            font-size: 0.7rem;
+            color: #e84393;
+            background-color: rgba(232, 67, 147, 0.1);
+            padding: 2px 6px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        
+        .weekly-example {
+            margin-top: 10px;
+            padding: 8px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 4px;
+            border-left: 3px solid #e84393;
+        }
+        
+        .weekly-example-title {
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #e84393;
+            margin-bottom: 4px;
+        }
+        
+        .weekly-example-english {
+            font-size: 0.9rem;
+            color: var(--dark-color);
+            margin-bottom: 3px;
+        }
+        
+        .weekly-example-chinese {
+            font-size: 0.8rem;
+            color: var(--gray-color);
+        }
+        
+        .weekly-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+            margin-top: 15px;
+        }
+        
+        .weekly-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 5px;
+            background-color: #fff0f5;
+            border-radius: 3px;
+            margin-top: 10px;
+            font-size: 0.75rem;
+        }
+        
+        .weekly-progress {
+            font-size: 0.8rem;
+            color: #e84393;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .weekly-loading {
+            text-align: center;
+            padding: 20px;
+            color: #e84393;
+        }
+        
+        .weekly-loading i {
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        
+        .weekly-error {
+            text-align: center;
+            padding: 20px;
+            color: var(--danger-color);
+        }
+        
+        .weekly-empty {
+            text-align: center;
+            padding: 20px;
+            color: var(--gray-color);
+        }
+        
+        .weekly-title {
+            color: #e84393;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .weekly-subtitle {
+            font-size: 0.75rem;
+            color: var(--gray-color);
+            margin-bottom: 10px;
+        }
+        
+        /* 新增练习模式按钮样式 */
+        .mode-btn.weekly {
+            background-color: #ffeef7;
+            color: #e84393;
+            border: 1px solid #ffd1dc;
+        }
+        
+        .mode-btn.weekly.active {
+            background-color: #e84393;
+            color: white;
+            border-color: #e84393;
+        }
+        
+        /* 高亮每周练习内容 */
+        .weekly-highlight {
+            animation: highlightWeekly 1s ease;
+        }
+        
+        @keyframes highlightWeekly {
+            0% { background-color: #ffeef7; }
+            50% { background-color: #ffd1dc; }
+            100% { background-color: #ffeef7; }
+        }
+        
+        /* 原有样式保持不变 */
         :root {
             --primary-color: #2c3e50;
             --secondary-color: #3498db;
@@ -245,6 +384,11 @@
             color: white;
         }
         
+        .btn-pink {
+            background: linear-gradient(135deg, #e84393 0%, #fd79a8 100%);
+            color: white;
+        }
+        
         .btn-sm {
             padding: 4px 6px;
             font-size: 0.7rem;
@@ -256,59 +400,647 @@
             transform: translateY(1px);
         }
         
-        /* 功能列表样式 */
-        .list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        /* 单词列表 */
+        .word-list-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 5px;
+            -webkit-overflow-scrolling: touch;
+            border: 1px solid #eee;
+            border-radius: 3px;
         }
         
-        .list .item {
-            padding: 12px 10px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border: 1px solid #dee2e6;
-            border-radius: 4px;
-            font-weight: 600;
-            color: var(--primary-color);
-            cursor: pointer;
+        .word-item {
+            padding: 8px 10px;
+            border-bottom: 1px solid #f0f0f0;
             transition: var(--transition);
             display: flex;
             align-items: center;
             justify-content: space-between;
+            cursor: pointer;
         }
         
-        .list .item:hover {
-            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
-            transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        .word-item:last-child {
+            border-bottom: none;
         }
         
-        .list .item:active {
-            transform: translateY(0);
+        .word-item.active {
+            background-color: #f0f9ff;
+            border-left: 2px solid var(--secondary-color);
         }
         
-        .list .item i {
+        .word-item.speaking {
+            background-color: #e8f4fc;
+        }
+        
+        .word-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .word-english {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .word-chinese {
+            font-size: 0.8rem;
+            color: var(--gray-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .word-category {
+            font-size: 0.6rem;
+            color: white;
+            background-color: var(--primary-color);
+            padding: 1px 4px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-top: 3px;
+        }
+        
+        .word-actions {
+            display: flex;
+            gap: 4px;
+        }
+        
+        /* 输入练习区域 */
+        .input-practice-section {
+            padding: 12px 10px;
+            background: linear-gradient(135deg, #f8f9ff 0%, #eef2ff 100%);
+            border-radius: var(--border-radius);
+            margin-bottom: 10px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        /* 练习区域 - 修改为练习模式 */
+        .practice-area {
+            padding: 12px 10px;
+            background: linear-gradient(135deg, #f8f9ff 0%, #eef2ff 100%);
+            border-radius: var(--border-radius);
+            margin-bottom: 10px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .practice-english {
+            font-size: 1.3rem;
+            color: var(--dark-color);
+            margin-bottom: 8px;
+            font-weight: 700;
+            word-break: break-word;
+            min-height: 30px;
+        }
+        
+        .practice-chinese {
+            font-size: 0.9rem;
             color: var(--secondary-color);
+            margin-bottom: 6px;
+            min-height: 20px;
+            display: none;
+        }
+        
+        .practice-chinese.show {
+            display: block;
+        }
+        
+        .practice-category {
+            font-size: 0.7rem;
+            color: var(--accent-color);
+            background-color: rgba(39, 174, 96, 0.1);
+            padding: 2px 6px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        
+        /* 练习控制按钮 */
+        .practice-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .practice-btn {
+            padding: 10px 5px;
+            font-size: 0.8rem;
+        }
+        
+        /* 练习模式选择 */
+        .practice-mode-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .mode-btn {
+            padding: 8px 5px;
+            border: none;
+            border-radius: 3px;
+            background-color: #f0f2f5;
+            color: var(--dark-color);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .mode-btn.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        /* 练习统计信息 */
+        .practice-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 5px;
+            background-color: #f8f9fa;
+            border-radius: 3px;
+            margin-top: 10px;
+            font-size: 0.75rem;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-weight: 700;
+            color: var(--primary-color);
             font-size: 0.9rem;
         }
         
-        /* 选项卡切换相关样式 */
-        .tab-section {
+        .stat-label {
+            color: var(--gray-color);
+            margin-top: 2px;
+            font-size: 0.7rem;
+        }
+        
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 20px 10px;
+            color: var(--gray-color);
+        }
+        
+        .empty-state i {
+            font-size: 1.8rem;
+            margin-bottom: 6px;
+            opacity: 0.5;
+        }
+        
+        .empty-state p {
+            font-size: 0.8rem;
+        }
+        
+        /* 语音选择 */
+        .voice-selector {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #eee;
+        }
+        
+        .voice-select {
+            width: 100%;
+            padding: 7px 8px;
+            border: 1px solid #e1e5eb;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            background-color: #f9fafc;
+            margin-top: 3px;
+        }
+        
+        /* 分类筛选 */
+        .category-filter {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+        
+        .category-btn {
+            padding: 5px 3px;
+            border: none;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            background-color: #f0f2f5;
+            color: var(--dark-color);
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .category-btn.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        /* 搜索框样式 */
+        .search-container {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 8px 32px 8px 10px;
+            border: 1px solid #e1e5eb;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            background-color: #f9fafc;
+        }
+        
+        .search-input:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 1px rgba(52, 152, 219, 0.15);
+            background-color: white;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-color);
+            pointer-events: none;
+        }
+        
+        .clear-search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray-color);
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 2px;
+            display: none;
+        }
+        
+        .clear-search-btn:hover {
+            color: var(--danger-color);
+        }
+        
+        /* 紧凑提示信息 */
+        .hint {
+            background-color: #e8f4fc;
+            padding: 8px;
+            border-radius: 3px;
+            margin-top: 10px;
+            border-left: 2px solid var(--secondary-color);
+            font-size: 0.75rem;
+        }
+        
+        .hint-title {
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hint-title i {
+            margin-right: 4px;
+            color: var(--secondary-color);
+        }
+        
+        /* 语音动画 */
+        .speaking {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { background-color: #e8f4fc; }
+            50% { background-color: #d4e7fa; }
+            100% { background-color: #e8f4fc; }
+        }
+        
+        /* 保存提示 */
+        .save-notification {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        
+        .save-notification.show {
+            opacity: 1;
+        }
+        
+        /* 练习结果样式 */
+        .practice-result {
+            padding: 10px;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+        
+        .practice-result.correct {
+            background-color: rgba(39, 174, 96, 0.1);
+            border-left: 3px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+        
+        .practice-result.incorrect {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-left: 3px solid var(--danger-color);
+            color: var(--danger-color);
+        }
+        
+        .practice-result .correct-answer {
+            font-weight: 700;
+            margin-top: 5px;
+        }
+        
+        /* 填空单词样式 */
+        .blank-word {
+            background-color: white;
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .blank-letter {
+            color: var(--secondary-color);
+            font-weight: 900;
+        }
+        
+        .blank-space {
+            color: var(--danger-color);
+            display: inline-block;
+            min-width: 20px;
+            border-bottom: 2px solid var(--danger-color);
+            margin: 0 2px;
+            text-align: center;
+        }
+        
+        /* 基础练习区域 */
+        .basic-practice-section {
             margin-bottom: 15px;
         }
         
         /* 响应式调整 */
         @media (min-width: 768px) {
             .app-container {
-                max-width: 480px;
-                margin: 0 auto;
-                box-shadow: 0 0 20px rgba(0,0,0,0.1);
+                max-width: 420px;
+                margin: 5px auto;
+                min-height: calc(100vh - 10px);
+                border-radius: 5px;
+                overflow: hidden;
             }
             
-            body {
-                padding: 10px;
-                background-color: #e9ecef;
+            .practice-mode-selector {
+                grid-template-columns: repeat(6, 1fr);
             }
+        }
+        
+        /* 禁用状态 */
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        /* 分类练习统计 */
+        .category-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        
+        .category-count {
+            font-size: 0.75rem;
+            color: var(--gray-color);
+        }
+        
+        /* 列表内发音指示 */
+        .pronunciation-indicator {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            color: white;
+            font-size: 0.6rem;
+            margin-left: 5px;
+            opacity: 0.8;
+        }
+        
+        /* 收藏按钮 */
+        .favorite-btn {
+            color: #ffd700;
+        }
+        
+        .favorite-btn.active {
+            color: #ffd700;
+        }
+        
+        /* 显示中文按钮 */
+        .show-chinese-btn {
+            margin-bottom: 10px;
+        }
+        
+        /* 练习进度指示 */
+        .practice-progress {
+            font-size: 0.8rem;
+            color: var(--gray-color);
+            margin-top: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        /* 复习按钮 */
+        .review-favorites-btn {
+            margin-top: 10px;
+        }
+        
+        /* 系统术语标签 */
+        .system-tag {
+            font-size: 0.6rem;
+            color: var(--secondary-color);
+            margin-left: 4px;
+            padding: 1px 3px;
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: 3px;
+        }
+        
+        /* 用户术语标签 */
+        .user-tag {
+            font-size: 0.6rem;
+            color: var(--accent-color);
+            margin-left: 4px;
+            padding: 1px 3px;
+            background-color: rgba(39, 174, 96, 0.1);
+            border-radius: 3px;
+        }
+        
+        /* 管理按钮组 */
+        .management-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        /* 新练习模式按钮 */
+        .mode-btn i {
+            margin-right: 4px;
+        }
+        
+        /* 加载指示器 */
+        .loading-indicator {
+            display: none;
+            text-align: center;
+            padding: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .loading-indicator.active {
+            display: block;
+        }
+        
+        .loading-indicator i {
+            margin-right: 5px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 签到相关样式 */
+        .checkin-section {
+            margin-top: 15px;
+            padding: 12px 10px;
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border-radius: var(--border-radius);
+            border: 1px solid #ffd54f;
+        }
+        
+        .checkin-title {
+            font-weight: 700;
+            color: #ff9800;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .checkin-title i {
+            margin-right: 6px;
+        }
+        
+        .checkin-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .checkin-stats {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .checkin-stat-item {
+            text-align: center;
+        }
+        
+        .checkin-stat-value {
+            font-weight: 700;
+            color: #f57c00;
+            font-size: 1.2rem;
+        }
+        
+        .checkin-stat-label {
+            font-size: 0.7rem;
+            color: #ff9800;
+        }
+        
+        .checkin-btn {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .checkin-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .checkin-btn:disabled {
+            background: linear-gradient(135deg, #bdbdbd 0%, #9e9e9e 100%);
+            cursor: not-allowed;
+        }
+        
+        .checkin-record {
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: #ff9800;
+        }
+        
+        /* 发音测试区域 */
+        .pronunciation-test {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            border: 1px solid #e9ecef;
+        }
+        
+        .pronunciation-test h4 {
+            margin-bottom: 8px;
+            color: var(--dark-color);
+            font-size: 0.9rem;
+        }
+        
+        .pronunciation-test-controls {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .test-speech-btn {
+            flex: 1;
+            padding: 6px;
+            font-size: 0.7rem;
         }
     </style>
 </head>
@@ -318,148 +1050,2978 @@
         <header class="app-header">
             <div>
                 <div class="app-title">
-                    <i class="fas fa-language"></i>
-                    隆莱英语提升学习助手
+                    <i class="fas fa-language"></i> 隆莱英语提升小助手
                 </div>
-                <div class="app-subtitle">专业英语学习平台</div>
+                <div class="app-subtitle">专业术语学习与练习</div>
             </div>
-            <div class="word-count">单词: 1250</div>
+            <div class="word-count" id="word-count">0词</div>
         </header>
         
-        <!-- 选项卡导航 -->
-        <nav class="tab-nav">
-            <button class="tab-button active" data-tab="home">
-                <i class="fas fa-home"></i> 主页
+        <!-- 选项卡导航 - 紧贴标题栏 -->
+        <div class="tab-nav">
+            <button class="tab-button active" data-tab="add-tab">
+                <i class="fas fa-plus"></i> 添加
             </button>
-            <button class="tab-button" data-tab="tasks">
-                <i class="fas fa-tasks"></i> 任务
+            <button class="tab-button" data-tab="list-tab">
+                <i class="fas fa-list"></i> 列表
             </button>
-            <button class="tab-button" data-tab="study">
-                <i class="fas fa-graduation-cap"></i> 学习
+            <button class="tab-button" data-tab="practice-tab">
+                <i class="fas fa-graduation-cap"></i> 练习
             </button>
-            <button class="tab-button" data-tab="profile">
-                <i class="fas fa-user"></i> 我的
-            </button>
-        </nav>
+        </div>
         
         <!-- 主内容区 -->
         <main class="main-content">
-            <!-- 主页选项卡 -->
-            <div class="tab-content active" id="home-tab">
+            <!-- 添加单词选项卡 -->
+            <div id="add-tab" class="tab-content active">
                 <div class="card">
-                    <div class="card-title">
-                        <i class="fas fa-rocket"></i>
-                        主要功能
-                    </div>
-                    <div class="list">
-                        <!-- 功能列表将通过JavaScript动态加载 -->
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-title">
-                        <i class="fas fa-chart-line"></i>
-                        学习进度
-                    </div>
+                    <h2 class="card-title"><i class="fas fa-plus-circle"></i> 添加专业术语</h2>
+                    
                     <div class="form-group">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                            <span>今日学习时长</span>
-                            <span style="color: var(--accent-color); font-weight: 600;">45分钟</span>
+                        <label class="form-label" for="english-input">
+                            <i class="fas fa-font"></i> 英文术语
+                        </label>
+                        <input type="text" id="english-input" class="form-input" 
+                               placeholder="例如：quality management" maxlength="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="chinese-input">
+                            <i class="fas fa-language"></i> 中文释义
+                        </label>
+                        <input type="text" id="chinese-input" class="form-input" 
+                               placeholder="例如：质量管理" maxlength="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="category-input">
+                            <i class="fas fa-tag"></i> 分类
+                        </label>
+                        <select id="category-input" class="form-select">
+                            <option value="常用词语">常用词语</option>
+                            <option value="研发与工艺">研发与工艺</option>
+                            <option value="分析检测与质量控制">分析检测与质量控制</option>
+                            <option value="设施与区域">设施与区域</option>
+                            <option value="生产与设备">生产与设备</option>
+                            <option value="质量体系与GMP">质量体系与GMP</option>
+                            <option value="法规与注册">法规与注册</option>
+                            <option value="EHS与供应商">EHS与供应商</option>
+                            <option value="综合管理">综合管理</option>
+                            <option value="人事行政">人事行政</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="example-input">
+                            <i class="fas fa-comment-alt"></i> 备注 (可选)
+                        </label>
+                        <input type="text" id="example-input" class="form-input" 
+                               placeholder="可添加例句或说明" maxlength="150">
+                    </div>
+                    
+                    <button id="add-word-btn" class="btn btn-primary">
+                        <i class="fas fa-save"></i> 保存术语
+                    </button>
+                    
+                    <!-- 术语库管理区域 -->
+                    <div style="margin-top: 15px; border-top: 1px dashed #eee; padding-top: 10px;">
+                        <div class="card-title" style="margin-bottom: 10px;">
+                            <i class="fas fa-database"></i> 术语库管理
                         </div>
-                        <div style="background: #e9ecef; height: 6px; border-radius: 3px;">
-                            <div style="width: 60%; background: var(--accent-color); height: 100%; border-radius: 3px;"></div>
+                        
+                        <div class="management-buttons">
+                            <button id="update-system-btn" class="btn btn-success btn-sm">
+                                <i class="fas fa-sync-alt"></i> 更新系统术语
+                            </button>
+                            <button id="export-user-btn" class="btn btn-primary btn-sm">
+                                <i class="fas fa-download"></i> 导出自定义术语
+                            </button>
+                            <button id="import-user-btn" class="btn btn-warning btn-sm">
+                                <i class="fas fa-upload"></i> 导入自定义术语
+                            </button>
+                            <button id="reset-system-btn" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt"></i> 清空系统术语
+                            </button>
+                        </div>
+                        
+                        <div class="hint" style="margin-top: 10px;">
+                            <div class="hint-title">
+                                <i class="fas fa-info-circle"></i> 管理说明
+                            </div>
+                            <p>• <strong>更新系统术语</strong>: 更新预置术语，保留自定义术语</p>
+                            <p>• <strong>导出/导入</strong>: 备份或恢复自定义术语</p>
+                            <p>• <strong>清空系统术语</strong>: 只保留自己添加的术语</p>
+                        </div>
+                    </div>
+                    
+                    <div class="hint" style="margin-top: 10px;">
+                        <div class="hint-title">
+                            <i class="fas fa-lightbulb"></i> 提示
+                        </div>
+                        <p>• 添加的术语会自动保存到本地，只有自己可以看到，无需网络连接，数据不会丢失。</p>
+                        <p>• 首次进入无词语，请先手动更新系统术语。</p>
+                        <p>• 华为手机受鸿蒙系统权限保护可能无法正常语音（如其他手机也遇到相同问题），可尝试修改权限或使用Edge/Chrome浏览器代替默认浏览器。</p>
+                        <p>• 仅供内部使用，请勿传播！</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 单词列表选项卡 -->
+            <div id="list-tab" class="tab-content">
+                <div class="card">
+                    <div class="card-title">
+                        <span><i class="fas fa-list"></i> 术语库</span>
+                        <span id="filtered-count">0个术语</span>
+                    </div>
+                    
+                    <!-- 搜索框 -->
+                    <div class="search-container">
+                        <input type="text" id="search-input" class="search-input" 
+                               placeholder="搜索英文或中文...">
+                        <div class="search-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <button id="clear-search-btn" class="clear-search-btn" title="清空搜索">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- 分类筛选 -->
+                    <div class="category-filter">
+                        <button class="category-btn active" data-category="all">全部</button>
+                        <button class="category-btn" data-category="常用词语">常用词语</button>
+                        <button class="category-btn" data-category="研发与工艺">研发工艺</button>
+                        <button class="category-btn" data-category="分析检测与质量控制">分析质控</button>
+                        <button class="category-btn" data-category="设施与区域">设施区域</button>
+                        <button class="category-btn" data-category="生产与设备">生产设备</button>
+                        <button class="category-btn" data-category="质量体系与GMP">质量体系</button>
+                        <button class="category-btn" data-category="法规与注册">法规注册</button>
+                        <button class="category-btn" data-category="EHS与供应商">EHS,供应商</button>
+                        <button class="category-btn" data-category="综合管理">综合管理</button>
+                        <button class="category-btn" data-category="人事行政">人事行政</button>
+                        <button class="category-btn" data-category="favorites">已收藏</button>
+                    </div>
+                    
+                    <div class="category-stats">
+                        <div class="category-count" id="category-practice-count">当前分类: 0个术语</div>
+                        <button id="practice-category-btn" class="btn btn-success btn-sm">
+                            <i class="fas fa-play-circle"></i> 练习
+                        </button>
+                    </div>
+                    
+                    <div class="word-list-container" id="word-list">
+                        <!-- 单词列表将在这里动态生成 -->
+                        <div class="empty-state" id="empty-list-message">
+                            <i class="fas fa-book-open"></i>
+                            <p>术语库为空<br>点击"添加"选项卡录入术语</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 语音测试区域 -->
+                    <div class="pronunciation-test">
+                        <h4><i class="fas fa-volume-up"></i> 发音测试</h4>
+                        <div class="pronunciation-test-controls">
+                            <button id="test-english-speech" class="btn btn-primary test-speech-btn">
+                                <i class="fas fa-volume-up"></i> 测试英文发音
+                            </button>
+                            <button id="test-chinese-speech" class="btn btn-success test-speech-btn">
+                                <i class="fas fa-language"></i> 测试中文发音
+                            </button>
+                        </div>
+                        <p style="margin-top: 5px; font-size: 0.7rem; color: var(--gray-color);">
+                            如果测试无声音，请尝试切换语音
+                        </p>
+                    </div>
+                    
+                    <div class="voice-selector">
+                        <label class="form-label" for="voice-select">
+                            <i class="fas fa-microphone-alt"></i> 发音设置
+                        </label>
+                        <select id="voice-select" class="voice-select">
+                            <!-- 语音选项将在这里动态生成 -->
+                        </select>
+                        <div class="hint" style="margin-top: 8px;">
+                            <div class="hint-title">
+                                <i class="fas fa-info-circle"></i> 发音兼容性提示
+                            </div>
+                            <p>• 如果无声音，请尝试切换到其他语音</p>
+                            <p>• Chrome浏览器对语音支持最好，建议优先使用</p>
+                            <p>• 部分浏览器需要用户交互后(如点击)才能播放语音</p>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- 任务选项卡 -->
-            <div class="tab-content" id="tasks-tab">
+            <!-- 练习选项卡 -->
+            <div id="practice-tab" class="tab-content">
                 <div class="card">
                     <div class="card-title">
-                        <i class="fas fa-tasks"></i>
-                        今日任务
+                        <span><i class="fas fa-graduation-cap"></i> 单词练习</span>
+                        <span id="current-category-display">全部</span>
                     </div>
-                    <p style="font-size: 0.8rem; color: var(--gray-color); text-align: center; padding: 10px;">
-                        功能开发中，敬请期待...
-                    </p>
-                </div>
-            </div>
-            
-            <!-- 学习选项卡 -->
-            <div class="tab-content" id="study-tab">
-                <div class="card">
-                    <div class="card-title">
-                        <i class="fas fa-book-open"></i>
-                        学习资源
+                    
+                    <!-- 签到区域 -->
+                    <div id="checkin-section" class="checkin-section" style="display: none;">
+                        <div class="checkin-title">
+                            <i class="fas fa-calendar-check"></i> 每日签到
+                        </div>
+                        <div class="checkin-info">
+                            <div class="checkin-stats">
+                                <div class="checkin-stat-item">
+                                    <div class="checkin-stat-value" id="checkin-days">0</div>
+                                    <div class="checkin-stat-label">连续天数</div>
+                                </div>
+                                <div class="checkin-stat-item">
+                                    <div class="checkin-stat-value" id="total-checkins">0</div>
+                                    <div class="checkin-stat-label">总签到</div>
+                                </div>
+                            </div>
+                            <button id="checkin-btn" class="checkin-btn">
+                                <i class="fas fa-sign-in-alt"></i> 今日签到
+                            </button>
+                        </div>
+                        <div class="checkin-record" id="checkin-record">
+                            <!-- 签到记录将在这里显示 -->
+                        </div>
                     </div>
-                    <p style="font-size: 0.8rem; color: var(--gray-color); text-align: center; padding: 10px;">
-                        功能开发中，敬请期待...
-                    </p>
-                </div>
-            </div>
-            
-            <!-- 我的选项卡 -->
-            <div class="tab-content" id="profile-tab">
-                <div class="card">
-                    <div class="card-title">
-                        <i class="fas fa-user-circle"></i>
-                        个人中心
+                    
+                    <!-- 练习模式选择 - 添加每周练习按钮 -->
+                    <div class="practice-mode-selector">
+                        <button class="mode-btn active" data-mode="category">
+                            <i class="fas fa-layer-group"></i> 分类练习
+                        </button>
+                        <button class="mode-btn" data-mode="favorites">
+                            <i class="fas fa-star"></i> 收藏复习
+                        </button>
+                        <button class="mode-btn" data-mode="eng-to-ch">
+                            <i class="fas fa-arrow-right"></i> 英译中
+                        </button>
+                        <button class="mode-btn" data-mode="ch-to-eng">
+                            <i class="fas fa-arrow-left"></i> 中译英
+                        </button>
+                        <button class="mode-btn" data-mode="fill-blank">
+                            <i class="fas fa-edit"></i> 单词填空
+                        </button>
+                        <!-- 新增每周练习按钮 -->
+                        <button class="mode-btn weekly" data-mode="weekly">
+                            <i class="fas fa-calendar-week"></i> 每周练习
+                        </button>
                     </div>
-                    <p style="font-size: 0.8rem; color: var(--gray-color); text-align: center; padding: 10px;">
-                        功能开发中，敬请期待...
-                    </p>
+                    
+                    <!-- 练习区域 -->
+                    <div class="practice-area" id="practice-area">
+                        <!-- 练习模式说明 -->
+                        <div id="practice-instruction" class="hint" style="margin-bottom: 10px;">
+                            <div class="hint-title">
+                                <i class="fas fa-info-circle"></i> 当前模式: <span id="current-mode-name">分类练习</span>
+                            </div>
+                            <p id="mode-description">显示英文术语，尝试回忆中文释义，点击"查看中文"验证答案。</p>
+                        </div>
+                        
+                        <!-- 基础练习显示区域 (用于分类练习和收藏复习) -->
+                        <div id="basic-practice" class="basic-practice-section">
+                            <div class="practice-category" id="practice-category">常用词语</div>
+                            <div class="practice-english" id="practice-english">请选择练习模式并点击"开始练习"按钮</div>
+                            <div class="practice-chinese" id="practice-chinese"></div>
+                            
+                            <!-- 练习进度指示 -->
+                            <div class="practice-progress" id="practice-progress">
+                                进度: <span id="current-progress">0</span>/<span id="total-progress">0</span>
+                            </div>
+                            
+                            <button id="show-chinese-btn" class="btn btn-secondary show-chinese-btn" disabled>
+                                <i class="fas fa-eye"></i> 查看中文
+                            </button>
+                        </div>
+                        
+                        <!-- 英译中练习区域 -->
+                        <div id="eng-to-ch-practice" class="input-practice-section" style="display: none;">
+                            <div class="practice-category" id="eng-to-ch-category">常用词语</div>
+                            <div class="practice-english" id="eng-to-ch-english"></div>
+                            
+                            <div class="form-group" style="margin-top: 15px;">
+                                <label class="form-label" for="chinese-answer-input">
+                                    <i class="fas fa-language"></i> 请输入中文翻译
+                                </label>
+                                <input type="text" id="chinese-answer-input" class="form-input" 
+                                       placeholder="输入中文释义..." maxlength="100">
+                            </div>
+                            
+                            <div class="practice-result" id="eng-to-ch-result" style="display: none; margin-top: 10px;">
+                                <!-- 结果将在这里显示 -->
+                            </div>
+                            
+                            <div class="practice-controls" style="margin-top: 15px;">
+                                <button id="check-eng-to-ch-btn" class="btn btn-primary practice-btn" disabled>
+                                    <i class="fas fa-check-circle"></i> 检查答案
+                                </button>
+                                <button id="skip-eng-to-ch-btn" class="btn btn-secondary practice-btn" disabled>
+                                    <i class="fas fa-forward"></i> 跳过
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 中译英练习区域 -->
+                        <div id="ch-to-eng-practice" class="input-practice-section" style="display: none;">
+                            <div class="practice-category" id="ch-to-eng-category">常用词语</div>
+                            <div class="practice-chinese-display" id="ch-to-eng-chinese" style="color: var(--secondary-color); font-size: 1.1rem; margin-bottom: 15px;"></div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="english-answer-input">
+                                    <i class="fas fa-font"></i> 请输入英文术语
+                                </label>
+                                <input type="text" id="english-answer-input" class="form-input" 
+                                       placeholder="输入英文术语..." maxlength="100">
+                            </div>
+                            
+                            <div class="practice-result" id="ch-to-eng-result" style="display: none; margin-top: 10px;">
+                                <!-- 结果将在这里显示 -->
+                            </div>
+                            
+                            <div class="practice-controls" style="margin-top: 15px;">
+                                <button id="check-ch-to-eng-btn" class="btn btn-primary practice-btn" disabled>
+                                    <i class="fas fa-check-circle"></i> 检查答案
+                                </button>
+                                <button id="skip-ch-to-eng-btn" class="btn btn-secondary practice-btn" disabled>
+                                    <i class="fas fa-forward"></i> 跳过
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 单词填空练习区域 -->
+                        <div id="fill-blank-practice" class="input-practice-section" style="display: none;">
+                            <div class="practice-category" id="fill-blank-category">常用词语</div>
+                            
+                            <div class="blank-word-container" style="margin: 15px 0;">
+                                <div class="blank-word" id="blank-word" style="font-size: 1.3rem; font-weight: 700; letter-spacing: 2px; word-break: break-all;"></div>
+                            </div>
+                            
+                            <div class="blank-hint" id="blank-hint" style="margin-bottom: 10px; font-size: 0.8rem; color: var(--gray-color);">
+                                <!-- 提示将在这里显示 -->
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="blank-answer-input">
+                                    <i class="fas fa-pencil-alt"></i> 请补全单词
+                                </label>
+                                <input type="text" id="blank-answer-input" class="form-input" 
+                                       placeholder="输入完整单词..." maxlength="100">
+                            </div>
+                            
+                            <div class="practice-result" id="fill-blank-result" style="display: none; margin-top: 10px;">
+                                <!-- 结果将在这里显示 -->
+                            </div>
+                            
+                            <div class="practice-controls" style="margin-top: 15px;">
+                                <button id="check-fill-blank-btn" class="btn btn-primary practice-btn" disabled>
+                                    <i class="fas fa-check-circle"></i> 检查答案
+                                </button>
+                                <button id="skip-fill-blank-btn" class="btn btn-secondary practice-btn" disabled>
+                                    <i class="fas fa-forward"></i> 跳过
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 每周练习区域 -->
+                        <div id="weekly-practice" class="weekly-practice-section" style="display: none;">
+                            <div class="weekly-title">
+                                <i class="fas fa-calendar-week"></i> <span id="weekly-title">每周练习</span>
+                            </div>
+                            <div class="weekly-subtitle" id="weekly-subtitle">加载每周更新的学习内容</div>
+                            
+                            <div class="weekly-item-type" id="weekly-type">单词</div>
+                            <div class="practice-english" id="weekly-english">请点击"加载每周练习"按钮</div>
+                            <div class="practice-chinese" id="weekly-chinese" style="color: #e84393;"></div>
+                            
+                            <!-- 例句显示区域 -->
+                            <div class="weekly-example" id="weekly-example" style="display: none;">
+                                <div class="weekly-example-title">例句 / 短语</div>
+                                <div class="weekly-example-english" id="weekly-example-english"></div>
+                                <div class="weekly-example-chinese" id="weekly-example-chinese"></div>
+                            </div>
+                            
+                            <!-- 每周练习进度 -->
+                            <div class="weekly-progress" id="weekly-progress">
+                                进度: <span id="weekly-current">0</span>/<span id="weekly-total">0</span>
+                            </div>
+                            
+                            <!-- 每周练习控制按钮 -->
+                            <div class="weekly-controls" id="weekly-controls">
+                                <button id="weekly-prev-btn" class="btn btn-secondary practice-btn" disabled>
+                                    <i class="fas fa-backward"></i> 上一个
+                                </button>
+                                <button id="weekly-speak-btn" class="btn btn-pink practice-btn" disabled>
+                                    <i class="fas fa-volume-up"></i> 朗读
+                                </button>
+                                <button id="weekly-next-btn" class="btn btn-secondary practice-btn" disabled>
+                                    下一个 <i class="fas fa-forward"></i>
+                                </button>
+                                <button id="weekly-toggle-chinese-btn" class="btn btn-pink practice-btn" disabled>
+                                    <i class="fas fa-eye"></i> 显示中文
+                                </button>
+                            </div>
+                            
+                            <!-- 加载和重新加载按钮 -->
+                            <button id="load-weekly-btn" class="btn btn-pink">
+                                <i class="fas fa-download"></i> 加载每周练习
+                            </button>
+                            <button id="reload-weekly-btn" class="btn btn-secondary" style="display: none; margin-top: 8px;">
+                                <i class="fas fa-redo"></i> 重新加载
+                            </button>
+                        </div>
+                        
+                        <!-- 通用练习控制按钮 -->
+                        <div class="practice-controls" id="basic-controls">
+                            <button id="prev-word-btn" class="btn btn-secondary practice-btn" disabled>
+                                <i class="fas fa-backward"></i> 上一个
+                            </button>
+                            <button id="speak-english-btn" class="btn btn-primary practice-btn" disabled>
+                                <i class="fas fa-volume-up"></i> 朗读英文
+                            </button>
+                            <button id="next-word-btn" class="btn btn-secondary practice-btn" disabled>
+                                下一个 <i class="fas fa-forward"></i>
+                            </button>
+                            <button id="toggle-favorite-btn" class="btn btn-danger practice-btn" disabled>
+                                <i class="far fa-star"></i> 收藏
+                            </button>
+                        </div>
+                        
+                        <button id="start-practice-btn" class="btn btn-success">
+                            <i class="fas fa-play-circle"></i> 开始练习
+                        </button>
+                        <button id="end-practice-btn" class="btn btn-danger" style="display: none; margin-top: 8px;">
+                            <i class="fas fa-stop-circle"></i> 结束练习
+                        </button>
+                        
+                        <!-- 收藏复习提示 -->
+                        <div id="favorites-review-hint" class="hint" style="margin-top: 10px; display: none;">
+                            <div class="hint-title">
+                                <i class="fas fa-star"></i> 收藏复习模式
+                            </div>
+                            <p>当前正在复习您收藏的单词。您可以在列表中点击"已收藏"分类查看所有收藏的单词。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 练习统计信息 -->
+                    <div class="practice-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="total-words">0</div>
+                            <div class="stat-label">总单词</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="practiced-count">0</div>
+                            <div class="stat-label">已练习</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="favorite-count">0</div>
+                            <div class="stat-label">已收藏</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="correct-count">0%</div>
+                            <div class="stat-label">正确率</div>
+                        </div>
+                    </div>
+                    
+                    <div class="hint" style="margin-top: 10px;">
+                        <div class="hint-title">
+                            <i class="fas fa-info-circle"></i> 练习说明
+                        </div>
+                        <p>• <strong>分类练习</strong>: 练习当前分类的所有单词</p>
+                        <p>• <strong>收藏复习</strong>: 专门练习自己收藏的重要单词</p>
+                        <p>• <strong>英译中</strong>: 显示英文，输入中文翻译</p>
+                        <p>• <strong>中译英</strong>: 显示中文，输入英文术语</p>
+                        <p>• <strong>单词填空</strong>: 显示部分字母的单词，补全完整单词</p>
+                        <p>• <strong>每周练习</strong>: 加载外部JSON文件，练习每周更新的单词、语句和短句</p>
+                        <p>• 点击"朗读英文"按钮听英文发音</p>
+                        <p>• 点击"收藏"按钮标记重要单词</p>
+                    </div>
                 </div>
             </div>
         </main>
+        
+        <!-- 保存成功提示 -->
+        <div id="save-notification" class="save-notification">
+            <i class="fas fa-check-circle"></i> 术语已保存
+        </div>
+        
+        <!-- 加载指示器 -->
+        <div id="loading-indicator" class="loading-indicator">
+            <i class="fas fa-spinner"></i> 正在加载术语数据...
+        </div>
     </div>
 
     <script>
-        let functions = [
-            {
-                "name": "添加",
-                "location": "./views/expir-info.html",
-                "icon": "fas fa-plus-circle"
-            },
-            {
-                "name": "练习",
-                "location": "./views/sop.html",
-                "icon": "fas fa-dumbbell"
-            },
-            {
-                "name": "每周学习",
-                "location": "./views/injection-sequence.html",
-                "icon": "fas fa-calendar-week"
-            },
-            {
-                "name": "博普智库",
-                "location": "./views/statue.html",
-                "icon": "fas fa-brain"
-            }
+        // 初始化变量
+        let words = [];
+        let currentWordIndex = -1;
+        let voices = [];
+        let selectedVoice = null;
+        let isSpeechSupported = false;
+        let currentCategoryFilter = 'all';
+        let isPracticing = false;
+        let speakingWordIndex = -1;
+        let practiceWords = [];
+        let practiceIndex = 0;
+        let currentPracticeMode = 'category'; // 'category', 'favorites', 'eng-to-ch', 'ch-to-eng', 'fill-blank', 'weekly'
+        let practiceStats = {
+            totalAttempts: 0,
+            correctAttempts: 0
+        };
+        let currentSearchTerm = ''; // 添加搜索词变量
+        let userCheckinData = {
+            totalCheckins: 0,
+            consecutiveDays: 0,
+            lastCheckinDate: null,
+            checkinHistory: []
+        };
+        
+        // 每周练习相关变量
+        let weeklyItems = [];
+        let weeklyIndex = 0;
+        let weeklyDataLoaded = false;
+        let weeklyDataLoading = false;
+        const WEEKLY_JSON_URL = 'weekly_practice.json'; // 每周练习JSON文件路径
+        
+        // 默认术语数据（当外部JSON加载失败时使用）
+        const defaultTerms = [
+            { english: "quality management", chinese: "质量管理", category: "常用词语", example: "", practiceCount: 0, favorite: false, isSystem: true, id: "sys_001" },
+            { english: "process", chinese: "工序", category: "常用词语", example: "", practiceCount: 0, favorite: false, isSystem: true, id: "sys_002" },
+            { english: "contamination", chinese: "污染", category: "常用词语", example: "", practiceCount: 0, favorite: false, isSystem: true, id: "sys_003" },
+            { english: "production environment", chinese: "生产环境", category: "常用词语", example: "", practiceCount: 0, favorite: false, isSystem: true, id: "sys_004" },
+            { english: "clean room", chinese: "洁净室", category: "常用词语", example: "", practiceCount: 0, favorite: false, isSystem: true, id: "sys_005" }
         ];
-
-        $(document).ready(function() {
-            // 加载功能列表
-            functions.forEach(value => {
-                let onclick = `window.location.href='${value.location}'`;
-                let div = `<div class="item" onclick="${onclick}">
-                    <span>${value.name}</span>
-                    <i class="${value.icon}"></i>
-                </div>`;
-                $(".list").append(div);
-            });
-
-            // 选项卡切换功能
-            $(".tab-button").click(function() {
-                // 移除所有active类
-                $(".tab-button").removeClass("active");
-                $(".tab-content").removeClass("active");
+        
+        // DOM元素
+        const englishInput = document.getElementById('english-input');
+        const chineseInput = document.getElementById('chinese-input');
+        const exampleInput = document.getElementById('example-input');
+        const categoryInput = document.getElementById('category-input');
+        const addWordBtn = document.getElementById('add-word-btn');
+        const wordListElement = document.getElementById('word-list');
+        const emptyListMessage = document.getElementById('empty-list-message');
+        const practiceCategoryBtn = document.getElementById('practice-category-btn');
+        const speakEnglishBtn = document.getElementById('speak-english-btn');
+        const prevWordBtn = document.getElementById('prev-word-btn');
+        const nextWordBtn = document.getElementById('next-word-btn');
+        const showChineseBtn = document.getElementById('show-chinese-btn');
+        const startPracticeBtn = document.getElementById('start-practice-btn');
+        const endPracticeBtn = document.getElementById('end-practice-btn');
+        const toggleFavoriteBtn = document.getElementById('toggle-favorite-btn');
+        const practiceEnglish = document.getElementById('practice-english');
+        const practiceChinese = document.getElementById('practice-chinese');
+        const practiceCategory = document.getElementById('practice-category');
+        const voiceSelect = document.getElementById('voice-select');
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const saveNotification = document.getElementById('save-notification');
+        const wordCountElement = document.getElementById('word-count');
+        const filteredCountElement = document.getElementById('filtered-count');
+        const currentCategoryDisplay = document.getElementById('current-category-display');
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const categoryPracticeCount = document.getElementById('category-practice-count');
+        const totalWordsElement = document.getElementById('total-words');
+        const practicedCountElement = document.getElementById('practiced-count');
+        const favoriteCountElement = document.getElementById('favorite-count');
+        const modeButtons = document.querySelectorAll('.mode-btn');
+        const practiceProgress = document.getElementById('practice-progress');
+        const currentProgressElement = document.getElementById('current-progress');
+        const totalProgressElement = document.getElementById('total-progress');
+        const favoritesReviewHint = document.getElementById('favorites-review-hint');
+        
+        // 新练习模式元素
+        const practiceInstruction = document.getElementById('practice-instruction');
+        const currentModeName = document.getElementById('current-mode-name');
+        const modeDescription = document.getElementById('mode-description');
+        const basicPracticeSection = document.getElementById('basic-practice');
+        const engToChPracticeSection = document.getElementById('eng-to-ch-practice');
+        const chToEngPracticeSection = document.getElementById('ch-to-eng-practice');
+        const fillBlankPracticeSection = document.getElementById('fill-blank-practice');
+        const weeklyPracticeSection = document.getElementById('weekly-practice');
+        
+        // 英译中练习元素
+        const engToChCategory = document.getElementById('eng-to-ch-category');
+        const engToChEnglish = document.getElementById('eng-to-ch-english');
+        const chineseAnswerInput = document.getElementById('chinese-answer-input');
+        const checkEngToChBtn = document.getElementById('check-eng-to-ch-btn');
+        const skipEngToChBtn = document.getElementById('skip-eng-to-ch-btn');
+        const engToChResult = document.getElementById('eng-to-ch-result');
+        
+        // 中译英练习元素
+        const chToEngCategory = document.getElementById('ch-to-eng-category');
+        const chToEngChinese = document.getElementById('ch-to-eng-chinese');
+        const englishAnswerInput = document.getElementById('english-answer-input');
+        const checkChToEngBtn = document.getElementById('check-ch-to-eng-btn');
+        const skipChToEngBtn = document.getElementById('skip-ch-to-eng-btn');
+        const chToEngResult = document.getElementById('ch-to-eng-result');
+        
+        // 单词填空练习元素
+        const fillBlankCategory = document.getElementById('fill-blank-category');
+        const blankWord = document.getElementById('blank-word');
+        const blankHint = document.getElementById('blank-hint');
+        const blankAnswerInput = document.getElementById('blank-answer-input');
+        const checkFillBlankBtn = document.getElementById('check-fill-blank-btn');
+        const skipFillBlankBtn = document.getElementById('skip-fill-blank-btn');
+        const fillBlankResult = document.getElementById('fill-blank-result');
+        
+        // 基本控制按钮
+        const basicControls = document.getElementById('basic-controls');
+        const correctCountElement = document.getElementById('correct-count');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        
+        // 管理功能按钮
+        const updateSystemBtn = document.getElementById('update-system-btn');
+        const exportUserBtn = document.getElementById('export-user-btn');
+        const importUserBtn = document.getElementById('import-user-btn');
+        const resetSystemBtn = document.getElementById('reset-system-btn');
+        
+        // 搜索相关元素
+        const searchInput = document.getElementById('search-input');
+        const clearSearchBtn = document.getElementById('clear-search-btn');
+        
+        // 签到相关元素
+        const checkinSection = document.getElementById('checkin-section');
+        const checkinBtn = document.getElementById('checkin-btn');
+        const checkinDaysElement = document.getElementById('checkin-days');
+        const totalCheckinsElement = document.getElementById('total-checkins');
+        const checkinRecordElement = document.getElementById('checkin-record');
+        
+        // 发音测试元素
+        const testEnglishSpeechBtn = document.getElementById('test-english-speech');
+        const testChineseSpeechBtn = document.getElementById('test-chinese-speech');
+        
+        // 每周练习元素
+        const weeklyTitle = document.getElementById('weekly-title');
+        const weeklySubtitle = document.getElementById('weekly-subtitle');
+        const weeklyType = document.getElementById('weekly-type');
+        const weeklyEnglish = document.getElementById('weekly-english');
+        const weeklyChinese = document.getElementById('weekly-chinese');
+        const weeklyExample = document.getElementById('weekly-example');
+        const weeklyExampleEnglish = document.getElementById('weekly-example-english');
+        const weeklyExampleChinese = document.getElementById('weekly-example-chinese');
+        const weeklyProgress = document.getElementById('weekly-progress');
+        const weeklyCurrentElement = document.getElementById('weekly-current');
+        const weeklyTotalElement = document.getElementById('weekly-total');
+        const weeklyPrevBtn = document.getElementById('weekly-prev-btn');
+        const weeklySpeakBtn = document.getElementById('weekly-speak-btn');
+        const weeklyNextBtn = document.getElementById('weekly-next-btn');
+        const weeklyToggleChineseBtn = document.getElementById('weekly-toggle-chinese-btn');
+        const loadWeeklyBtn = document.getElementById('load-weekly-btn');
+        const reloadWeeklyBtn = document.getElementById('reload-weekly-btn');
+        
+        // 每周练习JSON文件示例（用于当外部文件不存在时）
+        const weeklyPracticeExample = {
+            "title": "第12周英语练习",
+            "subtitle": "专业术语与日常表达",
+            "description": "本周练习包含质量管理和日常交流的词汇与表达",
+            "week": 12,
+            "date": "2023-10-30",
+            "items": [
+                {
+                    "type": "word",
+                    "english": "validation",
+                    "chinese": "验证",
+                    "category": "质量体系与GMP",
+                    "example": "The validation process ensures product quality.",
+                    "exampleChinese": "验证过程确保产品质量。"
+                },
+                {
+                    "type": "word",
+                    "english": "calibration",
+                    "chinese": "校准",
+                    "category": "分析检测与质量控制",
+                    "example": "Regular calibration of instruments is required.",
+                    "exampleChinese": "需要定期校准仪器。"
+                },
+                {
+                    "type": "sentence",
+                    "english": "Please submit the quality report by Friday.",
+                    "chinese": "请在周五前提交质量报告。",
+                    "category": "常用词语"
+                },
+                {
+                    "type": "phrase",
+                    "english": "follow up",
+                    "chinese": "跟进",
+                    "category": "常用词语",
+                    "example": "I will follow up with the supplier tomorrow.",
+                    "exampleChinese": "我明天会跟进供应商。"
+                },
+                {
+                    "type": "word",
+                    "english": "audit",
+                    "chinese": "审核",
+                    "category": "质量体系与GMP",
+                    "example": "The internal audit is scheduled for next week.",
+                    "exampleChinese": "内部审核安排在下周。"
+                },
+                {
+                    "type": "sentence",
+                    "english": "Could you please clarify this requirement?",
+                    "chinese": "你能澄清一下这个要求吗？",
+                    "category": "常用词语"
+                },
+                {
+                    "type": "phrase",
+                    "english": "on track",
+                    "chinese": "按计划进行",
+                    "category": "常用词语",
+                    "example": "The project is on track for completion.",
+                    "exampleChinese": "项目按计划完成。"
+                },
+                {
+                    "type": "word",
+                    "english": "specification",
+                    "chinese": "规格",
+                    "category": "研发与工艺",
+                    "example": "The product meets all specifications.",
+                    "exampleChinese": "产品符合所有规格。"
+                }
+            ]
+        };
+        
+        // 检查浏览器是否支持语音合成
+        function checkSpeechSupport() {
+            isSpeechSupported = 'speechSynthesis' in window;
+            return isSpeechSupported;
+        }
+        
+        // 加载签到数据
+        function loadCheckinData() {
+            const savedCheckinData = localStorage.getItem('longlai-checkin-data');
+            if (savedCheckinData) {
+                try {
+                    userCheckinData = JSON.parse(savedCheckinData);
+                    
+                    // 检查是否需要重置连续天数（如果昨天没签到）
+                    const today = new Date().toDateString();
+                    const lastCheckin = userCheckinData.lastCheckinDate ? new Date(userCheckinData.lastCheckinDate).toDateString() : null;
+                    
+                    if (lastCheckin) {
+                        const lastCheckinDate = new Date(userCheckinData.lastCheckinDate);
+                        const todayDate = new Date();
+                        const diffTime = Math.abs(todayDate - lastCheckinDate);
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                        
+                        // 如果上次签到不是昨天（且不是今天），重置连续天数
+                        if (diffDays > 1 && lastCheckin !== today) {
+                            userCheckinData.consecutiveDays = 0;
+                        }
+                    }
+                    
+                    updateCheckinDisplay();
+                    
+                } catch (e) {
+                    console.error('加载签到数据失败:', e);
+                    resetCheckinData();
+                }
+            } else {
+                resetCheckinData();
+            }
+        }
+        
+        // 重置签到数据
+        function resetCheckinData() {
+            userCheckinData = {
+                totalCheckins: 0,
+                consecutiveDays: 0,
+                lastCheckinDate: null,
+                checkinHistory: []
+            };
+            updateCheckinDisplay();
+        }
+        
+        // 更新签到显示
+        function updateCheckinDisplay() {
+            checkinDaysElement.textContent = userCheckinData.consecutiveDays;
+            totalCheckinsElement.textContent = userCheckinData.totalCheckins;
+            
+            // 检查今天是否已签到
+            const today = new Date().toDateString();
+            const lastCheckin = userCheckinData.lastCheckinDate ? new Date(userCheckinData.lastCheckinDate).toDateString() : null;
+            
+            if (lastCheckin === today) {
+                checkinBtn.innerHTML = '<i class="fas fa-check-circle"></i> 今日已签到';
+                checkinBtn.disabled = true;
+                checkinRecordElement.innerHTML = `<i class="fas fa-check"></i> 今日已签到，继续保持！`;
+            } else {
+                checkinBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> 今日签到';
+                checkinBtn.disabled = false;
+                checkinRecordElement.innerHTML = lastCheckin ? 
+                    `<i class="fas fa-history"></i> 上次签到: ${formatDate(userCheckinData.lastCheckinDate)}` :
+                    `<i class="fas fa-info-circle"></i> 您还没有签到记录`;
+            }
+            
+            // 显示签到历史
+            if (userCheckinData.checkinHistory.length > 0) {
+                const recentHistory = userCheckinData.checkinHistory.slice(-5).reverse();
+                checkinRecordElement.innerHTML += `<div style="margin-top: 5px; font-size: 0.7rem;">最近签到: ${recentHistory.map(date => formatDate(date, true)).join(', ')}</div>`;
+            }
+            
+            saveCheckinData();
+        }
+        
+        // 格式化日期
+        function formatDate(dateString, short = false) {
+            const date = new Date(dateString);
+            if (short) {
+                return `${date.getMonth() + 1}/${date.getDate()}`;
+            }
+            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+        }
+        
+        // 执行签到
+        function performCheckin() {
+            const today = new Date();
+            const todayString = today.toISOString().split('T')[0];
+            
+            // 检查是否今天已经签到过
+            if (userCheckinData.lastCheckinDate) {
+                const lastCheckinDate = new Date(userCheckinData.lastCheckinDate);
+                const lastCheckinString = lastCheckinDate.toISOString().split('T')[0];
                 
-                // 为当前点击的选项卡添加active类
-                $(this).addClass("active");
-                const tabId = $(this).data("tab");
-                $(`#${tabId}-tab`).addClass("active");
+                if (lastCheckinString === todayString) {
+                    alert('今天已经签到过了！');
+                    return;
+                }
+                
+                // 检查是否是连续签到
+                const yesterday = new Date(today);
+                yesterday.setDate(yesterday.getDate() - 1);
+                const yesterdayString = yesterday.toISOString().split('T')[0];
+                
+                if (lastCheckinString === yesterdayString) {
+                    // 连续签到
+                    userCheckinData.consecutiveDays++;
+                } else {
+                    // 非连续签到，重置连续天数
+                    userCheckinData.consecutiveDays = 1;
+                }
+            } else {
+                // 第一次签到
+                userCheckinData.consecutiveDays = 1;
+            }
+            
+            // 更新签到数据
+            userCheckinData.totalCheckins++;
+            userCheckinData.lastCheckinDate = today.toISOString();
+            
+            // 添加到签到历史（保留最近30天）
+            userCheckinData.checkinHistory.push(today.toISOString());
+            if (userCheckinData.checkinHistory.length > 30) {
+                userCheckinData.checkinHistory = userCheckinData.checkinHistory.slice(-30);
+            }
+            
+            // 更新显示并保存
+            updateCheckinDisplay();
+            
+            // 显示签到成功消息
+            showCustomNotification(`签到成功！连续签到 ${userCheckinData.consecutiveDays} 天`, 'success');
+            
+            // 触发一个小动画
+            checkinBtn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                checkinBtn.style.transform = 'scale(1)';
+            }, 150);
+        }
+        
+        // 保存签到数据
+        function saveCheckinData() {
+            localStorage.setItem('longlai-checkin-data', JSON.stringify(userCheckinData));
+        }
+        
+        // 显示自定义通知
+        function showCustomNotification(message, type = 'info') {
+            // 移除旧的通知
+            const oldNotification = document.querySelector('.custom-notification');
+            if (oldNotification) {
+                oldNotification.remove();
+            }
+            
+            // 创建新通知
+            const notification = document.createElement('div');
+            notification.className = `custom-notification ${type}`;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            // 添加到页面
+            document.body.appendChild(notification);
+            
+            // 设置样式
+            notification.style.cssText = `
+                position: fixed;
+                top: 70px;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: ${type === 'success' ? 'var(--accent-color)' : type === 'error' ? 'var(--danger-color)' : 'var(--secondary-color)'};
+                color: white;
+                padding: 8px 16px;
+                border-radius: 20px;
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+                z-index: 1001;
+                opacity: 0;
+                transition: opacity 0.3s, transform 0.3s;
+                font-size: 0.8rem;
+                font-weight: 600;
+            `;
+            
+            // 显示通知
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateX(-50%) translateY(0)';
+            }, 10);
+            
+            // 3秒后隐藏
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(-50%) translateY(-10px)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+        
+        // 生成用户自定义术语的唯一ID
+        function generateUserId(word) {
+            // 基于英文、中文和创建时间生成唯一ID
+            const timestamp = word.createdAt || new Date().toISOString();
+            const baseStr = `${word.english}_${word.chinese}_${timestamp}`;
+            let hash = 0;
+            for (let i = 0; i < baseStr.length; i++) {
+                const char = baseStr.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // 转换为32位整数
+            }
+            return `user_${Math.abs(hash).toString(16)}`;
+        }
+        
+        // 从外部JSON文件加载术语数据
+        async function loadExternalTerms() {
+            try {
+                loadingIndicator.classList.add('active');
+                
+                // 尝试从外部JSON文件加载
+                const response = await fetch('pharmaceutical_terms.json');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP错误: ${response.status}`);
+                }
+                
+                const externalTerms = await response.json();
+                
+                // 验证数据格式
+                if (!Array.isArray(externalTerms)) {
+                    throw new Error('外部术语数据格式不正确，期望数组');
+                }
+                
+                // 确保每个术语都有必需的字段
+                const validatedTerms = externalTerms.map((term, index) => ({
+                    english: term.english || '',
+                    chinese: term.chinese || '',
+                    category: term.category || '常用词语',
+                    example: term.example || '',
+                    practiceCount: term.practiceCount || 0,
+                    favorite: term.favorite || false,
+                    isSystem: true,
+                    id: term.id || `sys_ext_${index}`,
+                    userId: null,
+                    createdAt: term.createdAt || null
+                }));
+                
+                loadingIndicator.classList.remove('active');
+                return validatedTerms;
+                
+            } catch (error) {
+                console.error('加载外部术语数据失败:', error);
+                loadingIndicator.classList.remove('active');
+                
+                // 如果外部文件加载失败，使用默认术语
+                alert(`加载外部术语文件失败: ${error.message}\n将使用内置默认术语。`);
+                return defaultTerms;
+            }
+        }
+        
+        // 从本地存储加载单词
+        async function loadWords() {
+            const savedWords = localStorage.getItem('longlai-english-words');
+            
+            if (savedWords) {
+                try {
+                    words = JSON.parse(savedWords);
+                    
+                    // 检查数据完整性，确保每个单词都有必需的字段
+                    words = words.map(word => ({
+                        english: word.english || '',
+                        chinese: word.chinese || '',
+                        category: word.category || '常用词语',
+                        example: word.example || '',
+                        practiceCount: word.practiceCount || 0,
+                        favorite: word.favorite || false,
+                        isSystem: word.isSystem || false,
+                        id: word.id || null,
+                        userId: word.userId || (word.isSystem ? null : generateUserId(word)),
+                        createdAt: word.createdAt || (word.isSystem ? null : new Date().toISOString())
+                    }));
+                    
+                    // 如果用户自定义术语没有userId，则生成一个
+                    words.forEach(word => {
+                        if (!word.isSystem && !word.userId) {
+                            word.userId = generateUserId(word);
+                        }
+                    });
+                    
+                    updateWordCount();
+                    updatePracticeStats();
+                    renderWordList();
+                    
+                    // 如果没有系统术语，加载外部术语
+                    const hasSystemTerms = words.some(word => word.isSystem);
+                    if (!hasSystemTerms) {
+                        await initializeDefaultWords();
+                    }
+                    
+                } catch (e) {
+                    console.error('加载单词数据失败:', e);
+                    await initializeDefaultWords();
+                }
+            } else {
+                await initializeDefaultWords();
+            }
+        }
+        
+        // 初始化默认单词数据
+        async function initializeDefaultWords() {
+            // 从外部JSON文件加载术语
+            const externalTerms = await loadExternalTerms();
+            
+            // 将外部术语添加到现有单词中（避免重复）
+            externalTerms.forEach(newTerm => {
+                const exists = words.some(existingWord => 
+                    existingWord.english.toLowerCase() === newTerm.english.toLowerCase() &&
+                    existingWord.chinese === newTerm.chinese
+                );
+                
+                if (!exists) {
+                    words.push(newTerm);
+                }
             });
+            
+            saveWords();
+            renderWordList();
+            updatePracticeStats();
+        }
+        
+        // 保存单词到本地存储
+        function saveWords() {
+            localStorage.setItem('longlai-english-words', JSON.stringify(words));
+            updateWordCount();
+            updatePracticeStats();
+            showSaveNotification();
+        }
+        
+        // 显示保存成功提示
+        function showSaveNotification() {
+            saveNotification.classList.add('show');
+            setTimeout(() => {
+                saveNotification.classList.remove('show');
+            }, 1500);
+        }
+        
+        // 更新单词计数
+        function updateWordCount() {
+            const count = words.length;
+            wordCountElement.textContent = `${count}词`;
+            
+            // 更新筛选后的计数
+            updateFilteredCount();
+        }
+        
+        // 更新筛选后的计数
+        function updateFilteredCount() {
+            let filteredWords = getFilteredWords();
+            filteredCountElement.textContent = `${filteredWords.length}个术语`;
+            
+            // 更新分类练习统计
+            updateCategoryPracticeCount();
+        }
+        
+        // 获取当前筛选的单词列表
+        function getFilteredWords() {
+            let filteredWords = words;
+            
+            // 1. 首先根据分类筛选
+            if (currentCategoryFilter === 'favorites') {
+                filteredWords = filteredWords.filter(word => word.favorite);
+            } else if (currentCategoryFilter !== 'all') {
+                filteredWords = filteredWords.filter(word => word.category === currentCategoryFilter);
+            }
+            
+            // 2. 然后根据搜索词筛选（如果存在搜索词）
+            if (currentSearchTerm.trim() !== '') {
+                const searchLower = currentSearchTerm.toLowerCase().trim();
+                filteredWords = filteredWords.filter(word => 
+                    word.english.toLowerCase().includes(searchLower) || 
+                    word.chinese.toLowerCase().includes(searchLower) ||
+                    (word.example && word.example.toLowerCase().includes(searchLower)) ||
+                    word.category.toLowerCase().includes(searchLower)
+                );
+            }
+            
+            return filteredWords;
+        }
+        
+        // 根据练习模式获取单词列表
+        function getPracticeWords() {
+            if (currentPracticeMode === 'favorites') {
+                // 收藏复习模式：只返回已收藏的单词
+                return words.filter(word => word.favorite);
+            } else if (currentPracticeMode === 'weekly') {
+                // 每周练习模式：返回每周练习的条目
+                return weeklyItems;
+            } else {
+                // 其他模式：返回当前分类的单词
+                return getFilteredWords();
+            }
+        }
+        
+        // 更新分类练习统计
+        function updateCategoryPracticeCount() {
+            let filteredWords = getFilteredWords();
+            let categoryName = currentCategoryFilter === 'all' ? '全部' : 
+                              currentCategoryFilter === 'favorites' ? '已收藏' : currentCategoryFilter;
+            categoryPracticeCount.textContent = `${categoryName}: ${filteredWords.length}个术语`;
+            
+            // 如果没有单词，禁用练习按钮
+            if (filteredWords.length === 0) {
+                practiceCategoryBtn.disabled = true;
+            } else {
+                practiceCategoryBtn.disabled = false;
+            }
+        }
+        
+        // 更新练习统计信息
+        function updatePracticeStats() {
+            // 总单词数
+            totalWordsElement.textContent = words.length;
+            
+            // 已练习单词数（practiceCount > 0）
+            const practicedWords = words.filter(word => word.practiceCount && word.practiceCount > 0);
+            practicedCountElement.textContent = practicedWords.length;
+            
+            // 已收藏单词数
+            const favoriteWords = words.filter(word => word.favorite);
+            favoriteCountElement.textContent = favoriteWords.length;
+            
+            // 正确率
+            if (practiceStats.totalAttempts > 0) {
+                const correctRate = Math.round((practiceStats.correctAttempts / practiceStats.totalAttempts) * 100);
+                correctCountElement.textContent = `${correctRate}%`;
+            } else {
+                correctCountElement.textContent = '0%';
+            }
+        }
+        
+        // 渲染单词列表
+        function renderWordList() {
+            wordListElement.innerHTML = '';
+            
+            let filteredWords = getFilteredWords();
+            
+            if (filteredWords.length === 0) {
+                emptyListMessage.style.display = 'block';
+                updateFilteredCount();
+                return;
+            }
+            
+            emptyListMessage.style.display = 'none';
+            
+            filteredWords.forEach((word, index) => {
+                // 查找单词在原始数组中的索引
+                const originalIndex = words.findIndex(w => 
+                    w.english === word.english && w.chinese === word.chinese
+                );
+                
+                const wordItem = document.createElement('div');
+                wordItem.className = `word-item ${originalIndex === currentWordIndex ? 'active' : ''} ${speakingWordIndex === originalIndex ? 'speaking' : ''}`;
+                wordItem.innerHTML = `
+                    <div class="word-info">
+                        <div class="word-english">
+                            ${word.english} 
+                            ${originalIndex === speakingWordIndex ? '<span class="pronunciation-indicator"><i class="fas fa-volume-up"></i></span>' : ''}
+                            ${word.isSystem ? '<span class="system-tag">[系统]</span>' : '<span class="user-tag">[自定义]</span>'}
+                        </div>
+                        <div class="word-chinese">${word.chinese}</div>
+                        <div class="word-category">${word.category}</div>
+                    </div>
+                    <div class="word-actions">
+                        <button class="btn btn-primary btn-sm speak-btn" data-id="${word.english}" title="发音">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm delete-btn" data-id="${word.english}" title="删除">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <button class="btn btn-sm favorite-list-btn ${word.favorite ? 'favorite-btn active' : ''}" data-id="${word.english}" title="${word.favorite ? '取消收藏' : '收藏'}">
+                            <i class="${word.favorite ? 'fas' : 'far'} fa-star"></i>
+                        </button>
+                    </div>
+                `;
+                
+                // 添加点击事件 - 点击单词项直接发音
+                wordItem.addEventListener('click', function(e) {
+                    // 如果点击的是按钮区域，不触发单词项点击事件
+                    if (e.target.closest('.word-actions')) {
+                        return;
+                    }
+                    
+                    const english = word.english;
+                    const index = words.findIndex(w => w.english === english);
+                    if (index !== -1) {
+                        selectWordForPractice(index);
+                        speakEnglish();
+                    }
+                });
+                
+                wordListElement.appendChild(wordItem);
+            });
+            
+            // 添加事件监听器 - 发音按钮
+            document.querySelectorAll('.speak-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const english = this.getAttribute('data-id');
+                    const index = words.findIndex(w => w.english === english);
+                    if (index !== -1) {
+                        selectWordForPractice(index);
+                        speakEnglish();
+                    }
+                });
+            });
+            
+            // 添加删除按钮事件监听器
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const english = this.getAttribute('data-id');
+                    deleteWordByEnglish(english);
+                });
+            });
+            
+            // 添加收藏按钮事件监听器
+            document.querySelectorAll('.favorite-list-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const english = this.getAttribute('data-id');
+                    toggleFavoriteByEnglish(english);
+                });
+            });
+            
+            updateFilteredCount();
+        }
+        
+        // 根据英文删除单词
+        function deleteWordByEnglish(english) {
+            const index = words.findIndex(w => w.english === english);
+            if (index === -1) return;
+            
+            const word = words[index];
+            const isSystemWord = word.isSystem;
+            
+            let message = '确定要删除这个术语吗？\n\n';
+            message += `英文: ${word.english}\n`;
+            message += `中文: ${word.chinese}\n`;
+            message += `类型: ${isSystemWord ? '系统术语' : '您自定义的术语'}\n\n`;
+            
+            if (isSystemWord) {
+                message += '这是系统术语，删除后可以通过"更新系统术语"功能恢复。';
+            } else {
+                message += '这是您自定义的术语，删除后无法恢复，除非您有备份。';
+            }
+            
+            if (confirm(message)) {
+                words.splice(index, 1);
+                saveWords();
+                renderWordList();
+                
+                // 如果删除的是当前选中的单词，清空练习区域
+                if (currentWordIndex === index) {
+                    currentWordIndex = -1;
+                    clearPracticeDisplay();
+                    disablePracticeButtons();
+                } else if (currentWordIndex > index) {
+                    currentWordIndex--;
+                }
+            }
+        }
+        
+        // 切换收藏状态
+        function toggleFavoriteByEnglish(english) {
+            const index = words.findIndex(w => w.english === english);
+            if (index !== -1) {
+                words[index].favorite = !words[index].favorite;
+                saveWords();
+                renderWordList();
+                
+                // 如果当前正在练习这个单词，更新按钮状态
+                if (currentWordIndex === index) {
+                    updateFavoriteButton();
+                }
+                
+                // 如果当前正在收藏复习模式，且取消收藏了当前单词，需要重新获取练习列表
+                if (isPracticing && currentPracticeMode === 'favorites' && currentWordIndex === index && !words[index].favorite) {
+                    // 重新获取练习单词列表
+                    practiceWords = getPracticeWords();
+                    if (practiceWords.length === 0) {
+                        // 如果没有收藏的单词了，结束练习
+                        endPractice();
+                        alert('已取消收藏所有单词，练习已结束。');
+                    } else {
+                        // 调整练习索引
+                        practiceIndex = Math.max(0, practiceIndex - 1);
+                        const word = practiceWords[practiceIndex];
+                        const originalIndex = words.findIndex(w => w.english === word.english && w.chinese === word.chinese);
+                        if (originalIndex !== -1) {
+                            selectWordForPractice(originalIndex);
+                            updatePracticeProgress();
+                        }
+                    }
+                }
+            }
+        }
+        
+        // 添加新单词
+        function addWord() {
+            const english = englishInput.value.trim();
+            const chinese = chineseInput.value.trim();
+            const example = exampleInput.value.trim();
+            const category = categoryInput.value;
+            
+            if (!english || !chinese) {
+                alert('请填写英文术语和中文释义！');
+                return;
+            }
+            
+            // 检查是否已存在相同的单词（不区分系统还是用户）
+            const existingIndex = words.findIndex(w => 
+                w.english.toLowerCase() === english.toLowerCase() && 
+                w.chinese === chinese
+            );
+            
+            if (existingIndex >= 0) {
+                // 如果已存在，询问是否更新
+                if (confirm('这个术语已经存在，要更新它吗？')) {
+                    // 保留原有的属性，只更新内容
+                    words[existingIndex] = {
+                        ...words[existingIndex],
+                        english,
+                        chinese,
+                        category,
+                        example
+                    };
+                    saveWords();
+                    renderWordList();
+                }
+            } else {
+                // 添加新单词（用户自定义）
+                const newWord = {
+                    english,
+                    chinese,
+                    category,
+                    example,
+                    practiceCount: 0,
+                    favorite: false,
+                    isSystem: false,
+                    id: null,
+                    userId: generateUserId({ english, chinese, createdAt: new Date().toISOString() }),
+                    createdAt: new Date().toISOString()
+                };
+                
+                words.push(newWord);
+                saveWords();
+                renderWordList();
+            }
+            
+            // 清空输入框
+            englishInput.value = '';
+            chineseInput.value = '';
+            exampleInput.value = '';
+            englishInput.focus();
+        }
+        
+        // 为练习选择单词
+        function selectWordForPractice(index) {
+            if (index < 0 || index >= words.length) return;
+            
+            currentWordIndex = index;
+            const word = words[index];
+            
+            // 更新练习区域显示
+            practiceEnglish.textContent = word.english;
+            practiceChinese.textContent = word.chinese;
+            practiceChinese.classList.remove('show'); // 隐藏中文
+            practiceCategory.textContent = word.category;
+            
+            // 更新当前分类显示
+            if (currentPracticeMode === 'favorites') {
+                currentCategoryDisplay.textContent = '收藏复习';
+            } else {
+                currentCategoryDisplay.textContent = word.category;
+            }
+            
+            // 更新收藏按钮状态
+            updateFavoriteButton();
+            
+            // 启用练习按钮
+            enablePracticeButtons();
+            
+            // 更新单词列表高亮
+            renderWordList();
+            
+            // 更新练习进度
+            updatePracticeProgress();
+        }
+        
+        // 清空练习显示
+        function clearPracticeDisplay() {
+            // 基础练习
+            practiceEnglish.textContent = '请选择练习模式并点击"开始练习"按钮';
+            practiceChinese.textContent = '';
+            practiceChinese.classList.remove('show');
+            practiceCategory.textContent = '常用词语';
+            currentCategoryDisplay.textContent = '全部';
+            disablePracticeButtons();
+            practiceProgress.style.display = 'none';
+            favoritesReviewHint.style.display = 'none';
+            
+            // 英译中练习
+            engToChCategory.textContent = '常用词语';
+            engToChEnglish.textContent = '';
+            chineseAnswerInput.value = '';
+            engToChResult.style.display = 'none';
+            
+            // 中译英练习 - 修复：使用正确的元素ID
+            chToEngCategory.textContent = '常用词语';
+            chToEngChinese.textContent = '';
+            englishAnswerInput.value = '';
+            chToEngResult.style.display = 'none';
+            
+            // 单词填空练习
+            fillBlankCategory.textContent = '常用词语';
+            blankWord.innerHTML = '';
+            blankHint.textContent = '';
+            blankAnswerInput.value = '';
+            fillBlankResult.style.display = 'none';
+            
+            // 每周练习
+            weeklyTitle.textContent = '每周练习';
+            weeklySubtitle.textContent = '加载每周更新的学习内容';
+            weeklyType.textContent = '单词';
+            weeklyEnglish.textContent = '请点击"加载每周练习"按钮';
+            weeklyChinese.textContent = '';
+            weeklyChinese.classList.remove('show');
+            weeklyExample.style.display = 'none';
+            weeklyCurrentElement.textContent = '0';
+            weeklyTotalElement.textContent = '0';
+            weeklyProgress.style.display = 'none';
+            weeklyPrevBtn.disabled = true;
+            weeklySpeakBtn.disabled = true;
+            weeklyNextBtn.disabled = true;
+            weeklyToggleChineseBtn.disabled = true;
+        }
+        
+        // 更新收藏按钮状态
+        function updateFavoriteButton() {
+            if (currentWordIndex >= 0) {
+                const word = words[currentWordIndex];
+                if (word.favorite) {
+                    toggleFavoriteBtn.innerHTML = '<i class="fas fa-star"></i> 已收藏';
+                    toggleFavoriteBtn.classList.add('favorite-btn', 'active');
+                } else {
+                    toggleFavoriteBtn.innerHTML = '<i class="far fa-star"></i> 收藏';
+                    toggleFavoriteBtn.classList.remove('favorite-btn', 'active');
+                }
+            }
+        }
+        
+        // 启用练习按钮
+        function enablePracticeButtons() {
+            speakEnglishBtn.disabled = false;
+            prevWordBtn.disabled = false;
+            nextWordBtn.disabled = false;
+            showChineseBtn.disabled = false;
+            toggleFavoriteBtn.disabled = false;
+        }
+        
+        // 禁用练习按钮
+        function disablePracticeButtons() {
+            speakEnglishBtn.disabled = true;
+            prevWordBtn.disabled = true;
+            nextWordBtn.disabled = true;
+            showChineseBtn.disabled = true;
+            toggleFavoriteBtn.disabled = true;
+        }
+        
+        // 更新练习模式描述
+        function updatePracticeModeDescription() {
+            let modeName = '';
+            let description = '';
+            
+            switch(currentPracticeMode) {
+                case 'category':
+                    modeName = '分类练习';
+                    description = '显示英文术语，尝试回忆中文释义，点击"查看中文"验证答案。';
+                    break;
+                case 'favorites':
+                    modeName = '收藏复习';
+                    description = '显示英文术语，尝试回忆中文释义，点击"查看中文"验证答案。';
+                    break;
+                case 'eng-to-ch':
+                    modeName = '英译中练习';
+                    description = '显示英文术语，在输入框中输入中文翻译，点击"检查答案"验证。';
+                    break;
+                case 'ch-to-eng':
+                    modeName = '中译英练习';
+                    description = '显示中文释义，在输入框中输入英文术语，点击"检查答案"验证。';
+                    break;
+                case 'fill-blank':
+                    modeName = '单词填空练习';
+                    description = '显示部分字母缺失的英文单词，补全完整单词，点击"检查答案"验证。';
+                    break;
+                case 'weekly':
+                    modeName = '每周练习';
+                    description = '加载每周更新的学习内容，包含单词、语句和短句，可进行发音练习。';
+                    break;
+            }
+            
+            currentModeName.textContent = modeName;
+            modeDescription.textContent = description;
+        }
+        
+        // 隐藏所有练习区域
+        function hideAllPracticeSections() {
+            basicPracticeSection.style.display = 'none';
+            engToChPracticeSection.style.display = 'none';
+            chToEngPracticeSection.style.display = 'none';
+            fillBlankPracticeSection.style.display = 'none';
+            weeklyPracticeSection.style.display = 'none';
+        }
+        
+        // 切换练习模式
+        function switchPracticeMode(mode) {
+            currentPracticeMode = mode;
+            
+            // 更新模式按钮状态
+            modeButtons.forEach(button => {
+                if (button.getAttribute('data-mode') === mode) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+            
+            // 更新模式说明
+            updatePracticeModeDescription();
+            
+            // 显示/隐藏相应的练习区域
+            hideAllPracticeSections();
+            
+            if (mode === 'category' || mode === 'favorites') {
+                // 基础练习模式
+                basicPracticeSection.style.display = 'block';
+                basicControls.style.display = 'grid';
+                // 更新开始练习按钮文本
+                startPracticeBtn.innerHTML = '<i class="fas fa-play-circle"></i> 开始练习';
+                startPracticeBtn.style.display = 'block';
+                endPracticeBtn.style.display = 'none';
+            } else if (mode === 'eng-to-ch') {
+                // 英译中练习模式
+                engToChPracticeSection.style.display = 'block';
+                basicControls.style.display = 'none';
+                startPracticeBtn.innerHTML = '<i class="fas fa-play-circle"></i> 开始英译中练习';
+                startPracticeBtn.style.display = 'block';
+                endPracticeBtn.style.display = 'none';
+            } else if (mode === 'ch-to-eng') {
+                // 中译英练习模式
+                chToEngPracticeSection.style.display = 'block';
+                basicControls.style.display = 'none';
+                startPracticeBtn.innerHTML = '<i class="fas fa-play-circle"></i> 开始中译英练习';
+                startPracticeBtn.style.display = 'block';
+                endPracticeBtn.style.display = 'none';
+            } else if (mode === 'fill-blank') {
+                // 单词填空练习模式
+                fillBlankPracticeSection.style.display = 'block';
+                basicControls.style.display = 'none';
+                startPracticeBtn.innerHTML = '<i class="fas fa-play-circle"></i> 开始单词填空练习';
+                startPracticeBtn.style.display = 'block';
+                endPracticeBtn.style.display = 'none';
+            } else if (mode === 'weekly') {
+                // 每周练习模式
+                weeklyPracticeSection.style.display = 'block';
+                basicControls.style.display = 'none';
+                startPracticeBtn.style.display = 'none';
+                endPracticeBtn.style.display = 'none';
+                
+                // 如果已经加载过每周练习数据，显示数据
+                if (weeklyDataLoaded && weeklyItems.length > 0) {
+                    showWeeklyItem();
+                }
+            }
+            
+            // 清空当前练习显示
+            if (!isPracticing) {
+                clearPracticeDisplay();
+            }
+        }
+        
+        // 开始练习
+        function startPractice() {
+            if (isPracticing) {
+                return;
+            }
+            
+            let wordsToPractice = getPracticeWords();
+            
+            if (wordsToPractice.length === 0) {
+                if (currentPracticeMode === 'favorites') {
+                    alert('您还没有收藏任何单词，请先收藏一些单词再开始复习！');
+                } else {
+                    alert('当前分类没有术语可练习！');
+                }
+                return;
+            }
+            
+            // 创建练习单词列表
+            practiceWords = [...wordsToPractice];
+            practiceIndex = 0;
+            isPracticing = true;
+            
+            // 更新按钮状态
+            startPracticeBtn.style.display = 'none';
+            endPracticeBtn.style.display = 'block';
+            practiceProgress.style.display = (currentPracticeMode === 'category' || currentPracticeMode === 'favorites') ? 'block' : 'none';
+            
+            // 显示/隐藏收藏复习提示
+            if (currentPracticeMode === 'favorites') {
+                favoritesReviewHint.style.display = 'block';
+            } else {
+                favoritesReviewHint.style.display = 'none';
+            }
+            
+            // 根据当前练习模式开始练习
+            startPracticeByMode();
+        }
+        
+        // 根据练习模式开始练习
+        function startPracticeByMode() {
+            if (practiceWords.length === 0) return;
+            
+            const currentWord = practiceWords[practiceIndex];
+            const originalIndex = words.findIndex(w => w.english === currentWord.english && w.chinese === currentWord.chinese);
+            
+            if (originalIndex === -1) return;
+            
+            if (currentPracticeMode === 'category' || currentPracticeMode === 'favorites') {
+                // 基础练习模式
+                selectWordForPractice(originalIndex);
+                
+                // 自动朗读第一个单词
+                setTimeout(() => {
+                    speakEnglish();
+                }, 500);
+            } else if (currentPracticeMode === 'eng-to-ch') {
+                // 英译中练习模式
+                setupEngToChPractice(currentWord, originalIndex);
+            } else if (currentPracticeMode === 'ch-to-eng') {
+                // 中译英练习模式
+                setupChToEngPractice(currentWord, originalIndex);
+            } else if (currentPracticeMode === 'fill-blank') {
+                // 单词填空练习模式
+                setupFillBlankPractice(currentWord, originalIndex);
+            }
+        }
+        
+        // 设置英译中练习
+        function setupEngToChPractice(word, index) {
+            currentWordIndex = index;
+            
+            // 更新显示
+            engToChCategory.textContent = word.category;
+            engToChEnglish.textContent = word.english;
+            
+            // 清空输入和结果
+            chineseAnswerInput.value = '';
+            engToChResult.style.display = 'none';
+            engToChResult.className = 'practice-result';
+            
+            // 启用按钮
+            checkEngToChBtn.disabled = false;
+            skipEngToChBtn.disabled = false;
+            
+            // 聚焦输入框
+            chineseAnswerInput.focus();
+            
+            // 更新练习进度
+            updatePracticeProgress();
+        }
+        
+        // 设置中译英练习
+        function setupChToEngPractice(word, index) {
+            currentWordIndex = index;
+            
+            // 更新显示 - 修复：确保中文正确显示
+            chToEngCategory.textContent = word.category;
+            chToEngChinese.textContent = word.chinese;
+            
+            // 清空输入和结果
+            englishAnswerInput.value = '';
+            chToEngResult.style.display = 'none';
+            chToEngResult.className = 'practice-result';
+            
+            // 启用按钮
+            checkChToEngBtn.disabled = false;
+            skipChToEngBtn.disabled = false;
+            
+            // 聚焦输入框
+            englishAnswerInput.focus();
+            
+            // 更新练习进度
+            updatePracticeProgress();
+        }
+        
+        // 设置单词填空练习
+        function setupFillBlankPractice(word, index) {
+            currentWordIndex = index;
+            
+            // 更新显示
+            fillBlankCategory.textContent = word.category;
+            
+            // 生成填空单词
+            const blankWordResult = generateBlankWord(word.english);
+            blankWord.innerHTML = blankWordResult.display;
+            blankHint.textContent = `中文: ${word.chinese} (${word.english.length}个字母)`;
+            
+            // 清空输入和结果
+            blankAnswerInput.value = '';
+            fillBlankResult.style.display = 'none';
+            fillBlankResult.className = 'practice-result';
+            
+            // 启用按钮
+            checkFillBlankBtn.disabled = false;
+            skipFillBlankBtn.disabled = false;
+            
+            // 聚焦输入框
+            blankAnswerInput.focus();
+            
+            // 更新练习进度
+            updatePracticeProgress();
+        }
+        
+        // 生成填空单词
+        function generateBlankWord(english) {
+            // 随机决定隐藏多少个字母（1/3到1/2的字母）
+            const wordLength = english.length;
+            const minBlanks = Math.max(1, Math.floor(wordLength / 3));
+            const maxBlanks = Math.max(minBlanks, Math.floor(wordLength / 2));
+            const numBlanks = Math.floor(Math.random() * (maxBlanks - minBlanks + 1)) + minBlanks;
+            
+            // 随机选择要隐藏的字母位置
+            const positions = [];
+            while (positions.length < numBlanks) {
+                const pos = Math.floor(Math.random() * wordLength);
+                if (!positions.includes(pos)) {
+                    positions.push(pos);
+                }
+            }
+            
+            // 按顺序排序
+            positions.sort((a, b) => a - b);
+            
+            // 创建显示字符串
+            let display = '';
+            let answerKey = '';
+            
+            for (let i = 0; i < wordLength; i++) {
+                if (positions.includes(i)) {
+                    display += `<span class="blank-space" data-index="${i}"></span>`;
+                    answerKey += '_';
+                } else {
+                    display += `<span class="blank-letter">${english[i]}</span>`;
+                    answerKey += english[i];
+                }
+            }
+            
+            return {
+                display: display,
+                answerKey: answerKey,
+                positions: positions
+            };
+        }
+        
+        // 下一个练习单词
+        function nextPracticeWord() {
+            if (!isPracticing || practiceWords.length === 0) return;
+            
+            practiceIndex = (practiceIndex + 1) % practiceWords.length;
+            
+            // 根据当前练习模式显示下一个单词
+            startPracticeByMode();
+        }
+        
+        // 上一个单词
+        function prevWord() {
+            if (!isPracticing || practiceWords.length === 0) return;
+            
+            practiceIndex = (practiceIndex - 1 + practiceWords.length) % practiceWords.length;
+            
+            const word = practiceWords[practiceIndex];
+            const originalIndex = words.findIndex(w => w.english === word.english && w.chinese === word.chinese);
+            
+            if (originalIndex !== -1) {
+                if (currentPracticeMode === 'category' || currentPracticeMode === 'favorites') {
+                    selectWordForPractice(originalIndex);
+                    // 自动朗读英文
+                    setTimeout(() => {
+                        speakEnglish();
+                    }, 100);
+                } else {
+                    // 对于输入练习模式，重新设置练习
+                    startPracticeByMode();
+                }
+            }
+        }
+        
+        // 下一个单词（基础练习模式）
+        function nextWord() {
+            if (!isPracticing || practiceWords.length === 0) return;
+            
+            practiceIndex = (practiceIndex + 1) % practiceWords.length;
+            
+            const word = practiceWords[practiceIndex];
+            const originalIndex = words.findIndex(w => w.english === word.english && w.chinese === word.chinese);
+            
+            if (originalIndex !== -1) {
+                if (currentPracticeMode === 'category' || currentPracticeMode === 'favorites') {
+                    selectWordForPractice(originalIndex);
+                    // 自动朗读英文
+                    setTimeout(() => {
+                        speakEnglish();
+                    }, 100);
+                } else {
+                    // 对于输入练习模式，重新设置练习
+                    startPracticeByMode();
+                }
+            }
+        }
+        
+        // 跳过当前单词
+        function skipPracticeWord() {
+            if (!isPracticing || practiceWords.length === 0) return;
+            
+            // 直接进入下一个单词
+            nextPracticeWord();
+        }
+        
+        // 显示中文
+        function showChinese() {
+            practiceChinese.classList.add('show');
+        }
+        
+        // 切换收藏状态
+        function toggleFavorite() {
+            if (currentWordIndex >= 0) {
+                words[currentWordIndex].favorite = !words[currentWordIndex].favorite;
+                saveWords();
+                renderWordList();
+                updateFavoriteButton();
+                updatePracticeStats();
+                
+                // 如果正在收藏复习模式，需要更新练习列表
+                if (isPracticing && currentPracticeMode === 'favorites') {
+                    practiceWords = getPracticeWords();
+                    if (practiceWords.length === 0) {
+                        endPractice();
+                        alert('已取消收藏所有单词，练习已结束。');
+                    } else {
+                        // 重新查找当前单词在练习列表中的位置
+                        const currentWord = words[currentWordIndex];
+                        const newIndex = practiceWords.findIndex(w => w.english === currentWord.english && w.chinese === currentWord.chinese);
+                        if (newIndex !== -1) {
+                            practiceIndex = newIndex;
+                        } else {
+                            // 如果当前单词被取消收藏，选择前一个单词
+                            practiceIndex = Math.max(0, practiceIndex - 1);
+                            const word = practiceWords[practiceIndex];
+                            const originalIndex = words.findIndex(w => w.english === word.english && w.chinese === word.chinese);
+                            if (originalIndex !== -1) {
+                                selectWordForPractice(originalIndex);
+                            }
+                        }
+                        updatePracticeProgress();
+                    }
+                }
+            }
+        }
+        
+        // 更新练习进度
+        function updatePracticeProgress() {
+            if (isPracticing && practiceWords.length > 0) {
+                currentProgressElement.textContent = practiceIndex + 1;
+                totalProgressElement.textContent = practiceWords.length;
+            }
+        }
+        
+        // 检查英译中答案
+        function checkEngToChAnswer() {
+            const userAnswer = chineseAnswerInput.value.trim();
+            const currentWord = words[currentWordIndex];
+            
+            if (!userAnswer) {
+                alert('请输入中文翻译！');
+                return;
+            }
+            
+            // 更新统计
+            practiceStats.totalAttempts++;
+            
+            // 检查答案（允许部分匹配）
+            const correctAnswer = currentWord.chinese;
+            let isCorrect = false;
+            
+            // 简单匹配：移除空格和标点进行比较
+            const normalize = (str) => str.replace(/\s+/g, '').replace(/[（）()]/g, '');
+            
+            if (normalize(userAnswer) === normalize(correctAnswer)) {
+                isCorrect = true;
+                practiceStats.correctAttempts++;
+            } else {
+                // 尝试部分匹配：用户答案是否包含正确答案的关键部分
+                const userParts = userAnswer.split(/[，、]/);
+                const correctParts = correctAnswer.split(/[，、]/);
+                
+                let matchCount = 0;
+                userParts.forEach(part => {
+                    if (correctParts.some(correctPart => correctPart.includes(part.trim()) || part.trim().includes(correctPart))) {
+                        matchCount++;
+                    }
+                });
+                
+                // 如果匹配超过一半，视为正确
+                if (matchCount >= Math.max(1, correctParts.length / 2)) {
+                    isCorrect = true;
+                    practiceStats.correctAttempts++;
+                }
+            }
+            
+            // 显示结果
+            engToChResult.style.display = 'block';
+            engToChResult.className = `practice-result ${isCorrect ? 'correct' : 'incorrect'}`;
+            
+            if (isCorrect) {
+                engToChResult.innerHTML = `
+                    <div><i class="fas fa-check-circle"></i> 回答正确！</div>
+                    <div class="correct-answer">中文释义: ${correctAnswer}</div>
+                `;
+                
+                // 增加练习次数
+                words[currentWordIndex].practiceCount = (words[currentWordIndex].practiceCount || 0) + 1;
+                saveWords();
+                
+                // 自动进入下一个单词
+                setTimeout(() => {
+                    nextPracticeWord();
+                }, 1500);
+            } else {
+                engToChResult.innerHTML = `
+                    <div><i class="fas fa-times-circle"></i> 回答不正确</div>
+                    <div class="correct-answer">正确答案: ${correctAnswer}</div>
+                    <div style="margin-top: 5px;">你的答案: ${userAnswer}</div>
+                `;
+            }
+            
+            // 更新统计显示
+            updatePracticeStats();
+        }
+        
+        // 检查中译英答案
+        function checkChToEngAnswer() {
+            const userAnswer = englishAnswerInput.value.trim().toLowerCase();
+            const currentWord = words[currentWordIndex];
+            
+            if (!userAnswer) {
+                alert('请输入英文术语！');
+                return;
+            }
+            
+            // 更新统计
+            practiceStats.totalAttempts++;
+            
+            // 检查答案（允许大小写差异）
+            const correctAnswer = currentWord.english.toLowerCase();
+            let isCorrect = false;
+            
+            // 精确匹配
+            if (userAnswer === correctAnswer) {
+                isCorrect = true;
+                practiceStats.correctAttempts++;
+            } else {
+                // 尝试模糊匹配：移除空格、连字符等
+                const normalize = (str) => str.replace(/\s+/g, '').replace(/-/g, '');
+                if (normalize(userAnswer) === normalize(correctAnswer)) {
+                    isCorrect = true;
+                    practiceStats.correctAttempts++;
+                }
+            }
+            
+            // 显示结果
+            chToEngResult.style.display = 'block';
+            chToEngResult.className = `practice-result ${isCorrect ? 'correct' : 'incorrect'}`;
+            
+            if (isCorrect) {
+                chToEngResult.innerHTML = `
+                    <div><i class="fas fa-check-circle"></i> 回答正确！</div>
+                    <div class="correct-answer">英文术语: ${currentWord.english}</div>
+                `;
+                
+                // 增加练习次数
+                words[currentWordIndex].practiceCount = (words[currentWordIndex].practiceCount || 0) + 1;
+                saveWords();
+                
+                // 自动进入下一个单词
+                setTimeout(() => {
+                    nextPracticeWord();
+                }, 1500);
+            } else {
+                chToEngResult.innerHTML = `
+                    <div><i class="fas fa-times-circle"></i> 回答不正确</div>
+                    <div class="correct-answer">正确答案: ${currentWord.english}</div>
+                    <div style="margin-top: 5px;">你的答案: ${userAnswer}</div>
+                `;
+            }
+            
+            // 更新统计显示
+            updatePracticeStats();
+        }
+        
+        // 检查填空答案
+        function checkFillBlankAnswer() {
+            const userAnswer = blankAnswerInput.value.trim().toLowerCase();
+            const currentWord = words[currentWordIndex];
+            
+            if (!userAnswer) {
+                alert('请输入完整单词！');
+                return;
+            }
+            
+            // 更新统计
+            practiceStats.totalAttempts++;
+            
+            // 检查答案（允许大小写差异）
+            const correctAnswer = currentWord.english.toLowerCase();
+            let isCorrect = false;
+            
+            // 精确匹配
+            if (userAnswer === correctAnswer) {
+                isCorrect = true;
+                practiceStats.correctAttempts++;
+            } else {
+                // 尝试模糊匹配：移除空格
+                const normalize = (str) => str.replace(/\s+/g, '');
+                if (normalize(userAnswer) === normalize(correctAnswer)) {
+                    isCorrect = true;
+                    practiceStats.correctAttempts++;
+                }
+            }
+            
+            // 显示结果
+            fillBlankResult.style.display = 'block';
+            fillBlankResult.className = `practice-result ${isCorrect ? 'correct' : 'incorrect'}`;
+            
+            if (isCorrect) {
+                fillBlankResult.innerHTML = `
+                    <div><i class="fas fa-check-circle"></i> 回答正确！</div>
+                    <div class="correct-answer">完整单词: ${currentWord.english}</div>
+                `;
+                
+                // 增加练习次数
+                words[currentWordIndex].practiceCount = (words[currentWordIndex].practiceCount || 0) + 1;
+                saveWords();
+                
+                // 自动进入下一个单词
+                setTimeout(() => {
+                    nextPracticeWord();
+                }, 1500);
+            } else {
+                fillBlankResult.innerHTML = `
+                    <div><i class="fas fa-times-circle"></i> 回答不正确</div>
+                    <div class="correct-answer">正确答案: ${currentWord.english}</div>
+                    <div style="margin-top: 5px;">你的答案: ${userAnswer}</div>
+                `;
+            }
+            
+            // 更新统计显示
+            updatePracticeStats();
+        }
+        
+        // 结束练习
+        function endPractice() {
+            isPracticing = false;
+            practiceWords = [];
+            practiceIndex = 0;
+            
+            // 更新按钮状态
+            startPracticeBtn.style.display = 'block';
+            endPracticeBtn.style.display = 'none';
+            practiceProgress.style.display = 'none';
+            
+            // 禁用输入练习按钮
+            checkEngToChBtn.disabled = true;
+            skipEngToChBtn.disabled = true;
+            checkChToEngBtn.disabled = true;
+            skipChToEngBtn.disabled = true;
+            checkFillBlankBtn.disabled = true;
+            skipFillBlankBtn.disabled = true;
+            
+            // 清空练习显示
+            clearPracticeDisplay();
+        }
+        
+        // 改进的发音函数 - 修复语音选择问题
+        function speakText(text, lang, rate = 1.0) {
+            if (!isSpeechSupported) {
+                alert('您的浏览器不支持语音合成功能，请使用最新版的Chrome、Edge或Safari浏览器。');
+                return;
+            }
+            
+            // 停止当前正在进行的语音
+            speechSynthesis.cancel();
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = lang;
+            utterance.rate = rate;
+            utterance.volume = 1.0;
+            utterance.pitch = 1.0;
+            
+            // 浏览器兼容性修复
+            // 在Chrome/百度浏览器中，语音选择可能存在问题，这里尝试多种方法
+            
+            // 方法1: 如果用户选择了特定的语音，使用它
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+                utterance.lang = selectedVoice.lang || lang;
+            } else {
+                // 方法2: 自动选择适合语言的语音
+                // 尝试找到支持目标语言的语音
+                const availableVoices = speechSynthesis.getVoices();
+                if (availableVoices.length > 0) {
+                    // 根据语言筛选语音
+                    let suitableVoice = null;
+                    
+                    if (lang.startsWith('zh')) {
+                        // 中文语音
+                        suitableVoice = availableVoices.find(voice => 
+                            voice.lang.startsWith('zh') || voice.lang.includes('Chinese')
+                        );
+                    } else if (lang.startsWith('en')) {
+                        // 英文语音
+                        suitableVoice = availableVoices.find(voice => 
+                            voice.lang.startsWith('en') || voice.lang.includes('English')
+                        );
+                    }
+                    
+                    // 如果找到合适的语音，使用它
+                    if (suitableVoice) {
+                        utterance.voice = suitableVoice;
+                        utterance.lang = suitableVoice.lang;
+                    } else if (availableVoices.length > 0) {
+                        // 否则使用第一个可用的语音
+                        utterance.voice = availableVoices[0];
+                        utterance.lang = availableVoices[0].lang;
+                    }
+                }
+            }
+            
+            // 设置发音单词索引
+            speakingWordIndex = currentWordIndex;
+            
+            // 更新单词列表显示
+            renderWordList();
+            
+            // 添加错误处理
+            utterance.onerror = function(event) {
+                console.error('语音合成错误:', event);
+                speakingWordIndex = -1;
+                renderWordList();
+                
+                // 尝试备用方法
+                if (lang.startsWith('zh')) {
+                    showCustomNotification('中文发音失败，尝试使用英文语音', 'error');
+                    // 尝试使用英文语音说中文
+                    setTimeout(() => {
+                        const fallbackUtterance = new SpeechSynthesisUtterance(text);
+                        fallbackUtterance.lang = 'en-US';
+                        fallbackUtterance.rate = 0.8; // 减慢速度
+                        speechSynthesis.speak(fallbackUtterance);
+                    }, 500);
+                } else {
+                    showCustomNotification('发音失败，请检查语音设置或切换语音', 'error');
+                }
+            };
+            
+            utterance.onend = function() {
+                speakingWordIndex = -1;
+                renderWordList();
+                
+                // 增加练习次数
+                if (currentWordIndex >= 0) {
+                    words[currentWordIndex].practiceCount = (words[currentWordIndex].practiceCount || 0) + 1;
+                    saveWords();
+                    updatePracticeStats();
+                }
+            };
+            
+            // 尝试发音
+            try {
+                speechSynthesis.speak(utterance);
+            } catch (error) {
+                console.error('发音异常:', error);
+                showCustomNotification('发音异常，请确保浏览器支持语音合成', 'error');
+            }
+        }
+        
+        // 说英语
+        function speakEnglish() {
+            if (currentWordIndex === -1) {
+                alert('请先选择一个术语！');
+                return;
+            }
+            
+            const word = words[currentWordIndex];
+            speakText(word.english, 'en-US', 1.0);
+        }
+        
+        // 测试英文发音
+        function testEnglishSpeech() {
+            speakText('Hello, this is a test for English pronunciation.', 'en-US', 1.0);
+        }
+        
+        // 测试中文发音
+        function testChineseSpeech() {
+            speakText('你好，这是中文发音测试。', 'zh-CN', 1.0);
+        }
+        
+        // 练习当前分类的单词
+        function practiceCurrentCategory() {
+            let wordsToPractice = getFilteredWords();
+            
+            if (wordsToPractice.length === 0) {
+                alert('当前分类没有术语可练习！');
+                return;
+            }
+            
+            // 设置练习模式为分类练习
+            switchPracticeMode('category');
+            
+            // 切换到练习选项卡
+            switchTab('practice-tab');
+            
+            // 开始练习
+            startPractice();
+        }
+        
+        // 更新系统术语库
+        async function updateSystemTerms() {
+            if (!confirm('这将更新系统术语库，但会保留您添加的自定义术语。确定要继续吗？')) {
+                return;
+            }
+            
+            // 1. 提取用户自定义术语
+            const userWords = words.filter(word => !word.isSystem);
+            
+            // 2. 从外部加载新的系统术语
+            const externalTerms = await loadExternalTerms();
+            
+            // 3. 合并：系统术语 + 用户自定义术语
+            // 但需要处理重复：如果用户添加的术语与系统术语相同，使用用户的版本（保留练习记录和收藏状态）
+            const mergedWords = [...externalTerms];
+            
+            userWords.forEach(userWord => {
+                // 检查是否与系统术语重复
+                const systemDuplicateIndex = mergedWords.findIndex(sysWord => 
+                    sysWord.english.toLowerCase() === userWord.english.toLowerCase() &&
+                    sysWord.chinese === userWord.chinese
+                );
+                
+                if (systemDuplicateIndex >= 0) {
+                    // 保留用户的版本，但标记为系统术语（因为含义相同）
+                    // 这样可以确保练习记录和收藏状态被保留
+                    mergedWords[systemDuplicateIndex] = {
+                        ...userWord,
+                        isSystem: true, // 标记为系统术语
+                        id: mergedWords[systemDuplicateIndex].id // 保留系统ID
+                    };
+                } else {
+                    // 完全不同的术语，直接添加
+                    mergedWords.push(userWord);
+                }
+            });
+            
+            // 4. 保存合并后的数据
+            words = mergedWords;
+            saveWords();
+            renderWordList();
+            
+            alert(`系统术语库已更新！\n当前共有 ${words.length} 个术语，其中 ${userWords.length} 个是您自定义的。`);
+        }
+        
+        // 导出用户自定义术语
+        function exportUserWords() {
+            const userWords = words.filter(word => !word.isSystem);
+            if (userWords.length === 0) {
+                alert('您还没有添加任何自定义术语。');
+                return;
+            }
+            
+            const dataStr = JSON.stringify(userWords, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = '隆莱英语_自定义术语_备份.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+        }
+        
+        // 导入用户自定义术语
+        function importUserWords() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const importedWords = JSON.parse(e.target.result);
+                        
+                        if (!Array.isArray(importedWords)) {
+                            throw new Error('文件格式不正确');
+                        }
+                        
+                        // 验证导入的数据结构
+                        const validWords = importedWords.filter(word => 
+                            word.english && word.chinese && word.category
+                        );
+                        
+                        if (validWords.length === 0) {
+                            alert('导入的文件中没有有效的术语数据。');
+                            return;
+                        }
+                        
+                        // 为导入的术语添加标识
+                        const newUserWords = validWords.map(word => ({
+                            ...word,
+                            isSystem: false,
+                            userId: generateUserId(word),
+                            createdAt: word.createdAt || new Date().toISOString()
+                        }));
+                        
+                        // 添加到现有数据中，避免重复
+                        let addedCount = 0;
+                        newUserWords.forEach(newWord => {
+                            const exists = words.some(existingWord => 
+                                existingWord.english.toLowerCase() === newWord.english.toLowerCase() &&
+                                existingWord.chinese === newWord.chinese
+                            );
+                            
+                            if (!exists) {
+                                words.push(newWord);
+                                addedCount++;
+                            }
+                        });
+                        
+                        saveWords();
+                        renderWordList();
+                        
+                        alert(`成功导入 ${addedCount} 个自定义术语！`);
+                    } catch (error) {
+                        alert('导入失败：' + error.message);
+                    }
+                };
+                
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+        
+        // 清空系统术语（仅保留用户自定义术语）
+        function resetSystemTerms() {
+            if (!confirm('这将移除所有系统术语，只保留您自定义的术语。确定要继续吗？')) {
+                return;
+            }
+            
+            const userWords = words.filter(word => !word.isSystem);
+            words = userWords;
+            saveWords();
+            renderWordList();
+            
+            alert(`已清空系统术语，保留了 ${userWords.length} 个您自定义的术语。`);
+        }
+        
+        // 执行搜索
+        function performSearch() {
+            currentSearchTerm = searchInput.value;
+            
+            // 显示/隐藏清空按钮
+            if (currentSearchTerm.trim() !== '') {
+                clearSearchBtn.style.display = 'block';
+            } else {
+                clearSearchBtn.style.display = 'none';
+            }
+            
+            // 重新渲染单词列表
+            renderWordList();
+        }
+        
+        // 清空搜索
+        function clearSearch() {
+            searchInput.value = '';
+            currentSearchTerm = '';
+            clearSearchBtn.style.display = 'none';
+            renderWordList();
+        }
+        
+        // 改进的加载语音列表函数
+        function loadVoices() {
+            if (!isSpeechSupported) return;
+            
+            // 获取可用的语音列表
+            voices = speechSynthesis.getVoices();
+            
+            // 清空语音选择框
+            voiceSelect.innerHTML = '';
+            
+            // 添加默认选项
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = '自动选择语音 (推荐)';
+            voiceSelect.appendChild(defaultOption);
+            
+            // 按语言分类语音
+            const chineseVoices = [];
+            const englishVoices = [];
+            const otherVoices = [];
+            
+            voices.forEach((voice, index) => {
+                if (voice.lang.startsWith('zh')) {
+                    chineseVoices.push({ voice, index });
+                } else if (voice.lang.startsWith('en')) {
+                    englishVoices.push({ voice, index });
+                } else {
+                    otherVoices.push({ voice, index });
+                }
+            });
+            
+            // 添加中文语音
+            if (chineseVoices.length > 0) {
+                const chineseGroup = document.createElement('optgroup');
+                chineseGroup.label = '中文语音';
+                voiceSelect.appendChild(chineseGroup);
+                
+                chineseVoices.forEach(({ voice, index }) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = `${voice.name} (${voice.lang})`;
+                    chineseGroup.appendChild(option);
+                });
+            }
+            
+            // 添加英文语音
+            if (englishVoices.length > 0) {
+                const englishGroup = document.createElement('optgroup');
+                englishGroup.label = '英文语音';
+                voiceSelect.appendChild(englishGroup);
+                
+                englishVoices.forEach(({ voice, index }) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = `${voice.name} (${voice.lang})`;
+                    englishGroup.appendChild(option);
+                });
+            }
+            
+            // 添加其他语音
+            if (otherVoices.length > 0) {
+                const otherGroup = document.createElement('optgroup');
+                otherGroup.label = '其他语音';
+                voiceSelect.appendChild(otherGroup);
+                
+                otherVoices.forEach(({ voice, index }) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = `${voice.name} (${voice.lang})`;
+                    otherGroup.appendChild(option);
+                });
+            }
+            
+            // 加载保存的语音选择
+            const savedVoiceIndex = localStorage.getItem('longlai-selected-voice');
+            if (savedVoiceIndex !== null && voices[savedVoiceIndex]) {
+                voiceSelect.value = savedVoiceIndex;
+                selectedVoice = voices[savedVoiceIndex];
+            } else if (voices.length > 0) {
+                // 默认选择第一个中文或英文语音
+                const defaultVoice = voices.find(v => v.lang.startsWith('zh') || v.lang.startsWith('en')) || voices[0];
+                selectedVoice = defaultVoice;
+            }
+        }
+        
+        // 保存语音选择
+        function saveVoiceSelection() {
+            if (voiceSelect.value !== '') {
+                localStorage.setItem('longlai-selected-voice', voiceSelect.value);
+            } else {
+                localStorage.removeItem('longlai-selected-voice');
+            }
+        }
+        
+        // 切换选项卡
+        function switchTab(tabId) {
+            // 更新选项卡按钮状态
+            tabButtons.forEach(button => {
+                if (button.getAttribute('data-tab') === tabId) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+            
+            // 更新选项卡内容
+            tabContents.forEach(content => {
+                if (content.id === tabId) {
+                    content.classList.add('active');
+                    
+                    // 切换到练习选项卡时显示签到区域
+                    if (content.id === 'practice-tab') {
+                        checkinSection.style.display = 'block';
+                    } else {
+                        checkinSection.style.display = 'none';
+                    }
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+        }
+        
+        // 切换分类筛选
+        function switchCategoryFilter(category) {
+            currentCategoryFilter = category;
+            
+            // 更新分类按钮状态
+            categoryButtons.forEach(button => {
+                if (button.getAttribute('data-category') === category) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+            
+            // 重新渲染单词列表
+            renderWordList();
+        }
+        
+        // ============== 每周练习功能 ==============
+        
+        // 加载每周练习数据
+        async function loadWeeklyPractice() {
+            if (weeklyDataLoading) return;
+            
+            weeklyDataLoading = true;
+            loadWeeklyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 加载中...';
+            loadWeeklyBtn.disabled = true;
+            
+            try {
+                // 尝试从外部JSON文件加载
+                const response = await fetch(WEEKLY_JSON_URL);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP错误: ${response.status}`);
+                }
+                
+                const weeklyData = await response.json();
+                
+                // 验证数据格式
+                if (!weeklyData.items || !Array.isArray(weeklyData.items)) {
+                    throw new Error('每周练习数据格式不正确');
+                }
+                
+                // 保存数据
+                weeklyItems = weeklyData.items;
+                weeklyDataLoaded = true;
+                
+                // 更新标题和副标题
+                weeklyTitle.textContent = weeklyData.title || '每周练习';
+                weeklySubtitle.textContent = weeklyData.subtitle || `第${weeklyData.week || '0'}周`;
+                
+                // 重置索引
+                weeklyIndex = 0;
+                
+                // 显示第一个项目
+                showWeeklyItem();
+                
+                // 更新按钮状态
+                loadWeeklyBtn.style.display = 'none';
+                reloadWeeklyBtn.style.display = 'block';
+                weeklyPrevBtn.disabled = false;
+                weeklySpeakBtn.disabled = false;
+                weeklyNextBtn.disabled = false;
+                weeklyToggleChineseBtn.disabled = false;
+                weeklyProgress.style.display = 'block';
+                
+                // 高亮显示
+                weeklyPracticeSection.classList.add('weekly-highlight');
+                setTimeout(() => {
+                    weeklyPracticeSection.classList.remove('weekly-highlight');
+                }, 1000);
+                
+                showCustomNotification(`已加载 ${weeklyItems.length} 个每周练习项目`, 'success');
+                
+            } catch (error) {
+                console.error('加载每周练习数据失败:', error);
+                
+                // 如果外部文件加载失败，使用示例数据
+                weeklyItems = weeklyPracticeExample.items;
+                weeklyDataLoaded = true;
+                
+                // 更新标题和副标题
+                weeklyTitle.textContent = weeklyPracticeExample.title;
+                weeklySubtitle.textContent = weeklyPracticeExample.subtitle;
+                
+                // 重置索引
+                weeklyIndex = 0;
+                
+                // 显示第一个项目
+                showWeeklyItem();
+                
+                // 更新按钮状态
+                loadWeeklyBtn.style.display = 'none';
+                reloadWeeklyBtn.style.display = 'block';
+                weeklyPrevBtn.disabled = false;
+                weeklySpeakBtn.disabled = false;
+                weeklyNextBtn.disabled = false;
+                weeklyToggleChineseBtn.disabled = false;
+                weeklyProgress.style.display = 'block';
+                
+                showCustomNotification(`使用示例数据，加载了 ${weeklyItems.length} 个每周练习项目`, 'warning');
+            } finally {
+                weeklyDataLoading = false;
+                loadWeeklyBtn.innerHTML = '<i class="fas fa-download"></i> 加载每周练习';
+                loadWeeklyBtn.disabled = false;
+            }
+        }
+        
+        // 重新加载每周练习数据
+        async function reloadWeeklyPractice() {
+            weeklyDataLoaded = false;
+            weeklyItems = [];
+            weeklyIndex = 0;
+            
+            // 重置显示
+            weeklyEnglish.textContent = '重新加载中...';
+            weeklyChinese.textContent = '';
+            weeklyExample.style.display = 'none';
+            weeklyPrevBtn.disabled = true;
+            weeklySpeakBtn.disabled = true;
+            weeklyNextBtn.disabled = true;
+            weeklyToggleChineseBtn.disabled = true;
+            
+            // 重新加载数据
+            await loadWeeklyPractice();
+        }
+        
+        // 显示当前每周练习项目
+        function showWeeklyItem() {
+            if (!weeklyDataLoaded || weeklyItems.length === 0) return;
+            
+            const item = weeklyItems[weeklyIndex];
+            
+            // 更新类型标签
+            let typeText = '';
+            switch(item.type) {
+                case 'word': typeText = '单词'; break;
+                case 'sentence': typeText = '句子'; break;
+                case 'phrase': typeText = '短语'; break;
+                default: typeText = item.type || '项目';
+            }
+            weeklyType.textContent = typeText;
+            
+            // 更新英文内容
+            weeklyEnglish.textContent = item.english || '';
+            
+            // 更新中文内容（初始隐藏）
+            weeklyChinese.textContent = item.chinese || '';
+            weeklyChinese.classList.remove('show');
+            
+            // 更新例句（如果有）
+            if (item.example && item.exampleChinese) {
+                weeklyExampleEnglish.textContent = item.example;
+                weeklyExampleChinese.textContent = item.exampleChinese;
+                weeklyExample.style.display = 'block';
+            } else {
+                weeklyExample.style.display = 'none';
+            }
+            
+            // 更新进度
+            weeklyCurrentElement.textContent = weeklyIndex + 1;
+            weeklyTotalElement.textContent = weeklyItems.length;
+            
+            // 更新切换中文按钮文本
+            weeklyToggleChineseBtn.innerHTML = weeklyChinese.classList.contains('show') ? 
+                '<i class="fas fa-eye-slash"></i> 隐藏中文' : 
+                '<i class="fas fa-eye"></i> 显示中文';
+        }
+        
+        // 上一个每周练习项目
+        function prevWeeklyItem() {
+            if (!weeklyDataLoaded || weeklyItems.length === 0) return;
+            
+            weeklyIndex = (weeklyIndex - 1 + weeklyItems.length) % weeklyItems.length;
+            showWeeklyItem();
+        }
+        
+        // 下一个每周练习项目
+        function nextWeeklyItem() {
+            if (!weeklyDataLoaded || weeklyItems.length === 0) return;
+            
+            weeklyIndex = (weeklyIndex + 1) % weeklyItems.length;
+            showWeeklyItem();
+        }
+        
+        // 朗读当前每周练习项目
+        function speakWeeklyItem() {
+            if (!weeklyDataLoaded || weeklyItems.length === 0) return;
+            
+            const item = weeklyItems[weeklyIndex];
+            
+            if (item.english) {
+                speakText(item.english, 'en-US', 1.0);
+            }
+        }
+        
+        // 切换显示中文
+        function toggleWeeklyChinese() {
+            weeklyChinese.classList.toggle('show');
+            weeklyToggleChineseBtn.innerHTML = weeklyChinese.classList.contains('show') ? 
+                '<i class="fas fa-eye-slash"></i> 隐藏中文' : 
+                '<i class="fas fa-eye"></i> 显示中文';
+        }
+        
+        // ============== 每周练习功能结束 ==============
+        
+        // 事件监听器
+        addWordBtn.addEventListener('click', addWord);
+        practiceCategoryBtn.addEventListener('click', practiceCurrentCategory);
+        speakEnglishBtn.addEventListener('click', speakEnglish);
+        prevWordBtn.addEventListener('click', prevWord);
+        nextWordBtn.addEventListener('click', nextWord);
+        showChineseBtn.addEventListener('click', showChinese);
+        startPracticeBtn.addEventListener('click', startPractice);
+        endPracticeBtn.addEventListener('click', endPractice);
+        toggleFavoriteBtn.addEventListener('click', toggleFavorite);
+        
+        // 管理功能按钮事件监听器
+        updateSystemBtn.addEventListener('click', updateSystemTerms);
+        exportUserBtn.addEventListener('click', exportUserWords);
+        importUserBtn.addEventListener('click', importUserWords);
+        resetSystemBtn.addEventListener('click', resetSystemTerms);
+        
+        // 新练习模式按钮事件
+        checkEngToChBtn.addEventListener('click', checkEngToChAnswer);
+        skipEngToChBtn.addEventListener('click', skipPracticeWord);
+        checkChToEngBtn.addEventListener('click', checkChToEngAnswer);
+        skipChToEngBtn.addEventListener('click', skipPracticeWord);
+        checkFillBlankBtn.addEventListener('click', checkFillBlankAnswer);
+        skipFillBlankBtn.addEventListener('click', skipPracticeWord);
+        
+        // 每周练习按钮事件
+        loadWeeklyBtn.addEventListener('click', loadWeeklyPractice);
+        reloadWeeklyBtn.addEventListener('click', reloadWeeklyPractice);
+        weeklyPrevBtn.addEventListener('click', prevWeeklyItem);
+        weeklyNextBtn.addEventListener('click', nextWeeklyItem);
+        weeklySpeakBtn.addEventListener('click', speakWeeklyItem);
+        weeklyToggleChineseBtn.addEventListener('click', toggleWeeklyChinese);
+        
+        // 搜索相关事件监听器
+        searchInput.addEventListener('input', performSearch);
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+        clearSearchBtn.addEventListener('click', clearSearch);
+        
+        // 签到相关事件监听器
+        checkinBtn.addEventListener('click', performCheckin);
+        
+        // 发音测试事件监听器
+        testEnglishSpeechBtn.addEventListener('click', testEnglishSpeech);
+        testChineseSpeechBtn.addEventListener('click', testChineseSpeech);
+        
+        // 允许按Enter键添加单词
+        englishInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addWord();
+            }
+        });
+        
+        chineseInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addWord();
+            }
+        });
+        
+        // 允许按Enter键检查答案
+        chineseAnswerInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkEngToChAnswer();
+            }
+        });
+        
+        englishAnswerInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkChToEngAnswer();
+            }
+        });
+        
+        blankAnswerInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkFillBlankAnswer();
+            }
+        });
+        
+        // 语音选择变化事件 - 修复：确保选择生效
+        voiceSelect.addEventListener('change', function() {
+            if (this.value === '') {
+                selectedVoice = null;
+            } else {
+                const index = parseInt(this.value);
+                if (voices[index]) {
+                    selectedVoice = voices[index];
+                }
+            }
+            saveVoiceSelection();
+            
+            // 测试选择的语音
+            if (selectedVoice) {
+                showCustomNotification(`已选择语音: ${selectedVoice.name}`, 'success');
+            }
+        });
+        
+        // 选项卡切换事件
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                switchTab(tabId);
+            });
+        });
+        
+        // 分类筛选按钮事件
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                switchCategoryFilter(category);
+            });
+        });
+        
+        // 练习模式按钮事件
+        modeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const mode = this.getAttribute('data-mode');
+                switchPracticeMode(mode);
+            });
+        });
+        
+        // 当语音列表加载完成时
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = function() {
+                loadVoices();
+            };
+        }
+        
+        // 初始化应用
+        async function initApp() {
+            // 检查语音支持
+            checkSpeechSupport();
+            
+            // 显示语音支持状态
+            if (!isSpeechSupported) {
+                showCustomNotification('您的浏览器不支持语音合成功能，请使用Chrome浏览器', 'error');
+            }
+            
+            // 加载单词和语音
+            await loadWords();
+            
+            // 加载签到数据
+            loadCheckinData();
+            
+            // 加载语音列表（可能需要一些时间）
+            if (isSpeechSupported) {
+                // 立即尝试加载语音
+                loadVoices();
+                
+                // 如果语音列表为空，稍后再试（某些浏览器需要时间加载）
+                if (voices.length === 0) {
+                    setTimeout(loadVoices, 1000);
+                    setTimeout(loadVoices, 3000); // 双重保险
+                }
+            }
+            
+            // 初始禁用练习按钮
+            disablePracticeButtons();
+            
+            // 初始化练习统计
+            practiceStats = {
+                totalAttempts: 0,
+                correctAttempts: 0
+            };
+            
+            // 初始设置练习模式描述
+            updatePracticeModeDescription();
+            
+            // 初始化搜索框状态
+            clearSearchBtn.style.display = 'none';
+            
+            // 显示签到区域
+            checkinSection.style.display = 'block';
+            
+            console.log('隆莱英语助手已初始化，已加载', words.length, '个术语');
+        }
+        
+        // 页面加载完成后初始化应用
+        document.addEventListener('DOMContentLoaded', initApp);
+        
+        // 页面可见性变化时，停止语音
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                speechSynthesis.cancel();
+            }
+        });
+        
+        // 用户交互后初始化语音（解决浏览器需要用户交互后才能使用语音的问题）
+        document.addEventListener('click', function initSpeechOnInteraction() {
+            if (isSpeechSupported && voices.length === 0) {
+                loadVoices();
+            }
+            // 移除事件监听器，避免重复执行
+            document.removeEventListener('click', initSpeechOnInteraction);
         });
     </script>
 </body>
