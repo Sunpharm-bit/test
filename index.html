@@ -6,152 +6,13 @@
     <title>隆莱英语提升学习助手</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 原有样式保持不变，以下是新增样式 */
-        
-        /* 每周练习样式 */
-        .weekly-practice-section {
-            padding: 12px 10px;
-            background: linear-gradient(135deg, #fff0f7 0%, #ffeef7 100%);
-            border-radius: var(--border-radius);
-            margin-bottom: 10px;
-            box-shadow: var(--box-shadow);
-            border: 1px solid #ffd1dc;
-        }
-        
-        .weekly-item-type {
-            font-size: 0.7rem;
-            color: #e84393;
-            background-color: rgba(232, 67, 147, 0.1);
-            padding: 2px 6px;
-            border-radius: 8px;
-            display: inline-block;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-        
-        .weekly-example {
-            margin-top: 10px;
-            padding: 8px;
-            background-color: rgba(255, 255, 255, 0.7);
-            border-radius: 4px;
-            border-left: 3px solid #e84393;
-        }
-        
-        .weekly-example-title {
-            font-size: 0.75rem;
-            font-weight: bold;
-            color: #e84393;
-            margin-bottom: 4px;
-        }
-        
-        .weekly-example-english {
-            font-size: 0.9rem;
-            color: var(--dark-color);
-            margin-bottom: 3px;
-        }
-        
-        .weekly-example-chinese {
-            font-size: 0.8rem;
-            color: var(--gray-color);
-        }
-        
-        .weekly-controls {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5px;
-            margin-top: 15px;
-        }
-        
-        .weekly-stats {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 5px;
-            background-color: #fff0f5;
-            border-radius: 3px;
-            margin-top: 10px;
-            font-size: 0.75rem;
-        }
-        
-        .weekly-progress {
-            font-size: 0.8rem;
-            color: #e84393;
-            margin-top: 5px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        
-        .weekly-loading {
-            text-align: center;
-            padding: 20px;
-            color: #e84393;
-        }
-        
-        .weekly-loading i {
-            animation: spin 1s linear infinite;
-            margin-right: 8px;
-        }
-        
-        .weekly-error {
-            text-align: center;
-            padding: 20px;
-            color: var(--danger-color);
-        }
-        
-        .weekly-empty {
-            text-align: center;
-            padding: 20px;
-            color: var(--gray-color);
-        }
-        
-        .weekly-title {
-            color: #e84393;
-            font-weight: bold;
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .weekly-subtitle {
-            font-size: 0.75rem;
-            color: var(--gray-color);
-            margin-bottom: 10px;
-        }
-        
-        /* 新增练习模式按钮样式 */
-        .mode-btn.weekly {
-            background-color: #ffeef7;
-            color: #e84393;
-            border: 1px solid #ffd1dc;
-        }
-        
-        .mode-btn.weekly.active {
-            background-color: #e84393;
-            color: white;
-            border-color: #e84393;
-        }
-        
-        /* 高亮每周练习内容 */
-        .weekly-highlight {
-            animation: highlightWeekly 1s ease;
-        }
-        
-        @keyframes highlightWeekly {
-            0% { background-color: #ffeef7; }
-            50% { background-color: #ffd1dc; }
-            100% { background-color: #ffeef7; }
-        }
-        
-        /* 原有样式保持不变 */
         :root {
             --primary-color: #2c3e50;
             --secondary-color: #3498db;
             --accent-color: #27ae60;
             --danger-color: #e74c3c;
             --warning-color: #f39c12;
+            --pink-color: #e84393;
             --light-color: #ecf0f1;
             --dark-color: #2c3e50;
             --gray-color: #7f8c8d;
@@ -187,7 +48,7 @@
             flex-direction: column;
         }
         
-        /* 顶部导航栏 - 极致紧凑 */
+        /* 顶部导航栏 */
         .app-header {
             background: linear-gradient(135deg, var(--primary-color) 0%, #34495e 100%);
             color: white;
@@ -226,7 +87,7 @@
             border-radius: 8px;
         }
         
-        /* 紧凑选项卡导航 - 紧贴标题栏 */
+        /* 紧凑选项卡导航 */
         .tab-nav {
             display: flex;
             background-color: #f0f2f5;
@@ -260,7 +121,7 @@
             border-bottom: 2px solid var(--secondary-color);
         }
         
-        /* 主内容区 - 最小化留白 */
+        /* 主内容区 */
         .main-content {
             flex: 1;
             padding: 10px;
@@ -278,7 +139,7 @@
             display: block;
         }
         
-        /* 极致紧凑卡片样式 */
+        /* 卡片样式 */
         .card {
             background-color: white;
             border-radius: var(--border-radius);
@@ -303,7 +164,7 @@
             margin-right: 4px;
         }
         
-        /* 极致紧凑表单样式 */
+        /* 表单样式 */
         .form-group {
             margin-bottom: 8px;
         }
@@ -343,7 +204,7 @@
             color: var(--dark-color);
         }
         
-        /* 紧凑按钮样式 */
+        /* 按钮样式 */
         .btn {
             display: flex;
             align-items: center;
@@ -385,7 +246,7 @@
         }
         
         .btn-pink {
-            background: linear-gradient(135deg, #e84393 0%, #fd79a8 100%);
+            background: linear-gradient(135deg, var(--pink-color) 0%, #fd79a8 100%);
             color: white;
         }
         
@@ -471,16 +332,7 @@
             gap: 4px;
         }
         
-        /* 输入练习区域 */
-        .input-practice-section {
-            padding: 12px 10px;
-            background: linear-gradient(135deg, #f8f9ff 0%, #eef2ff 100%);
-            border-radius: var(--border-radius);
-            margin-bottom: 10px;
-            box-shadow: var(--box-shadow);
-        }
-        
-        /* 练习区域 - 修改为练习模式 */
+        /* 练习区域 */
         .practice-area {
             padding: 12px 10px;
             background: linear-gradient(135deg, #f8f9ff 0%, #eef2ff 100%);
@@ -558,6 +410,18 @@
             color: white;
         }
         
+        .mode-btn.weekly {
+            background-color: #ffeef7;
+            color: var(--pink-color);
+            border: 1px solid #ffd1dc;
+        }
+        
+        .mode-btn.weekly.active {
+            background-color: var(--pink-color);
+            color: white;
+            border-color: var(--pink-color);
+        }
+        
         /* 练习统计信息 */
         .practice-stats {
             display: flex;
@@ -590,220 +454,118 @@
             font-size: 0.7rem;
         }
         
-        /* 空状态 */
-        .empty-state {
-            text-align: center;
-            padding: 20px 10px;
-            color: var(--gray-color);
-        }
-        
-        .empty-state i {
-            font-size: 1.8rem;
-            margin-bottom: 6px;
-            opacity: 0.5;
-        }
-        
-        .empty-state p {
-            font-size: 0.8rem;
-        }
-        
-        /* 语音选择 */
-        .voice-selector {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px dashed #eee;
-        }
-        
-        .voice-select {
-            width: 100%;
-            padding: 7px 8px;
-            border: 1px solid #e1e5eb;
-            border-radius: 3px;
-            font-size: 0.8rem;
-            background-color: #f9fafc;
-            margin-top: 3px;
-        }
-        
-        /* 分类筛选 */
-        .category-filter {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 4px;
+        /* 每周练习样式 */
+        .weekly-practice-section {
+            padding: 12px 10px;
+            background: linear-gradient(135deg, #fff0f7 0%, #ffeef7 100%);
+            border-radius: var(--border-radius);
             margin-bottom: 10px;
+            box-shadow: var(--box-shadow);
+            border: 1px solid #ffd1dc;
         }
         
-        .category-btn {
-            padding: 5px 3px;
-            border: none;
-            border-radius: 3px;
-            font-size: 0.7rem;
-            background-color: #f0f2f5;
-            color: var(--dark-color);
-            cursor: pointer;
-            transition: var(--transition);
-            text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .weekly-title {
+            color: var(--pink-color);
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         
-        .category-btn.active {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-        
-        /* 搜索框样式 */
-        .search-container {
-            margin-bottom: 10px;
-            position: relative;
-        }
-        
-        .search-input {
-            width: 100%;
-            padding: 8px 32px 8px 10px;
-            border: 1px solid #e1e5eb;
-            border-radius: 3px;
-            font-size: 0.8rem;
-            transition: var(--transition);
-            background-color: #f9fafc;
-        }
-        
-        .search-input:focus {
-            border-color: var(--secondary-color);
-            outline: none;
-            box-shadow: 0 0 0 1px rgba(52, 152, 219, 0.15);
-            background-color: white;
-        }
-        
-        .search-icon {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray-color);
-            pointer-events: none;
-        }
-        
-        .clear-search-btn {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: var(--gray-color);
-            cursor: pointer;
-            font-size: 0.8rem;
-            padding: 2px;
-            display: none;
-        }
-        
-        .clear-search-btn:hover {
-            color: var(--danger-color);
-        }
-        
-        /* 紧凑提示信息 */
-        .hint {
-            background-color: #e8f4fc;
-            padding: 8px;
-            border-radius: 3px;
-            margin-top: 10px;
-            border-left: 2px solid var(--secondary-color);
+        .weekly-subtitle {
             font-size: 0.75rem;
+            color: var(--gray-color);
+            margin-bottom: 10px;
         }
         
-        .hint-title {
-            font-weight: 600;
-            color: var(--dark-color);
+        .weekly-item-type {
+            font-size: 0.7rem;
+            color: var(--pink-color);
+            background-color: rgba(232, 67, 147, 0.1);
+            padding: 2px 6px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        
+        .weekly-example {
+            margin-top: 10px;
+            padding: 8px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 4px;
+            border-left: 3px solid var(--pink-color);
+        }
+        
+        .weekly-example-title {
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: var(--pink-color);
             margin-bottom: 4px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
         }
         
-        .hint-title i {
-            margin-right: 4px;
-            color: var(--secondary-color);
+        .weekly-example-english {
+            font-size: 0.9rem;
+            color: var(--dark-color);
+            margin-bottom: 3px;
         }
         
-        /* 语音动画 */
-        .speaking {
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { background-color: #e8f4fc; }
-            50% { background-color: #d4e7fa; }
-            100% { background-color: #e8f4fc; }
-        }
-        
-        /* 保存提示 */
-        .save-notification {
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--accent-color);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 12px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-weight: 600;
+        .weekly-example-chinese {
             font-size: 0.8rem;
+            color: var(--gray-color);
+            margin-top: 3px;
+            display: none;
         }
         
-        .save-notification.show {
-            opacity: 1;
+        .weekly-example-chinese.show {
+            display: block;
         }
         
-        /* 练习结果样式 */
-        .practice-result {
-            padding: 10px;
-            border-radius: 3px;
-            font-size: 0.85rem;
+        .weekly-example-controls {
+            display: flex;
+            gap: 5px;
+            margin-top: 8px;
         }
         
-        .practice-result.correct {
-            background-color: rgba(39, 174, 96, 0.1);
-            border-left: 3px solid var(--accent-color);
-            color: var(--accent-color);
+        .weekly-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+            margin-top: 15px;
         }
         
-        .practice-result.incorrect {
-            background-color: rgba(231, 76, 60, 0.1);
-            border-left: 3px solid var(--danger-color);
-            color: var(--danger-color);
-        }
-        
-        .practice-result .correct-answer {
-            font-weight: 700;
+        .weekly-progress {
+            font-size: 0.8rem;
+            color: var(--pink-color);
             margin-top: 5px;
-        }
-        
-        /* 填空单词样式 */
-        .blank-word {
-            background-color: white;
-            padding: 12px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
+            margin-bottom: 10px;
             text-align: center;
-            font-family: 'Courier New', monospace;
         }
         
-        .blank-letter {
-            color: var(--secondary-color);
-            font-weight: 900;
+        .weekly-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 5px;
+            background-color: #fff0f5;
+            border-radius: 3px;
+            margin-top: 10px;
+            font-size: 0.75rem;
         }
         
-        .blank-space {
-            color: var(--danger-color);
-            display: inline-block;
-            min-width: 20px;
-            border-bottom: 2px solid var(--danger-color);
-            margin: 0 2px;
-            text-align: center;
+        /* 输入练习区域 */
+        .input-practice-section {
+            padding: 12px 10px;
+            background: linear-gradient(135deg, #f8f9ff 0%, #eef2ff 100%);
+            border-radius: var(--border-radius);
+            margin-bottom: 10px;
+            box-shadow: var(--box-shadow);
         }
         
         /* 基础练习区域 */
@@ -811,139 +573,7 @@
             margin-bottom: 15px;
         }
         
-        /* 响应式调整 */
-        @media (min-width: 768px) {
-            .app-container {
-                max-width: 420px;
-                margin: 5px auto;
-                min-height: calc(100vh - 10px);
-                border-radius: 5px;
-                overflow: hidden;
-            }
-            
-            .practice-mode-selector {
-                grid-template-columns: repeat(6, 1fr);
-            }
-        }
-        
-        /* 禁用状态 */
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        
-        /* 分类练习统计 */
-        .category-stats {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
-        }
-        
-        .category-count {
-            font-size: 0.75rem;
-            color: var(--gray-color);
-        }
-        
-        /* 列表内发音指示 */
-        .pronunciation-indicator {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background-color: var(--secondary-color);
-            color: white;
-            font-size: 0.6rem;
-            margin-left: 5px;
-            opacity: 0.8;
-        }
-        
-        /* 收藏按钮 */
-        .favorite-btn {
-            color: #ffd700;
-        }
-        
-        .favorite-btn.active {
-            color: #ffd700;
-        }
-        
-        /* 显示中文按钮 */
-        .show-chinese-btn {
-            margin-bottom: 10px;
-        }
-        
-        /* 练习进度指示 */
-        .practice-progress {
-            font-size: 0.8rem;
-            color: var(--gray-color);
-            margin-top: 5px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        
-        /* 复习按钮 */
-        .review-favorites-btn {
-            margin-top: 10px;
-        }
-        
-        /* 系统术语标签 */
-        .system-tag {
-            font-size: 0.6rem;
-            color: var(--secondary-color);
-            margin-left: 4px;
-            padding: 1px 3px;
-            background-color: rgba(52, 152, 219, 0.1);
-            border-radius: 3px;
-        }
-        
-        /* 用户术语标签 */
-        .user-tag {
-            font-size: 0.6rem;
-            color: var(--accent-color);
-            margin-left: 4px;
-            padding: 1px 3px;
-            background-color: rgba(39, 174, 96, 0.1);
-            border-radius: 3px;
-        }
-        
-        /* 管理按钮组 */
-        .management-buttons {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 5px;
-            margin-top: 10px;
-        }
-        
-        /* 新练习模式按钮 */
-        .mode-btn i {
-            margin-right: 4px;
-        }
-        
-        /* 加载指示器 */
-        .loading-indicator {
-            display: none;
-            text-align: center;
-            padding: 10px;
-            color: var(--secondary-color);
-        }
-        
-        .loading-indicator.active {
-            display: block;
-        }
-        
-        .loading-indicator i {
-            margin-right: 5px;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* 签到相关样式 */
+        /* 签到区域 */
         .checkin-section {
             margin-top: 15px;
             padding: 12px 10px;
@@ -1017,7 +647,7 @@
             color: #ff9800;
         }
         
-        /* 发音测试区域 */
+        /* 语音测试区域 */
         .pronunciation-test {
             margin-top: 15px;
             padding: 10px;
@@ -1042,6 +672,341 @@
             padding: 6px;
             font-size: 0.7rem;
         }
+        
+        /* 搜索框样式 */
+        .search-container {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 8px 32px 8px 10px;
+            border: 1px solid #e1e5eb;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            background-color: #f9fafc;
+        }
+        
+        .search-input:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 1px rgba(52, 152, 219, 0.15);
+            background-color: white;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-color);
+            pointer-events: none;
+        }
+        
+        .clear-search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray-color);
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 2px;
+            display: none;
+        }
+        
+        .clear-search-btn:hover {
+            color: var(--danger-color);
+        }
+        
+        /* 分类筛选 */
+        .category-filter {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+        
+        .category-btn {
+            padding: 5px 3px;
+            border: none;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            background-color: #f0f2f5;
+            color: var(--dark-color);
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .category-btn.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        /* 提示信息 */
+        .hint {
+            background-color: #e8f4fc;
+            padding: 8px;
+            border-radius: 3px;
+            margin-top: 10px;
+            border-left: 2px solid var(--secondary-color);
+            font-size: 0.75rem;
+        }
+        
+        .hint-title {
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hint-title i {
+            margin-right: 4px;
+            color: var(--secondary-color);
+        }
+        
+        /* 语音选择 */
+        .voice-selector {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #eee;
+        }
+        
+        .voice-select {
+            width: 100%;
+            padding: 7px 8px;
+            border: 1px solid #e1e5eb;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            background-color: #f9fafc;
+            margin-top: 3px;
+        }
+        
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 20px 10px;
+            color: var(--gray-color);
+        }
+        
+        .empty-state i {
+            font-size: 1.8rem;
+            margin-bottom: 6px;
+            opacity: 0.5;
+        }
+        
+        .empty-state p {
+            font-size: 0.8rem;
+        }
+        
+        /* 保存提示 */
+        .save-notification {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        
+        .save-notification.show {
+            opacity: 1;
+        }
+        
+        /* 练习结果样式 */
+        .practice-result {
+            padding: 10px;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+        
+        .practice-result.correct {
+            background-color: rgba(39, 174, 96, 0.1);
+            border-left: 3px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+        
+        .practice-result.incorrect {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-left: 3px solid var(--danger-color);
+            color: var(--danger-color);
+        }
+        
+        .practice-result .correct-answer {
+            font-weight: 700;
+            margin-top: 5px;
+        }
+        
+        /* 填空单词样式 */
+        .blank-word {
+            background-color: white;
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .blank-letter {
+            color: var(--secondary-color);
+            font-weight: 900;
+        }
+        
+        .blank-space {
+            color: var(--danger-color);
+            display: inline-block;
+            min-width: 20px;
+            border-bottom: 2px solid var(--danger-color);
+            margin: 0 2px;
+            text-align: center;
+        }
+        
+        /* 分类练习统计 */
+        .category-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        
+        .category-count {
+            font-size: 0.75rem;
+            color: var(--gray-color);
+        }
+        
+        /* 系统术语标签 */
+        .system-tag {
+            font-size: 0.6rem;
+            color: var(--secondary-color);
+            margin-left: 4px;
+            padding: 1px 3px;
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: 3px;
+        }
+        
+        /* 用户术语标签 */
+        .user-tag {
+            font-size: 0.6rem;
+            color: var(--accent-color);
+            margin-left: 4px;
+            padding: 1px 3px;
+            background-color: rgba(39, 174, 96, 0.1);
+            border-radius: 3px;
+        }
+        
+        /* 管理按钮组 */
+        .management-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        /* 练习进度指示 */
+        .practice-progress {
+            font-size: 0.8rem;
+            color: var(--gray-color);
+            margin-top: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        /* 列表内发音指示 */
+        .pronunciation-indicator {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            color: white;
+            font-size: 0.6rem;
+            margin-left: 5px;
+            opacity: 0.8;
+        }
+        
+        /* 加载指示器 */
+        .loading-indicator {
+            display: none;
+            text-align: center;
+            padding: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .loading-indicator.active {
+            display: block;
+        }
+        
+        .loading-indicator i {
+            margin-right: 5px;
+            animation: spin 1s linear infinite;
+        }
+        
+        /* 语音动画 */
+        .speaking {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { background-color: #e8f4fc; }
+            50% { background-color: #d4e7fa; }
+            100% { background-color: #e8f4fc; }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 高亮每周练习内容 */
+        .weekly-highlight {
+            animation: highlightWeekly 1s ease;
+        }
+        
+        @keyframes highlightWeekly {
+            0% { background-color: #ffeef7; }
+            50% { background-color: #ffd1dc; }
+            100% { background-color: #ffeef7; }
+        }
+        
+        /* 响应式调整 */
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 420px;
+                margin: 5px auto;
+                min-height: calc(100vh - 10px);
+                border-radius: 5px;
+                overflow: hidden;
+            }
+            
+            .practice-mode-selector {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+        
+        /* 禁用状态 */
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -1057,7 +1022,7 @@
             <div class="word-count" id="word-count">0词</div>
         </header>
         
-        <!-- 选项卡导航 - 紧贴标题栏 -->
+        <!-- 选项卡导航 -->
         <div class="tab-nav">
             <button class="tab-button active" data-tab="add-tab">
                 <i class="fas fa-plus"></i> 添加
@@ -1285,7 +1250,7 @@
                         </div>
                     </div>
                     
-                    <!-- 练习模式选择 - 添加每周练习按钮 -->
+                    <!-- 练习模式选择 -->
                     <div class="practice-mode-selector">
                         <button class="mode-btn active" data-mode="category">
                             <i class="fas fa-layer-group"></i> 分类练习
@@ -1302,7 +1267,7 @@
                         <button class="mode-btn" data-mode="fill-blank">
                             <i class="fas fa-edit"></i> 单词填空
                         </button>
-                        <!-- 新增每周练习按钮 -->
+                        <!-- 每周练习按钮 -->
                         <button class="mode-btn weekly" data-mode="weekly">
                             <i class="fas fa-calendar-week"></i> 每周练习
                         </button>
@@ -1318,7 +1283,7 @@
                             <p id="mode-description">显示英文术语，尝试回忆中文释义，点击"查看中文"验证答案。</p>
                         </div>
                         
-                        <!-- 基础练习显示区域 (用于分类练习和收藏复习) -->
+                        <!-- 基础练习显示区域 -->
                         <div id="basic-practice" class="basic-practice-section">
                             <div class="practice-category" id="practice-category">常用词语</div>
                             <div class="practice-english" id="practice-english">请选择练习模式并点击"开始练习"按钮</div>
@@ -1423,61 +1388,62 @@
                         </div>
                         
                         <!-- 每周练习区域 -->
-            <div id="weekly-practice" class="weekly-practice-section" style="display: none;">
-                <div class="weekly-title">
-                    <i class="fas fa-calendar-week"></i> <span id="weekly-title">每周练习</span>
-                </div>
-                <div class="weekly-subtitle" id="weekly-subtitle">加载每周更新的学习内容</div>
-                
-                <div class="weekly-item-type" id="weekly-type">单词</div>
-                <div class="practice-english" id="weekly-english">请点击"加载每周练习"按钮</div>
-                <div class="practice-chinese" id="weekly-chinese" style="color: #e84393;"></div>
-                
-                <!-- 例句显示区域 -->
-                <div class="weekly-example" id="weekly-example" style="display: none;">
-                    <div class="weekly-example-title">例句 / 短语</div>
-                    <div class="weekly-example-english" id="weekly-example-english"></div>
-                    <div class="weekly-example-chinese" id="weekly-example-chinese"></div>
-                    <!-- 添加例句操作按钮 -->
-                    <div class="weekly-example-actions" id="weekly-example-actions" style="display: none;">
-                        <button id="speak-example-btn" class="btn btn-pink weekly-example-btn">
-                            <i class="fas fa-volume-up"></i> 朗读例句
-                        </button>
-                        <button id="toggle-example-chinese-btn" class="btn btn-secondary weekly-example-btn">
-                            <i class="fas fa-language"></i> 显示中译
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- 每周练习进度 -->
-                <div class="weekly-progress" id="weekly-progress">
-                    进度: <span id="weekly-current">0</span>/<span id="weekly-total">0</span>
-                </div>
-                
-                <!-- 每周练习控制按钮 -->
-                <div class="weekly-controls" id="weekly-controls">
-                    <button id="weekly-prev-btn" class="btn btn-secondary practice-btn" disabled>
-                        <i class="fas fa-backward"></i> 上一个
-                    </button>
-                    <button id="weekly-speak-btn" class="btn btn-pink practice-btn" disabled>
-                        <i class="fas fa-volume-up"></i> 朗读
-                    </button>
-                    <button id="weekly-next-btn" class="btn btn-secondary practice-btn" disabled>
-                        下一个 <i class="fas fa-forward"></i>
-                    </button>
-                    <button id="weekly-toggle-chinese-btn" class="btn btn-pink practice-btn" disabled>
-                        <i class="fas fa-eye"></i> 显示中文
-                    </button>
-                </div>
-                
-                <!-- 加载和重新加载按钮 -->
-                <button id="load-weekly-btn" class="btn btn-pink">
-                    <i class="fas fa-download"></i> 加载每周练习
-                </button>
-                <button id="reload-weekly-btn" class="btn btn-secondary" style="display: none; margin-top: 8px;">
-                    <i class="fas fa-redo"></i> 重新加载
-                </button>
-            </div>
+                        <div id="weekly-practice" class="weekly-practice-section" style="display: none;">
+                            <div class="weekly-title">
+                                <i class="fas fa-calendar-week"></i> <span id="weekly-title">每周练习</span>
+                            </div>
+                            <div class="weekly-subtitle" id="weekly-subtitle">加载每周更新的学习内容</div>
+                            
+                            <div class="weekly-item-type" id="weekly-type">单词</div>
+                            <div class="practice-english" id="weekly-english">请点击"加载每周练习"按钮</div>
+                            <div class="practice-chinese" id="weekly-chinese" style="color: var(--pink-color);"></div>
+                            
+                            <!-- 例句显示区域 -->
+                            <div class="weekly-example" id="weekly-example" style="display: none;">
+                                <div class="weekly-example-title">
+                                    <span>例句 / 短语</span>
+                                    <button id="speak-example-btn" class="btn btn-pink btn-sm">
+                                        <i class="fas fa-volume-up"></i> 朗读例句
+                                    </button>
+                                </div>
+                                <div class="weekly-example-english" id="weekly-example-english"></div>
+                                <div class="weekly-example-chinese" id="weekly-example-chinese"></div>
+                                <div class="weekly-example-controls">
+                                    <button id="toggle-example-chinese-btn" class="btn btn-secondary btn-sm">
+                                        <i class="fas fa-eye"></i> 显示中文
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- 每周练习进度 -->
+                            <div class="weekly-progress" id="weekly-progress">
+                                进度: <span id="weekly-current">0</span>/<span id="weekly-total">0</span>
+                            </div>
+                            
+                            <!-- 每周练习控制按钮 -->
+                            <div class="weekly-controls" id="weekly-controls">
+                                <button id="weekly-prev-btn" class="btn btn-secondary practice-btn" disabled>
+                                    <i class="fas fa-backward"></i> 上一个
+                                </button>
+                                <button id="weekly-speak-btn" class="btn btn-pink practice-btn" disabled>
+                                    <i class="fas fa-volume-up"></i> 朗读
+                                </button>
+                                <button id="weekly-next-btn" class="btn btn-secondary practice-btn" disabled>
+                                    下一个 <i class="fas fa-forward"></i>
+                                </button>
+                                <button id="weekly-toggle-chinese-btn" class="btn btn-pink practice-btn" disabled>
+                                    <i class="fas fa-eye"></i> 显示中文
+                                </button>
+                            </div>
+                            
+                            <!-- 加载和重新加载按钮 -->
+                            <button id="load-weekly-btn" class="btn btn-pink">
+                                <i class="fas fa-download"></i> 加载每周练习
+                            </button>
+                            <button id="reload-weekly-btn" class="btn btn-secondary" style="display: none; margin-top: 8px;">
+                                <i class="fas fa-redo"></i> 重新加载
+                            </button>
+                        </div>
                         
                         <!-- 通用练习控制按钮 -->
                         <div class="practice-controls" id="basic-controls">
@@ -1576,7 +1542,7 @@
             totalAttempts: 0,
             correctAttempts: 0
         };
-        let currentSearchTerm = ''; // 添加搜索词变量
+        let currentSearchTerm = '';
         let userCheckinData = {
             totalCheckins: 0,
             consecutiveDays: 0,
@@ -1599,6 +1565,77 @@
             { english: "production environment", chinese: "生产环境", category: "常用词语", example: "", practiceCount: 0, favorite: false, isSystem: true, id: "sys_004" },
             { english: "clean room", chinese: "洁净室", category: "常用词语", example: "", practiceCount: 0, favorite: false, isSystem: true, id: "sys_005" }
         ];
+        
+        // 每周练习JSON文件示例（用于当外部文件不存在时）
+        const weeklyPracticeExample = {
+            "title": "第12周英语练习",
+            "subtitle": "专业术语与日常表达",
+            "description": "本周练习包含质量管理和日常交流的词汇与表达",
+            "week": 12,
+            "date": "2023-10-30",
+            "items": [
+                {
+                    "type": "word",
+                    "english": "validation",
+                    "chinese": "验证",
+                    "category": "质量体系与GMP",
+                    "example": "The validation process ensures product quality.",
+                    "exampleChinese": "验证过程确保产品质量。"
+                },
+                {
+                    "type": "word",
+                    "english": "calibration",
+                    "chinese": "校准",
+                    "category": "分析检测与质量控制",
+                    "example": "Regular calibration of instruments is required.",
+                    "exampleChinese": "需要定期校准仪器。"
+                },
+                {
+                    "type": "sentence",
+                    "english": "Please submit the quality report by Friday.",
+                    "chinese": "请在周五前提交质量报告。",
+                    "category": "常用词语"
+                },
+                {
+                    "type": "phrase",
+                    "english": "follow up",
+                    "chinese": "跟进",
+                    "category": "常用词语",
+                    "example": "I will follow up with the supplier tomorrow.",
+                    "exampleChinese": "我明天会跟进供应商。"
+                },
+                {
+                    "type": "word",
+                    "english": "audit",
+                    "chinese": "审核",
+                    "category": "质量体系与GMP",
+                    "example": "The internal audit is scheduled for next week.",
+                    "exampleChinese": "内部审核安排在下周。"
+                },
+                {
+                    "type": "sentence",
+                    "english": "Could you please clarify this requirement?",
+                    "chinese": "你能澄清一下这个要求吗？",
+                    "category": "常用词语"
+                },
+                {
+                    "type": "phrase",
+                    "english": "on track",
+                    "chinese": "按计划进行",
+                    "category": "常用词语",
+                    "example": "The project is on track for completion.",
+                    "exampleChinese": "项目按计划完成。"
+                },
+                {
+                    "type": "word",
+                    "english": "specification",
+                    "chinese": "规格",
+                    "category": "研发与工艺",
+                    "example": "The product meets all specifications.",
+                    "exampleChinese": "产品符合所有规格。"
+                }
+            ]
+        };
         
         // DOM元素
         const englishInput = document.getElementById('english-input');
@@ -1698,7 +1735,7 @@
         const testEnglishSpeechBtn = document.getElementById('test-english-speech');
         const testChineseSpeechBtn = document.getElementById('test-chinese-speech');
         
-       // 每周练习元素
+        // 每周练习元素
         const weeklyTitle = document.getElementById('weekly-title');
         const weeklySubtitle = document.getElementById('weekly-subtitle');
         const weeklyType = document.getElementById('weekly-type');
@@ -1707,7 +1744,6 @@
         const weeklyExample = document.getElementById('weekly-example');
         const weeklyExampleEnglish = document.getElementById('weekly-example-english');
         const weeklyExampleChinese = document.getElementById('weekly-example-chinese');
-        const weeklyExampleActions = document.getElementById('weekly-example-actions');
         const weeklyProgress = document.getElementById('weekly-progress');
         const weeklyCurrentElement = document.getElementById('weekly-current');
         const weeklyTotalElement = document.getElementById('weekly-total');
@@ -1719,77 +1755,6 @@
         const reloadWeeklyBtn = document.getElementById('reload-weekly-btn');
         const speakExampleBtn = document.getElementById('speak-example-btn');
         const toggleExampleChineseBtn = document.getElementById('toggle-example-chinese-btn');
-        
-        // 每周练习JSON文件示例（用于当外部文件不存在时）
-        const weeklyPracticeExample = {
-            "title": "第12周英语练习",
-            "subtitle": "专业术语与日常表达",
-            "description": "本周练习包含质量管理和日常交流的词汇与表达",
-            "week": 12,
-            "date": "2023-10-30",
-            "items": [
-                {
-                    "type": "word",
-                    "english": "validation",
-                    "chinese": "验证",
-                    "category": "质量体系与GMP",
-                    "example": "The validation process ensures product quality.",
-                    "exampleChinese": "验证过程确保产品质量。"
-                },
-                {
-                    "type": "word",
-                    "english": "calibration",
-                    "chinese": "校准",
-                    "category": "分析检测与质量控制",
-                    "example": "Regular calibration of instruments is required.",
-                    "exampleChinese": "需要定期校准仪器。"
-                },
-                {
-                    "type": "sentence",
-                    "english": "Please submit the quality report by Friday.",
-                    "chinese": "请在周五前提交质量报告。",
-                    "category": "常用词语"
-                },
-                {
-                    "type": "phrase",
-                    "english": "follow up",
-                    "chinese": "跟进",
-                    "category": "常用词语",
-                    "example": "I will follow up with the supplier tomorrow.",
-                    "exampleChinese": "我明天会跟进供应商。"
-                },
-                {
-                    "type": "word",
-                    "english": "audit",
-                    "chinese": "审核",
-                    "category": "质量体系与GMP",
-                    "example": "The internal audit is scheduled for next week.",
-                    "exampleChinese": "内部审核安排在下周。"
-                },
-                {
-                    "type": "sentence",
-                    "english": "Could you please clarify this requirement?",
-                    "chinese": "你能澄清一下这个要求吗？",
-                    "category": "常用词语"
-                },
-                {
-                    "type": "phrase",
-                    "english": "on track",
-                    "chinese": "按计划进行",
-                    "category": "常用词语",
-                    "example": "The project is on track for completion.",
-                    "exampleChinese": "项目按计划完成。"
-                },
-                {
-                    "type": "word",
-                    "english": "specification",
-                    "chinese": "规格",
-                    "category": "研发与工艺",
-                    "example": "The product meets all specifications.",
-                    "exampleChinese": "产品符合所有规格。"
-                }
-            ]
-        };
         
         // 检查浏览器是否支持语音合成
         function checkSpeechSupport() {
@@ -2515,7 +2480,7 @@
             chineseAnswerInput.value = '';
             engToChResult.style.display = 'none';
             
-            // 中译英练习 - 修复：使用正确的元素ID
+            // 中译英练习
             chToEngCategory.textContent = '常用词语';
             chToEngChinese.textContent = '';
             englishAnswerInput.value = '';
@@ -2536,6 +2501,7 @@
             weeklyChinese.textContent = '';
             weeklyChinese.classList.remove('show');
             weeklyExample.style.display = 'none';
+            weeklyExampleChinese.classList.remove('show');
             weeklyCurrentElement.textContent = '0';
             weeklyTotalElement.textContent = '0';
             weeklyProgress.style.display = 'none';
@@ -2543,6 +2509,8 @@
             weeklySpeakBtn.disabled = true;
             weeklyNextBtn.disabled = true;
             weeklyToggleChineseBtn.disabled = true;
+            loadWeeklyBtn.style.display = 'block';
+            reloadWeeklyBtn.style.display = 'none';
         }
         
         // 更新收藏按钮状态
@@ -2784,7 +2752,7 @@
         function setupChToEngPractice(word, index) {
             currentWordIndex = index;
             
-            // 更新显示 - 修复：确保中文正确显示
+            // 更新显示
             chToEngCategory.textContent = word.category;
             chToEngChinese.textContent = word.chinese;
             
@@ -3201,7 +3169,7 @@
             clearPracticeDisplay();
         }
         
-        // 改进的发音函数 - 修复语音选择问题
+        // 改进的发音函数
         function speakText(text, lang, rate = 1.0) {
             if (!isSpeechSupported) {
                 alert('您的浏览器不支持语音合成功能，请使用最新版的Chrome、Edge或Safari浏览器。');
@@ -3218,18 +3186,13 @@
             utterance.pitch = 1.0;
             
             // 浏览器兼容性修复
-            // 在Chrome/百度浏览器中，语音选择可能存在问题，这里尝试多种方法
-            
-            // 方法1: 如果用户选择了特定的语音，使用它
             if (selectedVoice) {
                 utterance.voice = selectedVoice;
                 utterance.lang = selectedVoice.lang || lang;
             } else {
-                // 方法2: 自动选择适合语言的语音
-                // 尝试找到支持目标语言的语音
+                // 自动选择适合语言的语音
                 const availableVoices = speechSynthesis.getVoices();
                 if (availableVoices.length > 0) {
-                    // 根据语言筛选语音
                     let suitableVoice = null;
                     
                     if (lang.startsWith('zh')) {
@@ -3244,12 +3207,10 @@
                         );
                     }
                     
-                    // 如果找到合适的语音，使用它
                     if (suitableVoice) {
                         utterance.voice = suitableVoice;
                         utterance.lang = suitableVoice.lang;
                     } else if (availableVoices.length > 0) {
-                        // 否则使用第一个可用的语音
                         utterance.voice = availableVoices[0];
                         utterance.lang = availableVoices[0].lang;
                     }
@@ -3268,14 +3229,12 @@
                 speakingWordIndex = -1;
                 renderWordList();
                 
-                // 尝试备用方法
                 if (lang.startsWith('zh')) {
                     showCustomNotification('中文发音失败，尝试使用英文语音', 'error');
-                    // 尝试使用英文语音说中文
                     setTimeout(() => {
                         const fallbackUtterance = new SpeechSynthesisUtterance(text);
                         fallbackUtterance.lang = 'en-US';
-                        fallbackUtterance.rate = 0.8; // 减慢速度
+                        fallbackUtterance.rate = 0.8;
                         speechSynthesis.speak(fallbackUtterance);
                     }, 500);
                 } else {
@@ -3357,7 +3316,6 @@
             const externalTerms = await loadExternalTerms();
             
             // 3. 合并：系统术语 + 用户自定义术语
-            // 但需要处理重复：如果用户添加的术语与系统术语相同，使用用户的版本（保留练习记录和收藏状态）
             const mergedWords = [...externalTerms];
             
             userWords.forEach(userWord => {
@@ -3368,15 +3326,13 @@
                 );
                 
                 if (systemDuplicateIndex >= 0) {
-                    // 保留用户的版本，但标记为系统术语（因为含义相同）
-                    // 这样可以确保练习记录和收藏状态被保留
+                    // 保留用户的版本，但标记为系统术语
                     mergedWords[systemDuplicateIndex] = {
                         ...userWord,
-                        isSystem: true, // 标记为系统术语
-                        id: mergedWords[systemDuplicateIndex].id // 保留系统ID
+                        isSystem: true,
+                        id: mergedWords[systemDuplicateIndex].id
                     };
                 } else {
-                    // 完全不同的术语，直接添加
                     mergedWords.push(userWord);
                 }
             });
@@ -3427,7 +3383,6 @@
                             throw new Error('文件格式不正确');
                         }
                         
-                        // 验证导入的数据结构
                         const validWords = importedWords.filter(word => 
                             word.english && word.chinese && word.category
                         );
@@ -3437,7 +3392,6 @@
                             return;
                         }
                         
-                        // 为导入的术语添加标识
                         const newUserWords = validWords.map(word => ({
                             ...word,
                             isSystem: false,
@@ -3445,7 +3399,6 @@
                             createdAt: word.createdAt || new Date().toISOString()
                         }));
                         
-                        // 添加到现有数据中，避免重复
                         let addedCount = 0;
                         newUserWords.forEach(newWord => {
                             const exists = words.some(existingWord => 
@@ -3515,19 +3468,15 @@
         function loadVoices() {
             if (!isSpeechSupported) return;
             
-            // 获取可用的语音列表
             voices = speechSynthesis.getVoices();
             
-            // 清空语音选择框
             voiceSelect.innerHTML = '';
             
-            // 添加默认选项
             const defaultOption = document.createElement('option');
             defaultOption.value = '';
             defaultOption.textContent = '自动选择语音 (推荐)';
             voiceSelect.appendChild(defaultOption);
             
-            // 按语言分类语音
             const chineseVoices = [];
             const englishVoices = [];
             const otherVoices = [];
@@ -3542,7 +3491,6 @@
                 }
             });
             
-            // 添加中文语音
             if (chineseVoices.length > 0) {
                 const chineseGroup = document.createElement('optgroup');
                 chineseGroup.label = '中文语音';
@@ -3556,7 +3504,6 @@
                 });
             }
             
-            // 添加英文语音
             if (englishVoices.length > 0) {
                 const englishGroup = document.createElement('optgroup');
                 englishGroup.label = '英文语音';
@@ -3570,7 +3517,6 @@
                 });
             }
             
-            // 添加其他语音
             if (otherVoices.length > 0) {
                 const otherGroup = document.createElement('optgroup');
                 otherGroup.label = '其他语音';
@@ -3584,13 +3530,11 @@
                 });
             }
             
-            // 加载保存的语音选择
             const savedVoiceIndex = localStorage.getItem('longlai-selected-voice');
             if (savedVoiceIndex !== null && voices[savedVoiceIndex]) {
                 voiceSelect.value = savedVoiceIndex;
                 selectedVoice = voices[savedVoiceIndex];
             } else if (voices.length > 0) {
-                // 默认选择第一个中文或英文语音
                 const defaultVoice = voices.find(v => v.lang.startsWith('zh') || v.lang.startsWith('en')) || voices[0];
                 selectedVoice = defaultVoice;
             }
@@ -3607,7 +3551,6 @@
         
         // 切换选项卡
         function switchTab(tabId) {
-            // 更新选项卡按钮状态
             tabButtons.forEach(button => {
                 if (button.getAttribute('data-tab') === tabId) {
                     button.classList.add('active');
@@ -3616,12 +3559,10 @@
                 }
             });
             
-            // 更新选项卡内容
             tabContents.forEach(content => {
                 if (content.id === tabId) {
                     content.classList.add('active');
                     
-                    // 切换到练习选项卡时显示签到区域
                     if (content.id === 'practice-tab') {
                         checkinSection.style.display = 'block';
                     } else {
@@ -3637,7 +3578,6 @@
         function switchCategoryFilter(category) {
             currentCategoryFilter = category;
             
-            // 更新分类按钮状态
             categoryButtons.forEach(button => {
                 if (button.getAttribute('data-category') === category) {
                     button.classList.add('active');
@@ -3646,7 +3586,6 @@
                 }
             });
             
-            // 重新渲染单词列表
             renderWordList();
         }
         
@@ -3661,7 +3600,6 @@
             loadWeeklyBtn.disabled = true;
             
             try {
-                // 尝试从外部JSON文件加载
                 const response = await fetch(WEEKLY_JSON_URL);
                 
                 if (!response.ok) {
@@ -3670,26 +3608,20 @@
                 
                 const weeklyData = await response.json();
                 
-                // 验证数据格式
                 if (!weeklyData.items || !Array.isArray(weeklyData.items)) {
                     throw new Error('每周练习数据格式不正确');
                 }
                 
-                // 保存数据
                 weeklyItems = weeklyData.items;
                 weeklyDataLoaded = true;
                 
-                // 更新标题和副标题
                 weeklyTitle.textContent = weeklyData.title || '每周练习';
                 weeklySubtitle.textContent = weeklyData.subtitle || `第${weeklyData.week || '0'}周`;
                 
-                // 重置索引
                 weeklyIndex = 0;
                 
-                // 显示第一个项目
                 showWeeklyItem();
                 
-                // 更新按钮状态
                 loadWeeklyBtn.style.display = 'none';
                 reloadWeeklyBtn.style.display = 'block';
                 weeklyPrevBtn.disabled = false;
@@ -3698,7 +3630,6 @@
                 weeklyToggleChineseBtn.disabled = false;
                 weeklyProgress.style.display = 'block';
                 
-                // 高亮显示
                 weeklyPracticeSection.classList.add('weekly-highlight');
                 setTimeout(() => {
                     weeklyPracticeSection.classList.remove('weekly-highlight');
@@ -3709,21 +3640,16 @@
             } catch (error) {
                 console.error('加载每周练习数据失败:', error);
                 
-                // 如果外部文件加载失败，使用示例数据
                 weeklyItems = weeklyPracticeExample.items;
                 weeklyDataLoaded = true;
                 
-                // 更新标题和副标题
                 weeklyTitle.textContent = weeklyPracticeExample.title;
                 weeklySubtitle.textContent = weeklyPracticeExample.subtitle;
                 
-                // 重置索引
                 weeklyIndex = 0;
                 
-                // 显示第一个项目
                 showWeeklyItem();
                 
-                // 更新按钮状态
                 loadWeeklyBtn.style.display = 'none';
                 reloadWeeklyBtn.style.display = 'block';
                 weeklyPrevBtn.disabled = false;
@@ -3746,7 +3672,6 @@
             weeklyItems = [];
             weeklyIndex = 0;
             
-            // 重置显示
             weeklyEnglish.textContent = '重新加载中...';
             weeklyChinese.textContent = '';
             weeklyExample.style.display = 'none';
@@ -3755,17 +3680,15 @@
             weeklyNextBtn.disabled = true;
             weeklyToggleChineseBtn.disabled = true;
             
-            // 重新加载数据
             await loadWeeklyPractice();
         }
         
-    // 显示当前每周练习项目
+        // 显示当前每周练习项目
         function showWeeklyItem() {
             if (!weeklyDataLoaded || weeklyItems.length === 0) return;
             
             const item = weeklyItems[weeklyIndex];
             
-            // 更新类型标签
             let typeText = '';
             switch(item.type) {
                 case 'word': typeText = '单词'; break;
@@ -3775,43 +3698,35 @@
             }
             weeklyType.textContent = typeText;
             
-            // 更新英文内容
             weeklyEnglish.textContent = item.english || '';
             
-            // 更新中文内容（初始隐藏）
             weeklyChinese.textContent = item.chinese || '';
             weeklyChinese.classList.remove('show');
             
-            // 更新切换中文按钮文本
             weeklyToggleChineseBtn.innerHTML = weeklyChinese.classList.contains('show') ? 
                 '<i class="fas fa-eye-slash"></i> 隐藏中文' : 
                 '<i class="fas fa-eye"></i> 显示中文';
             
-            // 更新例句（如果有）
             if (item.example) {
                 weeklyExampleEnglish.textContent = item.example;
                 
-                // 如果有中文翻译，显示翻译区域
                 if (item.exampleChinese) {
                     weeklyExampleChinese.textContent = item.exampleChinese;
-                    weeklyExampleChinese.style.display = 'block';
-                    toggleExampleChineseBtn.innerHTML = '<i class="fas fa-eye"></i> 显示中译';
+                    weeklyExampleChinese.classList.remove('show');
+                    toggleExampleChineseBtn.innerHTML = '<i class="fas fa-eye"></i> 显示中文';
                     toggleExampleChineseBtn.disabled = false;
                 } else {
-                    weeklyExampleChinese.style.display = 'none';
+                    weeklyExampleChinese.textContent = '';
                     toggleExampleChineseBtn.disabled = true;
                 }
                 
                 weeklyExample.style.display = 'block';
-                weeklyExampleActions.style.display = 'flex';
                 speakExampleBtn.disabled = false;
             } else {
                 weeklyExample.style.display = 'none';
-                weeklyExampleActions.style.display = 'none';
                 speakExampleBtn.disabled = true;
             }
             
-            // 更新进度
             weeklyCurrentElement.textContent = weeklyIndex + 1;
             weeklyTotalElement.textContent = weeklyItems.length;
         }
@@ -3864,18 +3779,14 @@
         
         // 切换显示例句中文翻译
         function toggleWeeklyExampleChinese() {
-            if (weeklyExampleChinese.style.display === 'none') {
-                weeklyExampleChinese.style.display = 'block';
-                toggleExampleChineseBtn.innerHTML = '<i class="fas fa-eye-slash"></i> 隐藏中译';
-            } else {
-                weeklyExampleChinese.style.display = 'none';
-                toggleExampleChineseBtn.innerHTML = '<i class="fas fa-eye"></i> 显示中译';
-            }
+            weeklyExampleChinese.classList.toggle('show');
+            toggleExampleChineseBtn.innerHTML = weeklyExampleChinese.classList.contains('show') ? 
+                '<i class="fas fa-eye-slash"></i> 隐藏中文' : 
+                '<i class="fas fa-eye"></i> 显示中文';
         }
         
-        // ============== 每周练习功能结束 ==============
+        // ============== 事件监听器 ==============
         
-        // 事件监听器
         addWordBtn.addEventListener('click', addWord);
         practiceCategoryBtn.addEventListener('click', practiceCurrentCategory);
         speakEnglishBtn.addEventListener('click', speakEnglish);
@@ -3958,7 +3869,7 @@
             }
         });
         
-        // 语音选择变化事件 - 修复：确保选择生效
+        // 语音选择变化事件
         voiceSelect.addEventListener('change', function() {
             if (this.value === '') {
                 selectedVoice = null;
@@ -3970,7 +3881,6 @@
             }
             saveVoiceSelection();
             
-            // 测试选择的语音
             if (selectedVoice) {
                 showCustomNotification(`已选择语音: ${selectedVoice.name}`, 'success');
             }
@@ -4009,48 +3919,36 @@
         
         // 初始化应用
         async function initApp() {
-            // 检查语音支持
             checkSpeechSupport();
             
-            // 显示语音支持状态
             if (!isSpeechSupported) {
                 showCustomNotification('您的浏览器不支持语音合成功能，请使用Chrome浏览器', 'error');
             }
             
-            // 加载单词和语音
             await loadWords();
             
-            // 加载签到数据
             loadCheckinData();
             
-            // 加载语音列表（可能需要一些时间）
             if (isSpeechSupported) {
-                // 立即尝试加载语音
                 loadVoices();
                 
-                // 如果语音列表为空，稍后再试（某些浏览器需要时间加载）
                 if (voices.length === 0) {
                     setTimeout(loadVoices, 1000);
-                    setTimeout(loadVoices, 3000); // 双重保险
+                    setTimeout(loadVoices, 3000);
                 }
             }
             
-            // 初始禁用练习按钮
             disablePracticeButtons();
             
-            // 初始化练习统计
             practiceStats = {
                 totalAttempts: 0,
                 correctAttempts: 0
             };
             
-            // 初始设置练习模式描述
             updatePracticeModeDescription();
             
-            // 初始化搜索框状态
             clearSearchBtn.style.display = 'none';
             
-            // 显示签到区域
             checkinSection.style.display = 'block';
             
             console.log('隆莱英语助手已初始化，已加载', words.length, '个术语');
@@ -4066,12 +3964,11 @@
             }
         });
         
-        // 用户交互后初始化语音（解决浏览器需要用户交互后才能使用语音的问题）
+        // 用户交互后初始化语音
         document.addEventListener('click', function initSpeechOnInteraction() {
             if (isSpeechSupported && voices.length === 0) {
                 loadVoices();
             }
-            // 移除事件监听器，避免重复执行
             document.removeEventListener('click', initSpeechOnInteraction);
         });
     </script>
