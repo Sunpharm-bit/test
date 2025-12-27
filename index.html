@@ -1423,52 +1423,61 @@
                         </div>
                         
                         <!-- 每周练习区域 -->
-                        <div id="weekly-practice" class="weekly-practice-section" style="display: none;">
-                            <div class="weekly-title">
-                                <i class="fas fa-calendar-week"></i> <span id="weekly-title">每周练习</span>
-                            </div>
-                            <div class="weekly-subtitle" id="weekly-subtitle">加载每周更新的学习内容</div>
-                            
-                            <div class="weekly-item-type" id="weekly-type">单词</div>
-                            <div class="practice-english" id="weekly-english">请点击"加载每周练习"按钮</div>
-                            <div class="practice-chinese" id="weekly-chinese" style="color: #e84393;"></div>
-                            
-                            <!-- 例句显示区域 -->
-                            <div class="weekly-example" id="weekly-example" style="display: none;">
-                                <div class="weekly-example-title">例句 / 短语</div>
-                                <div class="weekly-example-english" id="weekly-example-english"></div>
-                                <div class="weekly-example-chinese" id="weekly-example-chinese"></div>
-                            </div>
-                            
-                            <!-- 每周练习进度 -->
-                            <div class="weekly-progress" id="weekly-progress">
-                                进度: <span id="weekly-current">0</span>/<span id="weekly-total">0</span>
-                            </div>
-                            
-                            <!-- 每周练习控制按钮 -->
-                            <div class="weekly-controls" id="weekly-controls">
-                                <button id="weekly-prev-btn" class="btn btn-secondary practice-btn" disabled>
-                                    <i class="fas fa-backward"></i> 上一个
-                                </button>
-                                <button id="weekly-speak-btn" class="btn btn-pink practice-btn" disabled>
-                                    <i class="fas fa-volume-up"></i> 朗读
-                                </button>
-                                <button id="weekly-next-btn" class="btn btn-secondary practice-btn" disabled>
-                                    下一个 <i class="fas fa-forward"></i>
-                                </button>
-                                <button id="weekly-toggle-chinese-btn" class="btn btn-pink practice-btn" disabled>
-                                    <i class="fas fa-eye"></i> 显示中文
-                                </button>
-                            </div>
-                            
-                            <!-- 加载和重新加载按钮 -->
-                            <button id="load-weekly-btn" class="btn btn-pink">
-                                <i class="fas fa-download"></i> 加载每周练习
-                            </button>
-                            <button id="reload-weekly-btn" class="btn btn-secondary" style="display: none; margin-top: 8px;">
-                                <i class="fas fa-redo"></i> 重新加载
-                            </button>
-                        </div>
+            <div id="weekly-practice" class="weekly-practice-section" style="display: none;">
+                <div class="weekly-title">
+                    <i class="fas fa-calendar-week"></i> <span id="weekly-title">每周练习</span>
+                </div>
+                <div class="weekly-subtitle" id="weekly-subtitle">加载每周更新的学习内容</div>
+                
+                <div class="weekly-item-type" id="weekly-type">单词</div>
+                <div class="practice-english" id="weekly-english">请点击"加载每周练习"按钮</div>
+                <div class="practice-chinese" id="weekly-chinese" style="color: #e84393;"></div>
+                
+                <!-- 例句显示区域 -->
+                <div class="weekly-example" id="weekly-example" style="display: none;">
+                    <div class="weekly-example-title">例句 / 短语</div>
+                    <div class="weekly-example-english" id="weekly-example-english"></div>
+                    <div class="weekly-example-chinese" id="weekly-example-chinese"></div>
+                    <!-- 添加例句操作按钮 -->
+                    <div class="weekly-example-actions" id="weekly-example-actions" style="display: none;">
+                        <button id="speak-example-btn" class="btn btn-pink weekly-example-btn">
+                            <i class="fas fa-volume-up"></i> 朗读例句
+                        </button>
+                        <button id="toggle-example-chinese-btn" class="btn btn-secondary weekly-example-btn">
+                            <i class="fas fa-language"></i> 显示中译
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 每周练习进度 -->
+                <div class="weekly-progress" id="weekly-progress">
+                    进度: <span id="weekly-current">0</span>/<span id="weekly-total">0</span>
+                </div>
+                
+                <!-- 每周练习控制按钮 -->
+                <div class="weekly-controls" id="weekly-controls">
+                    <button id="weekly-prev-btn" class="btn btn-secondary practice-btn" disabled>
+                        <i class="fas fa-backward"></i> 上一个
+                    </button>
+                    <button id="weekly-speak-btn" class="btn btn-pink practice-btn" disabled>
+                        <i class="fas fa-volume-up"></i> 朗读
+                    </button>
+                    <button id="weekly-next-btn" class="btn btn-secondary practice-btn" disabled>
+                        下一个 <i class="fas fa-forward"></i>
+                    </button>
+                    <button id="weekly-toggle-chinese-btn" class="btn btn-pink practice-btn" disabled>
+                        <i class="fas fa-eye"></i> 显示中文
+                    </button>
+                </div>
+                
+                <!-- 加载和重新加载按钮 -->
+                <button id="load-weekly-btn" class="btn btn-pink">
+                    <i class="fas fa-download"></i> 加载每周练习
+                </button>
+                <button id="reload-weekly-btn" class="btn btn-secondary" style="display: none; margin-top: 8px;">
+                    <i class="fas fa-redo"></i> 重新加载
+                </button>
+            </div>
                         
                         <!-- 通用练习控制按钮 -->
                         <div class="practice-controls" id="basic-controls">
@@ -1689,7 +1698,7 @@
         const testEnglishSpeechBtn = document.getElementById('test-english-speech');
         const testChineseSpeechBtn = document.getElementById('test-chinese-speech');
         
-        // 每周练习元素
+       // 每周练习元素
         const weeklyTitle = document.getElementById('weekly-title');
         const weeklySubtitle = document.getElementById('weekly-subtitle');
         const weeklyType = document.getElementById('weekly-type');
@@ -1698,6 +1707,7 @@
         const weeklyExample = document.getElementById('weekly-example');
         const weeklyExampleEnglish = document.getElementById('weekly-example-english');
         const weeklyExampleChinese = document.getElementById('weekly-example-chinese');
+        const weeklyExampleActions = document.getElementById('weekly-example-actions');
         const weeklyProgress = document.getElementById('weekly-progress');
         const weeklyCurrentElement = document.getElementById('weekly-current');
         const weeklyTotalElement = document.getElementById('weekly-total');
@@ -1707,6 +1717,8 @@
         const weeklyToggleChineseBtn = document.getElementById('weekly-toggle-chinese-btn');
         const loadWeeklyBtn = document.getElementById('load-weekly-btn');
         const reloadWeeklyBtn = document.getElementById('reload-weekly-btn');
+        const speakExampleBtn = document.getElementById('speak-example-btn');
+        const toggleExampleChineseBtn = document.getElementById('toggle-example-chinese-btn');
         
         // 每周练习JSON文件示例（用于当外部文件不存在时）
         const weeklyPracticeExample = {
@@ -3747,7 +3759,7 @@
             await loadWeeklyPractice();
         }
         
-        // 显示当前每周练习项目
+    // 显示当前每周练习项目
         function showWeeklyItem() {
             if (!weeklyDataLoaded || weeklyItems.length === 0) return;
             
@@ -3770,23 +3782,38 @@
             weeklyChinese.textContent = item.chinese || '';
             weeklyChinese.classList.remove('show');
             
+            // 更新切换中文按钮文本
+            weeklyToggleChineseBtn.innerHTML = weeklyChinese.classList.contains('show') ? 
+                '<i class="fas fa-eye-slash"></i> 隐藏中文' : 
+                '<i class="fas fa-eye"></i> 显示中文';
+            
             // 更新例句（如果有）
-            if (item.example && item.exampleChinese) {
+            if (item.example) {
                 weeklyExampleEnglish.textContent = item.example;
-                weeklyExampleChinese.textContent = item.exampleChinese;
+                
+                // 如果有中文翻译，显示翻译区域
+                if (item.exampleChinese) {
+                    weeklyExampleChinese.textContent = item.exampleChinese;
+                    weeklyExampleChinese.style.display = 'block';
+                    toggleExampleChineseBtn.innerHTML = '<i class="fas fa-eye"></i> 显示中译';
+                    toggleExampleChineseBtn.disabled = false;
+                } else {
+                    weeklyExampleChinese.style.display = 'none';
+                    toggleExampleChineseBtn.disabled = true;
+                }
+                
                 weeklyExample.style.display = 'block';
+                weeklyExampleActions.style.display = 'flex';
+                speakExampleBtn.disabled = false;
             } else {
                 weeklyExample.style.display = 'none';
+                weeklyExampleActions.style.display = 'none';
+                speakExampleBtn.disabled = true;
             }
             
             // 更新进度
             weeklyCurrentElement.textContent = weeklyIndex + 1;
             weeklyTotalElement.textContent = weeklyItems.length;
-            
-            // 更新切换中文按钮文本
-            weeklyToggleChineseBtn.innerHTML = weeklyChinese.classList.contains('show') ? 
-                '<i class="fas fa-eye-slash"></i> 隐藏中文' : 
-                '<i class="fas fa-eye"></i> 显示中文';
         }
         
         // 上一个每周练习项目
@@ -3816,12 +3843,34 @@
             }
         }
         
-        // 切换显示中文
+        // 朗读每周练习例句
+        function speakWeeklyExample() {
+            if (!weeklyDataLoaded || weeklyItems.length === 0) return;
+            
+            const item = weeklyItems[weeklyIndex];
+            
+            if (item.example) {
+                speakText(item.example, 'en-US', 1.0);
+            }
+        }
+        
+        // 切换显示中文（主内容）
         function toggleWeeklyChinese() {
             weeklyChinese.classList.toggle('show');
             weeklyToggleChineseBtn.innerHTML = weeklyChinese.classList.contains('show') ? 
                 '<i class="fas fa-eye-slash"></i> 隐藏中文' : 
                 '<i class="fas fa-eye"></i> 显示中文';
+        }
+        
+        // 切换显示例句中文翻译
+        function toggleWeeklyExampleChinese() {
+            if (weeklyExampleChinese.style.display === 'none') {
+                weeklyExampleChinese.style.display = 'block';
+                toggleExampleChineseBtn.innerHTML = '<i class="fas fa-eye-slash"></i> 隐藏中译';
+            } else {
+                weeklyExampleChinese.style.display = 'none';
+                toggleExampleChineseBtn.innerHTML = '<i class="fas fa-eye"></i> 显示中译';
+            }
         }
         
         // ============== 每周练习功能结束 ==============
@@ -3858,6 +3907,8 @@
         weeklyNextBtn.addEventListener('click', nextWeeklyItem);
         weeklySpeakBtn.addEventListener('click', speakWeeklyItem);
         weeklyToggleChineseBtn.addEventListener('click', toggleWeeklyChinese);
+        speakExampleBtn.addEventListener('click', speakWeeklyExample);
+        toggleExampleChineseBtn.addEventListener('click', toggleWeeklyExampleChinese);
         
         // 搜索相关事件监听器
         searchInput.addEventListener('input', performSearch);
