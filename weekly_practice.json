@@ -1,99 +1,113 @@
 {
-  "title": "第1周英语练习",
-  "subtitle": "术语与日常表达",
-  "description": "本周练习包含质量管理和日常交流的词汇与表达",
-  "week": 1,
-  "date": "2025-12-27",
+  "title": "第12周英语练习",
+  "subtitle": "质量管理核心术语（简洁版）",
+  "description": "本周练习包含GMP环境下的核心专业词汇，使用简短例句帮助快速掌握概念。",
+  "week": 12,
+  "date": "2023-10-30",
   "items": [
-   {
-      "type": "phrase",
-      "english": "Quality Management System is in place.",
-      "chinese": "质量管理体系已建立。",
-      "category": "体系"
+    {
+      "type": "word",
+      "english": "quality management",
+      "chinese": "质量管理",
+      "category": "质量体系",
+      "example": "Quality Management System is in place.",
+      "exampleChinese": "质量管理体系已建立。"
     },
     {
-      "type": "phrase",
-      "english": "Quality inspection passed.",
-      "chinese": "质量检验已通过。",
-      "category": "控制"
+      "type": "word",
+      "english": "quality inspection",
+      "chinese": "质量检验",
+      "category": "质量控制",
+      "example": "Quality inspection passed.",
+      "exampleChinese": "质量检验已通过。"
     },
     {
-      "type": "phrase",
-      "english": "Process is under control.",
-      "chinese": "工序受控。",
-      "category": "工艺"
+      "type": "word",
+      "english": "process",
+      "chinese": "工序",
+      "category": "工艺控制",
+      "example": "This is a key process step.",
+      "exampleChinese": "这是一个关键工序步骤。"
     },
     {
-      "type": "phrase",
-      "english": "No contamination risk found.",
-      "chinese": "未发现污染风险。",
-      "category": "污染控制"
+      "type": "word",
+      "english": "contamination",
+      "chinese": "污染",
+      "category": "污染控制",
+      "example": "No contamination risk found.",
+      "exampleChinese": "未发现污染风险。"
     },
     {
-      "type": "phrase",
-      "english": "Cross-contamination is prevented.",
-      "chinese": "交叉污染已预防。",
-      "category": "污染控制"
+      "type": "word",
+      "english": "cross-contamination",
+      "chinese": "交叉污染",
+      "category": "污染控制",
+      "example": "Prevent cross-contamination between products.",
+      "exampleChinese": "防止产品间交叉污染。"
     },
     {
-      "type": "phrase",
-      "english": "Buildings and facilities are qualified.",
-      "chinese": "厂房与设施已确认。",
-      "category": "设施"
+      "type": "word",
+      "english": "buildings and facilities",
+      "chinese": "厂房与设施",
+      "category": "厂房与设施",
+      "example": "Buildings and facilities are qualified.",
+      "exampleChinese": "厂房与设施已确认。"
     },
     {
-      "type": "phrase",
-      "english": "Production environment is monitored.",
-      "chinese": "生产环境受监控。",
-      "category": "环境"
+      "type": "word",
+      "english": "production environment",
+      "chinese": "生产环境",
+      "category": "环境控制",
+      "example": "Control the production environment tightly.",
+      "exampleChinese": "严格控制生产环境。"
     },
     {
-      "type": "phrase",
-      "english": "Clean air level is Grade B.",
-      "chinese": "空气洁净级别为B级。",
-      "category": "洁净级别"
+      "type": "word",
+      "english": "clean air level",
+      "chinese": "空气洁净级别",
+      "category": "洁净控制",
+      "example": "Clean air level is Grade C.",
+      "exampleChinese": "空气洁净级别为C级。"
     },
     {
-      "type": "phrase",
-      "english": "No insects detected.",
-      "chinese": "未发现昆虫。",
-      "category": "厂房设施"
+      "type": "word",
+      "english": "insect",
+      "chinese": "昆虫",
+      "category": "厂房设施",
+      "example": "No insects detected.",
+      "exampleChinese": "未发现昆虫。"
     },
     {
-      "type": "phrase",
-      "english": "Clean room access is controlled.",
-      "chinese": "洁净室进入受控。",
-      "category": "洁净室"
+      "type": "word",
+      "english": "clean room (area)",
+      "chinese": "洁净室（区）",
+      "category": "洁净控制",
+      "example": "Clean room access is controlled.",
+      "exampleChinese": "洁净室进入受控。"
     },
     {
-      "type": "phrase",
-      "english": "Disinfection is performed regularly.",
-      "chinese": "定期执行消毒。",
-      "category": "污染控制"
+      "type": "word",
+      "english": "disinfection",
+      "chinese": "消毒",
+      "category": "污染控制",
+      "example": "Perform disinfection after use.",
+      "exampleChinese": "使用后进行消毒。"
     },
     {
-      "type": "phrase",
-      "english": "Sterile area procedures are followed.",
-      "chinese": "遵循无菌区规程。",
-      "category": "无菌控制"
+      "type": "word",
+      "english": "training",
+      "chinese": "培训",
+      "category": "人员培训",
+      "example": "Training is completed.",
+      "exampleChinese": "培训已完成。"
     },
     {
-      "type": "phrase",
-      "english": "Records are available.",
-      "chinese": "记录可提供。",
-      "category": "通用"
-    },
-    {
-      "type": "phrase",
-      "english": "Procedure is followed.",
-      "chinese": "按规程执行。",
-      "category": "通用"
-    },
-    {
-      "type": "phrase",
-      "english": "Training is completed.",
-      "chinese": "培训已完成。",
-      "category": "通用"
+      "type": "word",
+      "english": "sterile",
+      "chinese": "无菌",
+      "category": "污染控制",
+      "example": "Keep the area sterile.",
+      "exampleChinese": "保持该区域无菌。"
     }
   ]
 }
