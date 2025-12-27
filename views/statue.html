@@ -2,275 +2,615 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>各国法规查询工具</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>博普智库法规查询工具</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #1a2a6c;
+            --secondary-color: #3498db;
+            --accent-color: #27ae60;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --gray-color: #7f8c8d;
+            --border-radius: 4px;
+            --box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+            --transition: all 0.15s ease;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
             background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
+            color: var(--dark-color);
+            line-height: 1.3;
             min-height: 100vh;
-            padding: 20px;
+            padding: 0;
+            font-size: 13px;
         }
         
-        .container {
-            max-width: 1200px;
+        /* 应用容器 */
+        .app-container {
+            max-width: 100%;
             margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
+            background-color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
-        .header {
-            background: linear-gradient(135deg, #1a2a6c, #2c3e50);
+        /* 顶部导航栏 - 极致紧凑 */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2c3e50 100%);
             color: white;
-            padding: 35px 20px;
-            text-align: center;
-            border-bottom: 1px solid #eaeaea;
+            padding: 8px 10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
         
-        .header h1 {
-            font-size: 36px;
-            margin-bottom: 12px;
+        .app-title {
+            font-size: 1.1rem;
             font-weight: 700;
-        }
-        
-        .header p {
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 18px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .content {
-            padding: 35px;
-        }
-        
-        .regulation-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 28px;
-        }
-        
-        .regulation-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #eaeaea;
-            height: 100%;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 5px;
         }
         
-        .regulation-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+        .app-title i {
+            font-size: 0.9rem;
         }
         
-        .regulation-header {
-            background: linear-gradient(90deg, #1a2a6c, #2c3e50);
+        .app-subtitle {
+            font-size: 0.7rem;
+            opacity: 0.9;
+            margin-top: 1px;
+        }
+        
+        .tool-count {
+            font-size: 0.7rem;
+            background: rgba(255,255,255,0.2);
+            padding: 1px 5px;
+            border-radius: 8px;
+        }
+        
+        /* 紧凑选项卡导航 - 紧贴标题栏 */
+        .tab-nav {
+            display: flex;
+            background-color: #f0f2f5;
+            border-radius: 0;
+            margin-bottom: 10px;
+            padding: 0;
+            position: sticky;
+            top: 48px;
+            z-index: 10;
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: 8px 3px;
+            text-align: center;
+            border: none;
+            background: transparent;
+            font-weight: 600;
+            color: var(--gray-color);
+            border-radius: 0;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.75rem;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab-button.active {
+            background-color: white;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
+        /* 主内容区 - 最小化留白 */
+        .main-content {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* 选项卡内容 */
+        .tab-content {
+            display: none;
+            padding-bottom: 5px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* 极致紧凑卡片样式 */
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .card-title {
+            font-size: 0.9rem;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .card-title i {
+            color: var(--secondary-color);
+            margin-right: 4px;
+        }
+        
+        /* 资源卡片样式 */
+        .resource-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid #eaeaea;
+            margin-bottom: 12px;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+        
+        .resource-header {
+            background: linear-gradient(90deg, var(--primary-color), #2c3e50);
             color: white;
-            padding: 22px;
+            padding: 12px 10px;
             text-align: center;
         }
         
-        .regulation-body {
-            padding: 25px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
+        .resource-body {
+            padding: 15px;
         }
         
-        .regulation-description {
-            margin-bottom: 22px;
+        .resource-description {
+            margin-bottom: 15px;
             color: #555;
-            font-size: 15px;
-            line-height: 1.6;
-            flex-grow: 1;
+            font-size: 0.8rem;
+            line-height: 1.5;
         }
         
+        /* 紧凑按钮样式 */
         .btn {
-            display: inline-block;
-            padding: 14px 24px;
-            background: #1a2a6c;
-            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            padding: 8px;
             border: none;
-            border-radius: 6px;
-            font-size: 16px;
+            border-radius: 3px;
+            font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             width: 100%;
-            text-align: center;
-            text-decoration: none;
-            margin-top: auto;
         }
         
-        .btn:hover {
-            background: #2c3e50;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(26, 42, 108, 0.3);
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2980b9 100%);
+            color: white;
         }
         
-        .footer {
-            text-align: center;
-            padding: 25px;
-            background: #f8f9fa;
-            color: #666;
-            margin-top: 40px;
-            border-top: 1px solid #eaeaea;
-            font-size: 15px;
+        .btn-success {
+            background: linear-gradient(135deg, var(--accent-color) 0%, #219653 100%);
+            color: white;
         }
         
-        @media (max-width: 768px) {
-            .regulation-grid {
-                grid-template-columns: 1fr;
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--gray-color) 0%, #5d6d7e 100%);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger-color) 0%, #c0392b 100%);
+            color: white;
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning-color) 0%, #d68910 100%);
+            color: white;
+        }
+        
+        .btn-sm {
+            padding: 4px 6px;
+            font-size: 0.7rem;
+            width: auto;
+            border-radius: 2px;
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        /* 紧凑提示信息 */
+        .hint {
+            background-color: #e8f4fc;
+            padding: 8px;
+            border-radius: 3px;
+            margin-top: 10px;
+            border-left: 2px solid var(--secondary-color);
+            font-size: 0.75rem;
+        }
+        
+        .hint-title {
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hint-title i {
+            margin-right: 4px;
+            color: var(--secondary-color);
+        }
+        
+        /* 管理按钮组 */
+        .management-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        /* 响应式调整 */
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 420px;
+                margin: 5px auto;
+                min-height: calc(100vh - 10px);
+                border-radius: 5px;
+                overflow: hidden;
             }
-            
-            .header h1 {
-                font-size: 28px;
-            }
-            
-            .content {
-                padding: 25px;
-            }
         }
         
-        .country-flag {
-            font-size: 26px;
-            margin-right: 10px;
+        /* 系统术语标签 */
+        .system-tag {
+            font-size: 0.6rem;
+            color: var(--secondary-color);
+            margin-left: 4px;
+            padding: 1px 3px;
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: 3px;
+        }
+        
+        /* 用户术语标签 */
+        .user-tag {
+            font-size: 0.6rem;
+            color: var(--accent-color);
+            margin-left: 4px;
+            padding: 1px 3px;
+            background-color: rgba(39, 174, 96, 0.1);
+            border-radius: 3px;
+        }
+        
+        /* 资源图标 */
+        .resource-icon {
+            font-size: 20px;
+            margin-right: 8px;
             vertical-align: middle;
         }
         
-        .regulation-header h3 {
-            font-size: 20px;
-            margin: 0;
+        /* 搜索框样式 */
+        .search-container {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 8px 32px 8px 10px;
+            border: 1px solid #e1e5eb;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            background-color: #f9fafc;
+        }
+        
+        .search-input:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 1px rgba(52, 152, 219, 0.15);
+            background-color: white;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-color);
+            pointer-events: none;
+        }
+        
+        /* 分类标签 */
+        .category-tag {
+            display: inline-block;
+            background-color: #f0f2f5;
+            color: var(--dark-color);
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.6rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        /* 快捷链接 */
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .quick-link {
+            padding: 6px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 3px;
+            text-align: center;
+            font-size: 0.7rem;
+            text-decoration: none;
+            color: var(--dark-color);
+            transition: var(--transition);
+        }
+        
+        .quick-link:hover {
+            background-color: #e9ecef;
+        }
+        
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 20px 10px;
+            color: var(--gray-color);
+        }
+        
+        .empty-state i {
+            font-size: 1.8rem;
+            margin-bottom: 6px;
+            opacity: 0.5;
+        }
+        
+        .empty-state p {
+            font-size: 0.8rem;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>法规查询工具</h1>
-            <p>快速访问各国药品法规和标准目录</p>
+    <div class="app-container">
+        <!-- 顶部导航栏 -->
+        <header class="app-header">
+            <div>
+                <div class="app-title">
+                    <i class="fas fa-book"></i> 博普智库法规查询工具
+                </div>
+                <div class="app-subtitle">专业医药行业法规数据库</div>
+            </div>
+            <div class="tool-count" id="tool-count">法规查询</div>
+        </header>
+        
+        <!-- 选项卡导航 - 紧贴标题栏 -->
+        <div class="tab-nav">
+            <button class="tab-button active" data-tab="main-tab">
+                <i class="fas fa-search"></i> 法规查询
+            </button>
+            <button class="tab-button" data-tab="links-tab">
+                <i class="fas fa-link"></i> 快捷链接
+            </button>
+            <button class="tab-button" data-tab="about-tab">
+                <i class="fas fa-info-circle"></i> 关于
+            </button>
         </div>
         
-        <div class="content">
-            <div class="regulation-grid">
-                <div class="regulation-card">
-                    <div class="regulation-header">
-                        <h3><span class="country-flag">🇨🇳</span>蒲公英</h3>
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 主查询选项卡 -->
+            <div id="main-tab" class="tab-content active">
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-database"></i> 博普智库法规数据库</h2>
+                    
+                    <!-- 搜索框 -->
+                    <div class="search-container">
+                        <input type="text" id="search-input" class="search-input" 
+                               placeholder="搜索法规、药品、关键词...">
+                        <div class="search-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
                     </div>
-                    <div class="regulation-body">
-                        <p class="regulation-description">查询最新版内容，包括药品标准、检验方法等权威信息。</p>
-                        <a href="https://db2.ouryao.com/" target="_blank" class="btn">访问蒲公英</a>
+                    
+                    <!-- 资源卡片 -->
+                    <div class="resource-card">
+                        <div class="resource-header">
+                            <h3><span class="resource-icon">📚</span> 博普智库</h3>
+                        </div>
+                        <div class="resource-body">
+                            <div class="resource-description">
+                                博普智库是专业的医药行业法规数据库，提供全面的药品法规查询和解读服务。涵盖了从研发、生产、注册到市场准入的全流程法规信息。
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <span class="category-tag">药品法规</span>
+                                <span class="category-tag">GMP</span>
+                                <span class="category-tag">注册申报</span>
+                                <span class="category-tag">质量体系</span>
+                            </div>
+                            <a href="#小程序://博普智库/fp3mJCajYe1L32n" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> 访问博普智库
+                            </a>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="regulation-card">
-                    <div class="regulation-header">
-                        <h3><span class="country-flag">🇨🇳</span>中国药典</h3>
-                    </div>
-                    <div class="regulation-body">
-                        <p class="regulation-description">查询《中华人民共和国药典》最新版内容，包括药品标准、检验方法等权威信息。</p>
-                        <a href="https://www.bopuyun.com/yaodian/2025/" target="_blank" class="btn">访问中国药典</a>
-                    </div>
-                </div>
-
-                <div class="regulation-card">
-                    <div class="regulation-header">
-                        <h3><span class="country-flag">🇺🇸</span>美国药典 (USP)</h3>
-                    </div>
-                    <div class="regulation-body">
-                        <p class="regulation-description">查询美国药典委员会发布的药品质量标准、检验方法和相关技术指南。</p>
-                        <a href="https://www.usp.org/" target="_blank" class="btn">访问USP</a>
-                    </div>
-                </div>
-
-                <div class="regulation-card">
-                    <div class="regulation-header">
-                        <h3><span class="country-flag">🇬🇧</span>英国药典 (BP)</h3>
-                    </div>
-                    <div class="regulation-body">
-                        <p class="regulation-description">查询英国药典委员会发布的药品质量标准、检验方法和相关技术指南。</p>
-                        <a href="https://www.pharmacopoeia.com/" target="_blank" class="btn">访问BP</a>
-                    </div>
-                </div>
-
-                <div class="regulation-card">
-                    <div class="regulation-header">
-                        <h3><span class="country-flag">🇪🇺</span>欧洲药典 (EP)</h3>
-                    </div>
-                    <div class="regulation-body">
-                        <p class="regulation-description">查询欧洲药品质量管理局发布的欧洲药典标准，适用于欧洲市场药品。</p>
-                        <a href="https://www.edqm.eu/en/european-pharmacopoeia-ph.-eur.-11th-edition" target="_blank" class="btn">访问EP</a>
-                    </div>
-                </div>
-                
-                <div class="regulation-card">
-                    <div class="regulation-header">
-                        <h3><span class="country-flag">🇯🇵</span>日本药典 (JP)</h3>
-                    </div>
-                    <div class="regulation-body">
-                        <p class="regulation-description">查询日本药局方，日本国内药品标准和技术要求的权威来源。</p>
-                        <a href="https://www.pmda.go.jp/english/rs-sb-std/standards-development/jp/0019.html" target="_blank" class="btn">访问JP</a>
-                    </div>
-                </div>
-
-               <div class="regulation-card">
-                    <div class="regulation-header">
-                        <h3><span class="country-flag"> </span>博普智库 </h3>
-                    </div>
-                    <div class="regulation-body">
-                        <p class="regulation-description">国内外药典法规综合检索，制药人必备知识工具。</p>
-                        <a href="https://www.bopuyun.com/yaodian/search/" target="_blank" class="btn">访问博普智库</a>
-                    </div>
-                </div>
-      
-                <div class="regulation-card">
-                    <div class="regulation-header">
-                        <h3><span class="country-flag">🔬</span>国家药品标准物质目录</h3>
-                    </div>
-                    <div class="regulation-body">
-                        <p class="regulation-description">查询国家药品标准物质目录，包括标准品、对照品等参考物质的详细信息。</p>
-                        <a href="http://aoc.nifdc.org.cn/sell/home/search.html" target="_blank" class="btn">访问标准物质目录</a>
+                    
+                    <div class="hint">
+                        <div class="hint-title">
+                            <i class="fas fa-lightbulb"></i> 使用提示
+                        </div>
+                        <p>• 点击"访问博普智库"按钮可直接进入查询页面</p>
+                        <p>• 在搜索框中输入关键词可以查找相关法规</p>
+                        <p>• 您可以在"快捷链接"选项卡中找到其他常用法规网站</p>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="footer">
-            <p>各国法规查询工具 &copy; 2025 | 为药品研发和质量控制提供便捷的法规访问入口</p>
-        </div>
+            
+            <!-- 快捷链接选项卡 -->
+            <div id="links-tab" class="tab-content">
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-link"></i> 常用法规网站</h2>
+                    
+                    <div class="quick-links">
+                        <a href="https://www.nmpa.gov.cn/" target="_blank" class="quick-link">
+                            <i class="fas fa-flag"></i> 中国NMPA
+                        </a>
+                        <a href="https://www.fda.gov/" target="_blank" class="quick-link">
+                            <i class="fas fa-flag-usa"></i> 美国FDA
+                        </a>
+                        <a href="https://www.ema.europa.eu/" target="_blank" class="quick-link">
+                            <i class="fas fa-flag-eu"></i> 欧洲EMA
+                        </a>
+                        <a href="https://www.pmda.go.jp/" target="_blank" class="quick-link">
+                            <i class="fas fa-flag"></i> 日本PMDA
+                        </a>
+                        <a href="https://www.ich.org/" target="_blank" class="quick-link">
+                            <i class="fas fa-globe"></i> ICH指南
+                        </a>
+                        <a href="https://www.who.int/" target="_blank" class="quick-link">
+                            <i class="fas fa-globe-americas"></i> WHO标准
+                        </a>
+                    </div>
+                    
+                    <div class="hint" style="margin-top: 10px;">
+                        <div class="hint-title">
+                            <i class="fas fa-info-circle"></i> 说明
+                        </div>
+                        <p>点击上面的链接可以快速访问各国药品监管机构官网。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 关于选项卡 -->
+            <div id="about-tab" class="tab-content">
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-info-circle"></i> 关于本工具</h2>
+                    
+                    <div class="resource-description" style="margin-bottom: 15px;">
+                        <p>本工具旨在为医药行业从业人员提供便捷的法规查询服务。</p>
+                        <p>主要功能：</p>
+                        <p>• 快速访问博普智库法规数据库</p>
+                        <p>• 提供各国药品监管机构快捷链接</p>
+                        <p>• 关键词搜索功能</p>
+                    </div>
+                    
+                    <div class="hint">
+                        <div class="hint-title">
+                            <i class="fas fa-exclamation-triangle"></i> 免责声明
+                        </div>
+                        <p>本工具仅供参考，法规信息请以官方最新发布为准。</p>
+                        <p>技术支持：隆莱医药信息中心</p>
+                        <p>版本：v1.0.0</p>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script>
-        // 添加简单的交互效果
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.regulation-card');
+        // DOM元素
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const searchInput = document.getElementById('search-input');
+        const toolCountElement = document.getElementById('tool-count');
+        
+        // 切换选项卡
+        function switchTab(tabId) {
+            // 更新选项卡按钮状态
+            tabButtons.forEach(button => {
+                if (button.getAttribute('data-tab') === tabId) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
             
-            cards.forEach((card, index) => {
-                // 添加延迟动画
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
+            // 更新选项卡内容
+            tabContents.forEach(content => {
+                if (content.id === tabId) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+        }
+        
+        // 执行搜索
+        function performSearch() {
+            const searchTerm = searchInput.value.trim();
+            if (searchTerm) {
+                // 如果搜索词不为空，构建博普智库的搜索URL
+                const encodedTerm = encodeURIComponent(searchTerm);
+                const bopuUrl = `https://www.bopuyun.com/yaodian/search/?q=${encodedTerm}`;
                 
-                setTimeout(() => {
-                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, 100 * index);
+                // 在新窗口中打开搜索结果
+                window.open(bopuUrl, '_blank');
+                
+                // 清空搜索框
+                searchInput.value = '';
+            } else {
+                // 如果搜索词为空，直接打开博普智库主页
+                window.open('https://www.bopuyun.com/yaodian/search/', '_blank');
+            }
+        }
+        
+        // 事件监听器
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                switchTab(tabId);
             });
         });
+        
+        // 搜索功能
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+        
+        // 初始化应用
+        function initApp() {
+            // 设置初始选项卡
+            switchTab('main-tab');
+            
+            console.log('博普智库法规查询工具已初始化');
+        }
+        
+        // 页面加载完成后初始化应用
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
