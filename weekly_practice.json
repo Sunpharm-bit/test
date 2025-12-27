@@ -5,65 +5,95 @@
   "week": 1,
   "date": "2025-12-27",
   "items": [
-    {
-      "type": "word",
-      "english": "validation",
-      "chinese": "验证",
-      "category": "质量体系与GMP",
-      "example": "The validation process ensures product quality.",
-      "exampleChinese": "验证过程确保产品质量。"
-    },
-    {
-      "type": "word",
-      "english": "calibration",
-      "chinese": "校准",
-      "category": "分析检测与质量控制",
-      "example": "Regular calibration of instruments is required.",
-      "exampleChinese": "需要定期校准仪器。"
-    },
-    {
-      "type": "sentence",
-      "english": "Please submit the quality report by Friday.",
-      "chinese": "请在周五前提交质量报告。",
-      "category": "常用词语"
+   {
+      "type": "phrase",
+      "english": "Quality Management System is in place.",
+      "chinese": "质量管理体系已建立。",
+      "category": "体系"
     },
     {
       "type": "phrase",
-      "english": "follow up",
-      "chinese": "跟进",
-      "category": "常用词语",
-      "example": "I will follow up with the supplier tomorrow.",
-      "exampleChinese": "我明天会跟进供应商。"
-    },
-    {
-      "type": "word",
-      "english": "audit",
-      "chinese": "审核",
-      "category": "质量体系与GMP",
-      "example": "The internal audit is scheduled for next week.",
-      "exampleChinese": "内部审核安排在下周。"
-    },
-    {
-      "type": "sentence",
-      "english": "Could you please clarify this requirement?",
-      "chinese": "你能澄清一下这个要求吗？",
-      "category": "常用词语"
+      "english": "Quality inspection passed.",
+      "chinese": "质量检验已通过。",
+      "category": "控制"
     },
     {
       "type": "phrase",
-      "english": "on track",
-      "chinese": "按计划进行",
-      "category": "常用词语",
-      "example": "The project is on track for completion.",
-      "exampleChinese": "项目按计划完成。"
+      "english": "Process is under control.",
+      "chinese": "工序受控。",
+      "category": "工艺"
     },
     {
-      "type": "word",
-      "english": "specification",
-      "chinese": "规格",
-      "category": "研发与工艺",
-      "example": "The product meets all specifications.",
-      "exampleChinese": "产品符合所有规格。"
+      "type": "phrase",
+      "english": "No contamination risk found.",
+      "chinese": "未发现污染风险。",
+      "category": "污染控制"
+    },
+    {
+      "type": "phrase",
+      "english": "Cross-contamination is prevented.",
+      "chinese": "交叉污染已预防。",
+      "category": "污染控制"
+    },
+    {
+      "type": "phrase",
+      "english": "Buildings and facilities are qualified.",
+      "chinese": "厂房与设施已确认。",
+      "category": "设施"
+    },
+    {
+      "type": "phrase",
+      "english": "Production environment is monitored.",
+      "chinese": "生产环境受监控。",
+      "category": "环境"
+    },
+    {
+      "type": "phrase",
+      "english": "Clean air level is Grade B.",
+      "chinese": "空气洁净级别为B级。",
+      "category": "洁净级别"
+    },
+    {
+      "type": "phrase",
+      "english": "No insects detected.",
+      "chinese": "未发现昆虫。",
+      "category": "厂房设施"
+    },
+    {
+      "type": "phrase",
+      "english": "Clean room access is controlled.",
+      "chinese": "洁净室进入受控。",
+      "category": "洁净室"
+    },
+    {
+      "type": "phrase",
+      "english": "Disinfection is performed regularly.",
+      "chinese": "定期执行消毒。",
+      "category": "污染控制"
+    },
+    {
+      "type": "phrase",
+      "english": "Sterile area procedures are followed.",
+      "chinese": "遵循无菌区规程。",
+      "category": "无菌控制"
+    },
+    {
+      "type": "phrase",
+      "english": "Records are available.",
+      "chinese": "记录可提供。",
+      "category": "通用"
+    },
+    {
+      "type": "phrase",
+      "english": "Procedure is followed.",
+      "chinese": "按规程执行。",
+      "category": "通用"
+    },
+    {
+      "type": "phrase",
+      "english": "Training is completed.",
+      "chinese": "培训已完成。",
+      "category": "通用"
     }
   ]
 }
