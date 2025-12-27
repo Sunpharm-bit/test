@@ -1,862 +1,892 @@
 <!DOCTYPE html>
-<html lang="zh-cmn-Hans">
-
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>隆莱英语提升学习助手 - 添加术语</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #2c80ff;
-            --primary-dark: #1a6de0;
-            --secondary-color: #6c757d;
-            --light-color: #f8f9fa;
-            --dark-color: #343a40;
-            --border-color: #dee2e6;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
-            --device-color: #4CAF50;
-            --standard-color: #FF9800;
-            --expiring30: #ff9800;
-            --expiring7: #f44336;
-            --expired: #d32f2f;
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #27ae60;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --gray-color: #7f8c8d;
+            --border-radius: 4px;
+            --box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+            --transition: all 0.15s ease;
         }
-
+        
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
-
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background-color: #f5f7fa;
             color: var(--dark-color);
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
-            padding: 15px;
-            max-width: 1200px;
-            margin: 0 auto;
+            line-height: 1.3;
             min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            padding: 0;
+            font-size: 13px;
         }
-
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-            padding: 20px 15px;
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-        }
-
-        .header h1 {
-            color: var(--primary-color);
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .header p {
-            color: var(--secondary-color);
-            font-size: 1rem;
-            max-width: 800px;
+        
+        /* 应用容器 */
+        .app-container {
+            max-width: 100%;
             margin: 0 auto;
-        }
-
-        .search-section {
             background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-
-        .search-type {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .type-btn {
-            flex: 1;
-            min-width: 120px;
-            text-align: center;
-            padding: 12px 15px;
-            background-color: white;
-            border: 2px solid var(--border-color);
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            color: var(--secondary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        @media (max-width: 480px) {
-            .type-btn {
-                min-width: 100px;
-                padding: 10px 12px;
-                font-size: 0.95rem;
-            }
-        }
-
-        .type-btn.active {
-            color: white;
-        }
-
-        .type-btn.both.active {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-
-        .type-btn.device.active {
-            background-color: var(--device-color);
-            border-color: var(--device-color);
-        }
-
-        .type-btn.standard.active {
-            background-color: var(--standard-color);
-            border-color: var(--standard-color);
-        }
-
-        .search-box {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-
-        @media (max-width: 480px) {
-            .search-box {
-                flex-direction: column;
-            }
-        }
-
-        .search-input-container {
-            flex: 1;
-            position: relative;
-        }
-
-        .search-input-container i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--secondary-color);
-            z-index: 1;
-        }
-
-        #keyword {
-            width: 100%;
-            height: 50px;
-            padding: 0 15px 0 45px;
-            border: 2px solid var(--border-color);
-            border-radius: var(--border-radius);
-            background-color: white;
-            font-size: 1rem;
-            transition: var(--transition);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        #keyword:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(44, 128, 255, 0.2);
-        }
-
-        .search-buttons {
-            display: flex;
-            gap: 8px;
-        }
-
-        @media (max-width: 480px) {
-            .search-buttons {
-                width: 100%;
-            }
-        }
-
-        #search, #clear {
-            height: 50px;
-            padding: 0 20px;
-            border: none;
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            min-width: 100px;
-        }
-
-        @media (max-width: 480px) {
-            #search, #clear {
-                flex: 1;
-                min-width: auto;
-            }
-        }
-
-        #search {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        #search:hover, #search:active {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
-        #clear {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-
-        #clear:hover, #clear:active {
-            background-color: #5a6268;
-            transform: translateY(-2px);
-        }
-
-        .content-container {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 25px;
-            margin-bottom: 25px;
-            min-height: 300px;
-            transition: var(--transition);
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-        }
-
-        .loading {
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 15px;
-            color: var(--secondary-color);
         }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(44, 128, 255, 0.2);
-            border-radius: 50%;
-            border-top-color: var(--primary-color);
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .no-data {
-            text-align: center;
-            padding: 60px 15px;
-            color: var(--secondary-color);
-        }
-
-        .no-data i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: #d1d8e0;
-        }
-
-        .result-section {
-            margin-bottom: 30px;
-        }
-
-        .result-section:last-child {
-            margin-bottom: 0;
-        }
-
-        .section-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--border-color);
-            color: var(--dark-color);
+        
+        /* 顶部导航栏 - 极致紧凑 */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #34495e 100%);
+            color: white;
+            padding: 8px 10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between;
         }
-
-        .section-title.device {
-            border-bottom-color: var(--device-color);
+        
+        .app-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
-
-        .section-title.standard {
-            border-bottom-color: var(--standard-color);
+        
+        .app-title i {
+            font-size: 0.9rem;
         }
-
-        .table-container {
-            overflow-x: auto;
-            margin-bottom: 20px;
-            border-radius: var(--border-radius);
-            border: 1px solid var(--border-color);
+        
+        .app-subtitle {
+            font-size: 0.7rem;
+            opacity: 0.9;
+            margin-top: 1px;
         }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 600px;
+        
+        .word-count {
+            font-size: 0.7rem;
+            background: rgba(255,255,255,0.2);
+            padding: 1px 5px;
+            border-radius: 8px;
         }
-
-        th {
-            background-color: #f8f9fa;
-            padding: 15px 12px;
-            text-align: left;
+        
+        /* 紧凑选项卡导航 - 紧贴标题栏 */
+        .tab-nav {
+            display: flex;
+            background-color: #f0f2f5;
+            border-radius: 0;
+            margin-bottom: 10px;
+            padding: 0;
+            position: sticky;
+            top: 48px;
+            z-index: 10;
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: 8px 3px;
+            text-align: center;
+            border: none;
+            background: transparent;
             font-weight: 600;
-            color: var(--dark-color);
-            border-bottom: 2px solid var(--border-color);
+            color: var(--gray-color);
+            border-radius: 0;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.75rem;
             white-space: nowrap;
+            border-bottom: 2px solid transparent;
         }
-
-        td {
-            padding: 12px;
-            border-bottom: 1px solid var(--border-color);
-            vertical-align: top;
+        
+        .tab-button.active {
+            background-color: white;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
         }
-
-        tr:last-child td {
-            border-bottom: none;
+        
+        /* 主内容区 - 最小化留白 */
+        .main-content {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
-
-        tr:hover {
-            background-color: #f8f9fa;
+        
+        /* 选项卡内容 */
+        .tab-content {
+            display: none;
+            padding-bottom: 5px;
         }
-
-        .expir30 {
-            color: var(--expiring30);
-            font-weight: 600;
+        
+        .tab-content.active {
+            display: block;
         }
-
-        .expir7 {
-            color: var(--expiring7);
-            font-weight: 600;
-        }
-
-        .expired {
-            color: var(--expired);
-            text-decoration: line-through;
-            font-weight: 600;
-        }
-
-        .legend {
+        
+        /* 极致紧凑卡片样式 */
+        .card {
             background-color: white;
             border-radius: var(--border-radius);
+            padding: 10px;
+            margin-bottom: 10px;
             box-shadow: var(--box-shadow);
-            padding: 20px;
-            margin-top: 20px;
         }
-
-        .legend-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 15px;
+        
+        .card-title {
+            font-size: 0.9rem;
             color: var(--dark-color);
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--secondary-color);
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between;
         }
-
-        .legend-items {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
+        
+        .card-title i {
+            color: var(--secondary-color);
+            margin-right: 4px;
         }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        
+        /* 极致紧凑表单样式 */
+        .form-group {
             margin-bottom: 8px;
         }
-
-        .legend-color {
-            width: 20px;
-            height: 20px;
-            border-radius: 4px;
+        
+        .form-label {
+            display: block;
+            margin-bottom: 3px;
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 0.8rem;
         }
-
-        .legend-expir30 {
-            background-color: var(--expiring30);
+        
+        .form-input {
+            width: 100%;
+            padding: 7px 8px;
+            border: 1px solid #e1e5eb;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            background-color: #f9fafc;
         }
-
-        .legend-expir7 {
-            background-color: var(--expiring7);
+        
+        .form-input:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 1px rgba(52, 152, 219, 0.15);
+            background-color: white;
         }
-
-        .legend-expired {
-            background-color: var(--expired);
-            text-decoration: line-through;
+        
+        .form-select {
+            width: 100%;
+            padding: 7px 8px;
+            border: 1px solid #e1e5eb;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            background-color: #f9fafc;
+            color: var(--dark-color);
         }
-
-        .footer {
-            text-align: center;
-            margin-top: 25px;
-            padding-top: 15px;
-            border-top: 1px solid var(--border-color);
+        
+        /* 紧凑按钮样式 */
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            padding: 8px;
+            border: none;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #2980b9 100%);
+            color: white;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--accent-color) 0%, #219653 100%);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--gray-color) 0%, #5d6d7e 100%);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger-color) 0%, #c0392b 100%);
+            color: white;
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning-color) 0%, #d68910 100%);
+            color: white;
+        }
+        
+        .btn-sm {
+            padding: 4px 6px;
+            font-size: 0.7rem;
+            width: auto;
+            border-radius: 2px;
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        /* 紧凑提示信息 */
+        .hint {
+            background-color: #e8f4fc;
+            padding: 8px;
+            border-radius: 3px;
+            margin-top: 10px;
+            border-left: 2px solid var(--secondary-color);
+            font-size: 0.75rem;
+        }
+        
+        .hint-title {
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hint-title i {
+            margin-right: 4px;
             color: var(--secondary-color);
-            font-size: 0.85rem;
         }
-
-        /* 移动端优化 */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
-            .header {
-                padding: 15px 10px;
-            }
-            
-            .header h1 {
-                font-size: 1.5rem;
-                gap: 8px;
-            }
-            
-            .search-section {
-                padding: 15px;
-            }
-            
-            .content-container {
-                padding: 15px;
-            }
-            
-            th, td {
-                padding: 10px 8px;
-                font-size: 0.9rem;
-            }
-            
-            .section-title {
-                font-size: 1.2rem;
-            }
-            
-            .legend {
-                padding: 15px;
+        
+        /* 管理按钮组 */
+        .management-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        /* 响应式调整 */
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 420px;
+                margin: 5px auto;
+                min-height: calc(100vh - 10px);
+                border-radius: 5px;
+                overflow: hidden;
             }
         }
-
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1.3rem;
-            }
-            
-            .header p {
-                font-size: 0.9rem;
-            }
-            
-            table {
-                min-width: 500px;
-            }
-            
-            th, td {
-                padding: 8px 6px;
-                font-size: 0.85rem;
-            }
+        
+        /* 保存提示 */
+        .save-notification {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-weight: 600;
+            font-size: 0.8rem;
         }
-
-        /* 防止iOS Safari缩放 */
-        input, select, textarea {
-            font-size: 16px;
+        
+        .save-notification.show {
+            opacity: 1;
+        }
+        
+        /* 系统术语标签 */
+        .system-tag {
+            font-size: 0.6rem;
+            color: var(--secondary-color);
+            margin-left: 4px;
+            padding: 1px 3px;
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: 3px;
+        }
+        
+        /* 用户术语标签 */
+        .user-tag {
+            font-size: 0.6rem;
+            color: var(--accent-color);
+            margin-left: 4px;
+            padding: 1px 3px;
+            background-color: rgba(39, 174, 96, 0.1);
+            border-radius: 3px;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
-
 <body>
-    <div class="header">
-        <h1>
-            <i class="fas fa-search"></i>
-            仪器设备/对照品效期查询
-        </h1>
-        <p>快速查询仪器设备和对照品的有效期信息，及时了解即将过期设备/对照品</p>
-    </div>
-
-    <div class="search-section">
-        <div class="search-type">
-            <button class="type-btn both active" data-type="both">
-                <i class="fas fa-th-list"></i>
-                全部查询
+    <div class="app-container">
+        <!-- 顶部导航栏 -->
+        <header class="app-header">
+            <div>
+                <div class="app-title">
+                    <i class="fas fa-language"></i> 隆莱英语提升小助手
+                </div>
+                <div class="app-subtitle">专业术语学习与练习</div>
+            </div>
+            <div class="word-count" id="word-count">0词</div>
+        </header>
+        
+        <!-- 选项卡导航 - 紧贴标题栏 -->
+        <div class="tab-nav">
+            <button class="tab-button active" data-tab="add-tab">
+                <i class="fas fa-plus"></i> 添加
             </button>
-            <button class="type-btn device" data-type="device">
-                <i class="fas fa-microscope"></i>
-                设备信息
+            <button class="tab-button" data-tab="list-tab">
+                <i class="fas fa-list"></i> 列表
             </button>
-            <button class="type-btn standard" data-type="standard">
-                <i class="fas fa-vial"></i>
-                对照品信息
+            <button class="tab-button" data-tab="practice-tab">
+                <i class="fas fa-graduation-cap"></i> 练习
             </button>
         </div>
         
-        <div class="search-box">
-            <div class="search-input-container">
-                <i class="fas fa-search"></i>
-                <input type="text" name="keyword" id="keyword" 
-                       placeholder="请输入设备编号、名称或对照品批号、名称进行查询">
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 添加单词选项卡 -->
+            <div id="add-tab" class="tab-content active">
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-plus-circle"></i> 添加专业术语</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="english-input">
+                            <i class="fas fa-font"></i> 英文术语
+                        </label>
+                        <input type="text" id="english-input" class="form-input" 
+                               placeholder="例如：quality management" maxlength="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="chinese-input">
+                            <i class="fas fa-language"></i> 中文释义
+                        </label>
+                        <input type="text" id="chinese-input" class="form-input" 
+                               placeholder="例如：质量管理" maxlength="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="category-input">
+                            <i class="fas fa-tag"></i> 分类
+                        </label>
+                        <select id="category-input" class="form-select">
+                            <option value="常用词语">常用词语</option>
+                            <option value="研发与工艺">研发与工艺</option>
+                            <option value="分析检测与质量控制">分析检测与质量控制</option>
+                            <option value="设施与区域">设施与区域</option>
+                            <option value="生产与设备">生产与设备</option>
+                            <option value="质量体系与GMP">质量体系与GMP</option>
+                            <option value="法规与注册">法规与注册</option>
+                            <option value="EHS与供应链">EHS与供应商</option>
+                            <option value="综合管理">综合管理</option>
+                            <option value="人事行政">人事行政</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="example-input">
+                            <i class="fas fa-comment-alt"></i> 备注 (可选)
+                        </label>
+                        <input type="text" id="example-input" class="form-input" 
+                               placeholder="可添加例句或说明" maxlength="150">
+                    </div>
+                    
+                    <button id="add-word-btn" class="btn btn-primary">
+                        <i class="fas fa-save"></i> 保存术语
+                    </button>
+                    
+                    <!-- 术语库管理区域 -->
+                    <div style="margin-top: 15px; border-top: 1px dashed #eee; padding-top: 10px;">
+                        <div class="card-title" style="margin-bottom: 10px;">
+                            <i class="fas fa-database"></i> 术语库管理
+                        </div>
+                        
+                        <div class="management-buttons">
+                            <button id="update-system-btn" class="btn btn-success btn-sm">
+                                <i class="fas fa-sync-alt"></i> 更新系统术语
+                            </button>
+                            <button id="export-user-btn" class="btn btn-primary btn-sm">
+                                <i class="fas fa-download"></i> 导出自定义术语
+                            </button>
+                            <button id="import-user-btn" class="btn btn-warning btn-sm">
+                                <i class="fas fa-upload"></i> 导入自定义术语
+                            </button>
+                            <button id="reset-system-btn" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash-alt"></i> 清空系统术语
+                            </button>
+                        </div>
+                        
+                        <div class="hint" style="margin-top: 10px;">
+                            <div class="hint-title">
+                                <i class="fas fa-info-circle"></i> 管理说明
+                            </div>
+                            <p>• <strong>更新系统术语</strong>: 更新预置术语，保留自定义术语</p>
+                            <p>• <strong>导出/导入</strong>: 备份或恢复自定义术语</p>
+                            <p>• <strong>清空系统术语</strong>: 只保留自己添加的术语</p>
+                        </div>
+                    </div>
+                    
+                    <div class="hint" style="margin-top: 10px;">
+                        <div class="hint-title">
+                            <i class="fas fa-lightbulb"></i> 提示
+                        </div>
+                        <p>• 添加的术语会自动保存到本地，只有自己可以看到，无需网络连接，数据不会丢失。</p>
+                        <p>• 首次进入无词语，请先手动更新系统术语。</p>
+                        <p>• 华为手机受鸿蒙系统权限保护可能无法正常语音（如其他手机也遇到相同问题），可尝试修改权限或使用Edge/Chrome浏览器代替默认浏览器。</p>
+                        <p>• 仅供内部使用，请勿传播！</p>
+                    </div>
+                </div>
             </div>
-            <div class="search-buttons">
-                <button type="submit" id="search">
-                    <i class="fas fa-search"></i>
-                    搜索
-                </button>
-                <button type="button" id="clear">
-                    <i class="fas fa-eraser"></i>
-                    清除
-                </button>
+            
+            <!-- 列表选项卡（为空） -->
+            <div id="list-tab" class="tab-content">
+                <!-- 空内容 -->
             </div>
+            
+            <!-- 练习选项卡（为空） -->
+            <div id="practice-tab" class="tab-content">
+                <!-- 空内容 -->
+            </div>
+        </main>
+        
+        <!-- 保存成功提示 -->
+        <div id="save-notification" class="save-notification">
+            <i class="fas fa-check-circle"></i> 术语已保存
         </div>
-    </div>
-
-    <div class="content-container" id="content">
-        <div class="loading">
-            <div class="spinner"></div>
-            <p>正在加载数据，请稍候...</p>
-        </div>
-    </div>
-    
-    <div class="legend">
-        <div class="legend-title">
-            <i class="fas fa-info-circle"></i>
-            过期提醒说明
-        </div>
-        <div class="legend-items">
-            <div class="legend-item">
-                <div class="legend-color legend-expir30"></div>
-                <span>黄色表示有效期剩余30天以内</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color legend-expir7"></div>
-                <span>红色表示有效期剩余7天以内</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color legend-expired"></div>
-                <span>红色加删除线表示已过期</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <p>仪器设备/对照品效期查询 &copy; 2025 | 版本 3.0</p>
     </div>
 
     <script>
-        // 数据库配置
-        const databases = [
-            {
-                "name": "device",
-                "display": "设备信息",
-                "path": "../statics/info/device.json",
-                "columns": ["名称", "编号", "有效期至"],
-                "icon": "fas fa-microscope"
-            },
-            {
-                "name": "standard",
-                "display": "对照品信息",
-                "path": "../statics/info/standard.json",
-                "columns": ["名称", "批号", "有效期至", "来源"],
-                "icon": "fas fa-vial"
-            }
-        ];
-
-        let info = {
-            device: [],
-            standard: []
-        };
+        // 初始化变量
+        let words = [];
         
-        let currentSearchType = 'both'; // both, device, standard
-
-        $(() => {
-            // 初始化加载数据
-            loadAllData();
-            
-            // 搜索按钮事件
-            $("#search").click(() => {
-                performSearch();
-            });
-            
-            // 回车键搜索
-            $("#keyword").keypress((e) => {
-                if (e.which === 13) {
-                    performSearch();
-                }
-            });
-            
-            // 清除按钮事件
-            $("#clear").click(() => {
-                $("#keyword").val('');
-                $("#content").html(`
-                    <div class="no-data">
-                        <i class="fas fa-search"></i>
-                        <h3>请输入查询关键字开始搜索</h3>
-                        <p>可以输入设备编号、名称或对照品批号进行查询</p>
-                    </div>
-                `);
-            });
-            
-            // 查询类型切换
-            $(".type-btn").click(function() {
-                $(".type-btn").removeClass("active");
-                $(this).addClass("active");
-                currentSearchType = $(this).data("type");
-            });
-        });
-
-        function loadAllData() {
-            let loadingHtml = `
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>正在加载数据，请稍候...</p>
-                </div>
-            `;
-            $("#content").html(loadingHtml);
-            
-            let promises = databases.map(db => {
-                return $.getJSON(db.path)
-                    .then(data => {
-                        info[db.name] = data;
-                        return `${db.display}数据加载完成，共 ${data.length} 条记录`;
-                    })
-                    .catch(error => {
-                        console.error(`加载${db.display}数据失败:`, error);
-                        return `${db.display}数据加载失败`;
-                    });
-            });
-
-            Promise.all(promises)
-                .then(results => {
-                    let successCount = results.filter(r => r.includes("完成")).length;
-                    if (successCount === databases.length) {
-                        $("#content").html(`
-                            <div class="no-data">
-                                <i class="fas fa-check-circle" style="color: #4CAF50;"></i>
-                                <h3>数据加载完成</h3>
-                                <p>${results.join('<br>')}</p>
-                            </div>
-                        `);
-                    } else {
-                        $("#content").html(`
-                            <div class="no-data">
-                                <i class="fas fa-exclamation-triangle" style="color: #FF9800;"></i>
-                                <h3>数据加载部分完成</h3>
-                                <p>${results.join('<br>')}</p>
-                            </div>
-                        `);
-                    }
-                })
-                .catch(error => {
-                    $("#content").html(`
-                        <div class="no-data">
-                            <i class="fas fa-exclamation-circle" style="color: #f44336;"></i>
-                            <h3>数据加载失败</h3>
-                            <p>无法加载数据，请检查网络连接或联系管理员</p>
-                        </div>
-                    `);
-                });
+        // 默认术语数据（当外部JSON加载失败时使用）
+        const defaultTerms = [
+            { english: "quality management", chinese: "质量管理", category: "常用词语", example: "", practiceCount: 0, favorite: false, isSystem: true, id: "sys_001" },
+            { english: "process", chinese: "工序", category: "常用词语", example: "", practiceCount: 0, favorite: false, isSystem: true, id: "sys_002" },
+            { english: "contamination", chinese: "污染", category: "常用词语", example: "", practiceCount: 0, favorite: false, isSystem: true, id: "sys_003" },
+            { english: "production environment", chinese: "生产环境", category: "常用词语", example: "", practiceCount: 0, favorite: false, isSystem: true, id: "sys_004" },
+            { english: "clean room", chinese: "洁净室", category: "常用词语", example: "", practiceCount: 0, favorite: false, isSystem: true, id: "sys_005" }
+        ];
+        
+        // DOM元素
+        const englishInput = document.getElementById('english-input');
+        const chineseInput = document.getElementById('chinese-input');
+        const exampleInput = document.getElementById('example-input');
+        const categoryInput = document.getElementById('category-input');
+        const addWordBtn = document.getElementById('add-word-btn');
+        const wordCountElement = document.getElementById('word-count');
+        const saveNotification = document.getElementById('save-notification');
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        // 管理功能按钮
+        const updateSystemBtn = document.getElementById('update-system-btn');
+        const exportUserBtn = document.getElementById('export-user-btn');
+        const importUserBtn = document.getElementById('import-user-btn');
+        const resetSystemBtn = document.getElementById('reset-system-btn');
+        
+        // 生成用户自定义术语的唯一ID
+        function generateUserId(word) {
+            // 基于英文、中文和创建时间生成唯一ID
+            const timestamp = word.createdAt || new Date().toISOString();
+            const baseStr = `${word.english}_${word.chinese}_${timestamp}`;
+            let hash = 0;
+            for (let i = 0; i < baseStr.length; i++) {
+                const char = baseStr.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // 转换为32位整数
+            }
+            return `user_${Math.abs(hash).toString(16)}`;
         }
-
-        function performSearch() {
-            let keyword = $("#keyword").val().trim().toLowerCase();
-            if (!keyword) {
-                $("#content").html(`
-                    <div class="no-data">
-                        <i class="fas fa-exclamation-circle" style="color: #FF9800;"></i>
-                        <h3>请输入查询关键字</h3>
-                        <p>搜索框不能为空，请输入设备编号、名称或对照品批号进行查询</p>
-                    </div>
-                `);
+        
+        // 从本地存储加载单词
+        async function loadWords() {
+            const savedWords = localStorage.getItem('longlai-english-words');
+            
+            if (savedWords) {
+                try {
+                    words = JSON.parse(savedWords);
+                    
+                    // 检查数据完整性，确保每个单词都有必需的字段
+                    words = words.map(word => ({
+                        english: word.english || '',
+                        chinese: word.chinese || '',
+                        category: word.category || '常用词语',
+                        example: word.example || '',
+                        practiceCount: word.practiceCount || 0,
+                        favorite: word.favorite || false,
+                        isSystem: word.isSystem || false,
+                        id: word.id || null,
+                        userId: word.userId || (word.isSystem ? null : generateUserId(word)),
+                        createdAt: word.createdAt || (word.isSystem ? null : new Date().toISOString())
+                    }));
+                    
+                    // 如果用户自定义术语没有userId，则生成一个
+                    words.forEach(word => {
+                        if (!word.isSystem && !word.userId) {
+                            word.userId = generateUserId(word);
+                        }
+                    });
+                    
+                    updateWordCount();
+                    
+                } catch (e) {
+                    console.error('加载单词数据失败:', e);
+                    words = defaultTerms;
+                    saveWords();
+                }
+            } else {
+                words = defaultTerms;
+                saveWords();
+            }
+        }
+        
+        // 保存单词到本地存储
+        function saveWords() {
+            localStorage.setItem('longlai-english-words', JSON.stringify(words));
+            updateWordCount();
+            showSaveNotification();
+        }
+        
+        // 显示保存成功提示
+        function showSaveNotification() {
+            saveNotification.classList.add('show');
+            setTimeout(() => {
+                saveNotification.classList.remove('show');
+            }, 1500);
+        }
+        
+        // 更新单词计数
+        function updateWordCount() {
+            const count = words.length;
+            wordCountElement.textContent = `${count}词`;
+        }
+        
+        // 添加新单词
+        function addWord() {
+            const english = englishInput.value.trim();
+            const chinese = chineseInput.value.trim();
+            const example = exampleInput.value.trim();
+            const category = categoryInput.value;
+            
+            if (!english || !chinese) {
+                alert('请填写英文术语和中文释义！');
                 return;
             }
-
-            $("#content").html(`
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>正在搜索，请稍候...</p>
-                </div>
-            `);
-
-            setTimeout(() => {
-                $("#content").empty();
+            
+            // 检查是否已存在相同的单词（不区分系统还是用户）
+            const existingIndex = words.findIndex(w => 
+                w.english.toLowerCase() === english.toLowerCase() && 
+                w.chinese === chinese
+            );
+            
+            if (existingIndex >= 0) {
+                // 如果已存在，询问是否更新
+                if (confirm('这个术语已经存在，要更新它吗？')) {
+                    // 保留原有的属性，只更新内容
+                    words[existingIndex] = {
+                        ...words[existingIndex],
+                        english,
+                        chinese,
+                        category,
+                        example
+                    };
+                    saveWords();
+                }
+            } else {
+                // 添加新单词（用户自定义）
+                const newWord = {
+                    english,
+                    chinese,
+                    category,
+                    example,
+                    practiceCount: 0,
+                    favorite: false,
+                    isSystem: false,
+                    id: null,
+                    userId: generateUserId({ english, chinese, createdAt: new Date().toISOString() }),
+                    createdAt: new Date().toISOString()
+                };
                 
-                let hasResults = false;
+                words.push(newWord);
+                saveWords();
+            }
+            
+            // 清空输入框
+            englishInput.value = '';
+            chineseInput.value = '';
+            exampleInput.value = '';
+            englishInput.focus();
+        }
+        
+        // 从外部JSON文件加载术语数据
+        async function loadExternalTerms() {
+            try {
+                // 尝试从外部JSON文件加载
+                const response = await fetch('pharmaceutical_terms.json');
                 
-                if (currentSearchType === 'device' || currentSearchType === 'both') {
-                    let deviceResults = searchDevice(keyword);
-                    if (deviceResults.length > 0) {
-                        hasResults = true;
-                        displayDeviceResults(deviceResults);
+                if (!response.ok) {
+                    throw new Error(`HTTP错误: ${response.status}`);
+                }
+                
+                const externalTerms = await response.json();
+                
+                // 验证数据格式
+                if (!Array.isArray(externalTerms)) {
+                    throw new Error('外部术语数据格式不正确，期望数组');
+                }
+                
+                // 确保每个术语都有必需的字段
+                const validatedTerms = externalTerms.map((term, index) => ({
+                    english: term.english || '',
+                    chinese: term.chinese || '',
+                    category: term.category || '常用词语',
+                    example: term.example || '',
+                    practiceCount: term.practiceCount || 0,
+                    favorite: term.favorite || false,
+                    isSystem: true,
+                    id: term.id || `sys_ext_${index}`,
+                    userId: null,
+                    createdAt: term.createdAt || null
+                }));
+                
+                return validatedTerms;
+                
+            } catch (error) {
+                console.error('加载外部术语数据失败:', error);
+                
+                // 如果外部文件加载失败，使用默认术语
+                alert(`加载外部术语文件失败: ${error.message}\n将使用内置默认术语。`);
+                return defaultTerms;
+            }
+        }
+        
+        // 更新系统术语库
+        async function updateSystemTerms() {
+            if (!confirm('这将更新系统术语库，但会保留您添加的自定义术语。确定要继续吗？')) {
+                return;
+            }
+            
+            // 1. 提取用户自定义术语
+            const userWords = words.filter(word => !word.isSystem);
+            
+            // 2. 从外部加载新的系统术语
+            const externalTerms = await loadExternalTerms();
+            
+            // 3. 合并：系统术语 + 用户自定义术语
+            // 但需要处理重复：如果用户添加的术语与系统术语相同，使用用户的版本（保留练习记录和收藏状态）
+            const mergedWords = [...externalTerms];
+            
+            userWords.forEach(userWord => {
+                // 检查是否与系统术语重复
+                const systemDuplicateIndex = mergedWords.findIndex(sysWord => 
+                    sysWord.english.toLowerCase() === userWord.english.toLowerCase() &&
+                    sysWord.chinese === userWord.chinese
+                );
+                
+                if (systemDuplicateIndex >= 0) {
+                    // 保留用户的版本，但标记为系统术语（因为含义相同）
+                    // 这样可以确保练习记录和收藏状态被保留
+                    mergedWords[systemDuplicateIndex] = {
+                        ...userWord,
+                        isSystem: true, // 标记为系统术语
+                        id: mergedWords[systemDuplicateIndex].id // 保留系统ID
+                    };
+                } else {
+                    // 完全不同的术语，直接添加
+                    mergedWords.push(userWord);
+                }
+            });
+            
+            // 4. 保存合并后的数据
+            words = mergedWords;
+            saveWords();
+            
+            alert(`系统术语库已更新！\n当前共有 ${words.length} 个术语，其中 ${userWords.length} 个是您自定义的。`);
+        }
+        
+        // 导出用户自定义术语
+        function exportUserWords() {
+            const userWords = words.filter(word => !word.isSystem);
+            if (userWords.length === 0) {
+                alert('您还没有添加任何自定义术语。');
+                return;
+            }
+            
+            const dataStr = JSON.stringify(userWords, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = '隆莱英语_自定义术语_备份.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+        }
+        
+        // 导入用户自定义术语
+        function importUserWords() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const importedWords = JSON.parse(e.target.result);
+                        
+                        if (!Array.isArray(importedWords)) {
+                            throw new Error('文件格式不正确');
+                        }
+                        
+                        // 验证导入的数据结构
+                        const validWords = importedWords.filter(word => 
+                            word.english && word.chinese && word.category
+                        );
+                        
+                        if (validWords.length === 0) {
+                            alert('导入的文件中没有有效的术语数据。');
+                            return;
+                        }
+                        
+                        // 为导入的术语添加标识
+                        const newUserWords = validWords.map(word => ({
+                            ...word,
+                            isSystem: false,
+                            userId: generateUserId(word),
+                            createdAt: word.createdAt || new Date().toISOString()
+                        }));
+                        
+                        // 添加到现有数据中，避免重复
+                        let addedCount = 0;
+                        newUserWords.forEach(newWord => {
+                            const exists = words.some(existingWord => 
+                                existingWord.english.toLowerCase() === newWord.english.toLowerCase() &&
+                                existingWord.chinese === newWord.chinese
+                            );
+                            
+                            if (!exists) {
+                                words.push(newWord);
+                                addedCount++;
+                            }
+                        });
+                        
+                        saveWords();
+                        
+                        alert(`成功导入 ${addedCount} 个自定义术语！`);
+                    } catch (error) {
+                        alert('导入失败：' + error.message);
                     }
-                }
+                };
                 
-                if (currentSearchType === 'standard' || currentSearchType === 'both') {
-                    let standardResults = searchStandard(keyword);
-                    if (standardResults.length > 0) {
-                        hasResults = true;
-                        displayStandardResults(standardResults);
-                    }
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+        
+        // 清空系统术语（仅保留用户自定义术语）
+        function resetSystemTerms() {
+            if (!confirm('这将移除所有系统术语，只保留您自定义的术语。确定要继续吗？')) {
+                return;
+            }
+            
+            const userWords = words.filter(word => !word.isSystem);
+            words = userWords;
+            saveWords();
+            
+            alert(`已清空系统术语，保留了 ${userWords.length} 个您自定义的术语。`);
+        }
+        
+        // 切换选项卡
+        function switchTab(tabId) {
+            // 更新选项卡按钮状态
+            tabButtons.forEach(button => {
+                if (button.getAttribute('data-tab') === tabId) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
                 }
-
-                // 如果什么都没找到
-                if (!hasResults) {
-                    $("#content").html(`
-                        <div class="no-data">
-                            <i class="fas fa-search" style="color: #d1d8e0;"></i>
-                            <h3>未找到相关记录</h3>
-                            <p>没有找到与"${keyword}"相关的记录，请尝试其他关键字</p>
-                        </div>
-                    `);
+            });
+            
+            // 更新选项卡内容
+            tabContents.forEach(content => {
+                if (content.id === tabId) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
                 }
-            }, 300);
-        }
-
-        function searchDevice(keyword) {
-            return info.device.filter(item => {
-                return (item.id && item.id.toLowerCase().includes(keyword)) || 
-                       (item.name && item.name.toLowerCase().includes(keyword));
             });
         }
-
-        function searchStandard(keyword) {
-            return info.standard.filter(item => {
-                return (item.batch && item.batch.toLowerCase().includes(keyword)) || 
-                       (item.name && item.name.toLowerCase().includes(keyword)) ||
-                       (item.source && item.source.toLowerCase().includes(keyword));
-            });
-        }
-
-        function displayDeviceResults(results) {
-            let section = $(`
-                <div class="result-section">
-                    <div class="section-title device">
-                        <i class="fas fa-microscope"></i>
-                        设备信息（共 ${results.length} 条）
-                    </div>
-                </div>
-            `);
-            
-            let tableContainer = $('<div class="table-container"></div>');
-            let table = $('<table></table>');
-            let thead = $('<thead></thead>');
-            let headerRow = $('<tr></tr>');
-            
-            databases[0].columns.forEach(col => {
-                headerRow.append(`<th>${col}</th>`);
-            });
-            
-            thead.append(headerRow);
-            table.append(thead);
-            
-            let tbody = $('<tbody></tbody>');
-            
-            results.forEach(item => {
-                let row = $('<tr></tr>');
-                //       名称
-                row.append(`<td>${item.name || '—'}</td>`);
-                //       编号
-                row.append(`<td>${item.id || '—'}</td>`);
-                //      有效期至
-                let expirCell = $('<td></td>');
-                expirCell.html(checkExpir(item.expir || ''));
-                row.append(expirCell);
-                
-                tbody.append(row);
-            });
-            
-            table.append(tbody);
-            tableContainer.append(table);
-            section.append(tableContainer);
-            $("#content").append(section);
-        }
-
-        function displayStandardResults(results) {
-            let section = $(`
-                <div class="result-section">
-                    <div class="section-title standard">
-                        <i class="fas fa-vial"></i>
-                        对照品信息（共 ${results.length} 条）
-                    </div>
-                </div>
-            `);
-            
-            let tableContainer = $('<div class="table-container"></div>');
-            let table = $('<table></table>');
-            let thead = $('<thead></thead>');
-            let headerRow = $('<tr></tr>');
-            
-            databases[1].columns.forEach(col => {
-                headerRow.append(`<th>${col}</th>`);
-            });
-            
-            thead.append(headerRow);
-            table.append(thead);
-            
-            let tbody = $('<tbody></tbody>');
-            
-            results.forEach(item => {
-                let row = $('<tr></tr>');
-                //      名称
-                row.append(`<td>${item.kind || '—'}</td>`);
-                //      批号
-                row.append(`<td>${item.batch || '—'}</td>`);
-                //     有效期至
-                let expirCell = $('<td></td>');
-                expirCell.html(checkExpir(item.expir || ''));
-                row.append(expirCell);
-                //       来源
-                row.append(`<td>${item.source || '—'}</td>`);
-                
-                tbody.append(row);
-            });
-            
-            table.append(tbody);
-            tableContainer.append(table);
-            section.append(tableContainer);
-            $("#content").append(section);
-        }
-
-        function checkExpir(value) {
-            if (!value) return '—';
-            
-            let date = new Date();
-            let array = value.split(".");
-            date.setFullYear(array[0], array[1] - 1, array[2]);
-
-            let day = (date - Date.now()) / 86400000;
-
-            if (day <= 0) {
-                return `<span class='expired'>${value} (已过期)</span>`;
+        
+        // 事件监听器
+        addWordBtn.addEventListener('click', addWord);
+        
+        // 管理功能按钮事件监听器
+        updateSystemBtn.addEventListener('click', updateSystemTerms);
+        exportUserBtn.addEventListener('click', exportUserWords);
+        importUserBtn.addEventListener('click', importUserWords);
+        resetSystemBtn.addEventListener('click', resetSystemTerms);
+        
+        // 允许按Enter键添加单词
+        englishInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addWord();
             }
-
-            if (day <= 7) {
-                return `<span class='expir7'>${value} (剩余${Math.ceil(day)}天)</span>`;
+        });
+        
+        chineseInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addWord();
             }
-
-            if (day <= 30) {
-                return `<span class='expir30'>${value} (剩余${Math.ceil(day)}天)</span>`;
-            }
-
-            return value;
+        });
+        
+        // 选项卡切换事件
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                switchTab(tabId);
+            });
+        });
+        
+        // 初始化应用
+        async function initApp() {
+            // 加载单词
+            await loadWords();
+            
+            console.log('隆莱英语助手已初始化，已加载', words.length, '个术语');
         }
+        
+        // 页面加载完成后初始化应用
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
-
 </html>
